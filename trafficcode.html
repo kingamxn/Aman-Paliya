@@ -1,0 +1,624 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="auth.js"></script>
+<script>LC_Guard('trafficcode.html');</script>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐍%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traffic Code | The Viper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script>
+  document.addEventListener('contextmenu',e=>e.preventDefault());
+  document.addEventListener('keydown',e=>{if(e.key==='F12')e.preventDefault();if(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'))e.preventDefault();if(e.ctrlKey&&(e.key==='u'||e.key==='s'||e.key==='a'||e.key==='c'||e.key==='p'))e.preventDefault();});
+  document.addEventListener('selectstart',e=>e.preventDefault());
+  document.addEventListener('dragstart',e=>e.preventDefault());
+</script>
+<style>
+*{-webkit-user-select:none;-moz-user-select:none;user-select:none;margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#06060a;--bg2:#0b0b12;--card:#0f0f18;--border:#1e1e30;--red:#e63946;--gold:#f0c040;--green:#3ddc84;--text:#eaeaf2;--muted:#52526e;--dim:#8888a8;}
+body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.page-wrap{max-width:1060px;margin:0 auto;padding:0 0 60px;}
+
+/* hero */
+.page-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:28px 32px;position:relative;overflow:hidden;margin-bottom:0;}
+.page-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);}
+.page-hero h1{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:5px;color:var(--text);}
+.page-hero h1 span{color:var(--red);}
+.page-hero p{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--muted);margin-top:4px;}
+
+/* tabs */
+.tab-nav{display:flex;gap:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;overflow-x:auto;}
+.tab-btn{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;padding:13px 20px;color:var(--muted);border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:var(--text);border-bottom-color:var(--red);}
+
+/* content */
+.tab-content{padding:28px 32px;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* article */
+.article-item{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:16px 18px;margin-bottom:8px;display:flex;gap:14px;align-items:flex-start;}
+.article-item:hover{border-color:#2e2e48;}
+.tc-num{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--red);flex-shrink:0;min-width:52px;margin-top:1px;}
+.tc-text{font-size:14px;color:var(--dim);line-height:1.6;font-weight:500;}
+.tc-text em{color:var(--gold);font-style:italic;}
+.tc-fine{display:inline-block;background:rgba(240,192,64,0.1);color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:10px;padding:2px 8px;border-radius:2px;margin-top:4px;border:1px solid rgba(240,192,64,0.2);}
+.tc-sub{margin-left:16px;margin-bottom:6px;}
+.tc-sub .article-item{background:#0d0d14;border-color:#18182a;}
+
+/* section heading */
+.art-heading{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--text);margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.art-heading span{color:var(--red);}
+
+/* parking locations */
+.location-card{background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:20px;}
+.location-header{padding:16px 20px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.location-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--text);}
+.location-num{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;}
+.color-legend{display:flex;flex-wrap:wrap;gap:8px;padding:12px 20px;border-bottom:1px solid var(--border);}
+.legend-item{display:flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim);}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.dot-green{background:#3ddc84;}
+.dot-red{background:#e63946;}
+.dot-blue{background:#5865F2;}
+.dot-yellow{background:#f0c040;}
+.dot-purple{background:#9b5de5;}
+
+/* parking images */
+.parking-imgs{display:grid;gap:10px;padding:14px 20px;}
+.parking-imgs.cols-1{grid-template-columns:1fr;}
+.parking-imgs.cols-2{grid-template-columns:1fr 1fr;}
+.parking-imgs.cols-3{grid-template-columns:1fr 1fr 1fr;}
+.parking-img{width:100%;border-radius:4px;border:1px solid var(--border);
+  filter:contrast(1.15) brightness(1.08) saturate(1.2) sharpen(1);
+  image-rendering:crisp-edges;
+  transition:transform .2s,filter .2s;cursor:zoom-in;}
+.parking-img:hover{transform:scale(1.02);filter:contrast(1.25) brightness(1.12) saturate(1.3);}
+
+/* lightbox */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:90vw;max-height:88vh;border-radius:6px;border:1px solid var(--border);
+  filter:contrast(1.2) brightness(1.1) saturate(1.25);
+  image-rendering:crisp-edges;}
+.lightbox-close{position:absolute;top:16px;right:20px;color:#fff;font-size:28px;cursor:pointer;background:none;border:none;line-height:1;}
+
+/* special zones list */
+.zone-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-top:8px;}
+.zone-item{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:8px 12px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);}
+
+
+/* search */
+.tc-search-wrap{padding:16px 32px;background:var(--bg2);border-bottom:1px solid var(--border);position:relative;}
+.tc-search-inner{max-width:600px;margin:0 auto;position:relative;}
+.tc-search-inner input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:4px;padding:11px 44px 11px 16px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s;}
+.tc-search-inner input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(230,57,70,0.1);}
+.tc-search-inner input::placeholder{color:var(--muted);}
+.tc-search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:14px;}
+.tc-search-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);background:none;border:none;cursor:pointer;font-size:16px;display:none;line-height:1;transition:color .15s;}
+.tc-search-clear:hover{color:var(--red);}
+.tc-results{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:4px;z-index:200;max-height:320px;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.6);display:none;}
+.tc-results.open{display:block;}
+.tc-result{padding:11px 16px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.04);transition:background .15s;}
+.tc-result:last-child{border-bottom:none;}
+.tc-result:hover{background:rgba(255,255,255,0.04);}
+.tc-result-tab{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--red);flex-shrink:0;min-width:88px;margin-top:2px;text-transform:uppercase;}
+.tc-result-code{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold);flex-shrink:0;min-width:52px;margin-top:2px;}
+.tc-result-text{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);line-height:1.5;flex:1;}
+.tc-result-text mark{background:rgba(230,57,70,0.2);color:var(--text);border-radius:2px;padding:0 2px;}
+.tc-no-results{padding:20px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);}
+
+/* highlight pulse on jump */
+.tc-highlight{animation:tcpulse 1.5s ease;}
+@keyframes tcpulse{0%{background:rgba(230,57,70,0.18);border-color:var(--red);}100%{background:var(--card);border-color:var(--border);}}
+@media(max-width:768px){.tc-search-wrap{padding:12px 16px;}}
+
+@media(max-width:768px){
+  .tab-content{padding:16px;}
+  .parking-imgs.cols-2,.parking-imgs.cols-3{grid-template-columns:1fr;}
+  .tab-nav{padding:0 12px;}
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="page-hero">
+    <h1>TRAFFIC <span>CODE</span></h1>
+    <p>// STATE OF SAN-ANDREAS · LSPD & SAHP ADMINISTERED · EDITION 04/30/2021</p>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('general',this)">General</button>
+    <button class="tab-btn" onclick="switchTab('registration',this)">Registration</button>
+    <button class="tab-btn" onclick="switchTab('traffic',this)">Traffic Rules</button>
+    <button class="tab-btn" onclick="switchTab('emergency',this)">Emergency Vehicles</button>
+    <button class="tab-btn" onclick="switchTab('zones',this)">Special Zones</button>
+    <button class="tab-btn" onclick="switchTab('parking',this)">Parking Rules</button>
+    <button class="tab-btn" onclick="switchTab('locations',this)">Parking Locations</button>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div class="tc-search-wrap">
+    <div class="tc-search-inner">
+      <input type="text" id="tcSearchInput" placeholder="Search Traffic Code... e.g. speed limit, parking, VIN, Special Zone" autocomplete="off">
+      <span class="tc-search-icon" id="tcSearchIcon">🔍</span>
+      <button class="tc-search-clear" id="tcSearchClear" onclick="clearTcSearch()">✕</button>
+      <div class="tc-results" id="tcResults"></div>
+    </div>
+  </div>
+
+  <div class="tab-content">
+
+    <!-- GENERAL -->
+    <div class="tab-panel active" id="tab-general">
+      <div class="art-heading"><span>Article 1.</span> General Provisions</div>
+      <div class="article-item"><span class="tc-num">T.C 1.1</span><span class="tc-text">The Traffic Code is an official set of rules relating to road traffic safety, registration of road vehicles, licences and permits, under the administration of LSPD and SAHP of the State of San-Andreas.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 1.2</span><span class="tc-text">The Traffic Code is mandatory for all residents and visitors of the State of San-Andreas.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 1.3</span><span class="tc-text">Violations of the Traffic Code are subject to penalties such as: a fine, seizure of a vehicle, detention, imprisonment and revocation of the drivers license.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 1.4</span><span class="tc-text">All road offenses are determined by a special policy, where the accused is charged for every vehicle implied in every road incident with their participation.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 1.5</span><span class="tc-text">No one can be fined twice under the same article for a single traffic incident.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 1.6</span><span class="tc-text">The officer has the right to conduct a visual inspection of the vehicle and verify all documents, licenses and registrations during a pull-over. Inspection of closed compartments (trunk, glove compartment) is allowed if it takes place in front of the driver, by free consent of the driver, and if the driver opened the closed compartment.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 1.7</span><span class="tc-text">The officer has the right to check the documents of the vehicle driver only. <em>Exception: active vehicle or passenger wanted listing.</em></span></div>
+      <div class="article-item"><span class="tc-num">T.C 1.8</span><span class="tc-text">The driver is obliged to provide documents at the first request of a law enforcement officer.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 1.9</span><span class="tc-text">The driver is obliged to stop at the first request of a law enforcement officer.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 1.10</span><span class="tc-text">The driver and passengers are required to remain in the car stopped by a law enforcement officer. It is prohibited to leave the car without the officer's request. Failure to comply is regarded as an assault threat and allows the officer to open fire to neutralize the suspect.</span></div>
+    </div>
+
+    <!-- REGISTRATION -->
+    <div class="tab-panel" id="tab-registration">
+      <div class="art-heading"><span>Article 2.</span> Registration Rules</div>
+      <div class="article-item"><span class="tc-num">T.C 2.1</span><span class="tc-text">The State license plate with valid registration is mandatory for all vehicles. Absence of a valid licence plate is punishable by a fine of <span class="tc-fine">$5,000</span></span></div>
+      <div class="article-item"><span class="tc-num">T.C 2.2</span><span class="tc-text">Every vehicle has an easily accessible Vehicle Identification Number (VIN) in the upper left part of the instrument panel visible through the windshield. Damaging the VIN number presupposes a search of the vehicle and evacuation to the Penalty Parking lot, with the possibility of buyout at the maximum rate.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 2.3</span><span class="tc-text">An insurance of a vehicle is optional, it is a private choice of one's owner. It cannot be imposed and cannot be revoked.</span></div>
+    </div>
+
+    <!-- TRAFFIC RULES -->
+    <div class="tab-panel" id="tab-traffic">
+      <div class="art-heading"><span>Article 3.</span> Traffic Rules</div>
+      <div class="article-item"><span class="tc-num">T.C 3.1</span><span class="tc-text">Speed limit on the whole territory of the State: <span class="tc-fine">120 km/h</span> — Highway: <span class="tc-fine">180 km/h</span> — Special Zones: <span class="tc-fine">60 km/h</span>. Exceeding the speed limit is punishable by a fine of $5,000. Exceeding in Special Zones: $10,000.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 3.2</span><span class="tc-text">Compliance with the established direction of traffic and road markings is mandatory for all vehicles.</span></div>
+      <div class="tc-sub">
+        <div class="article-item"><span class="tc-num">T.C 3.2.1</span><span class="tc-text">Driving the opposite lane of the road: <span class="tc-fine">$10,000</span></span></div>
+        <div class="article-item"><span class="tc-num">T.C 3.2.2</span><span class="tc-text">Driving the opposite lane of the highway: <span class="tc-fine">$15,000</span> + imprisonment up to 30 months</span></div>
+      </div>
+      <div class="article-item"><span class="tc-num">T.C 3.3</span><span class="tc-text">Stopping on the road for no reason and ignoring officer's demands to continue driving: <span class="tc-fine">$5,000</span>. <em>Exception: vehicle malfunction.</em></span></div>
+      <div class="article-item"><span class="tc-num">T.C 3.4</span><span class="tc-text">Cars left in places not established by Article 7 shall be towed to LSPD impound lot. Buyout rate: <span class="tc-fine">$10,000</span></span></div>
+      <div class="article-item"><span class="tc-num">T.C 3.5</span><span class="tc-text">Dangerous driving is a criminal offence where the driver is alleged to have driven in a manner dangerous to the public.</span></div>
+      <div class="tc-sub">
+        <div class="article-item"><span class="tc-num">T.C 3.5.1</span><span class="tc-text">Driving on deserted sidewalks / bike paths: <span class="tc-fine">$3,000</span></span></div>
+        <div class="article-item"><span class="tc-num">T.C 3.5.2</span><span class="tc-text">Chaotic movement between lanes: <span class="tc-fine">$5,000</span></span></div>
+        <div class="article-item"><span class="tc-num">T.C 3.5.3</span><span class="tc-text">Failure to keep the distance: <span class="tc-fine">$3,000</span></span></div>
+        <div class="article-item"><span class="tc-num">T.C 3.5.4</span><span class="tc-text">Hard braking: <span class="tc-fine">$5,000</span> <em>(Exception: accident avoidance)</em></span></div>
+        <div class="article-item"><span class="tc-num">T.C 3.5.5</span><span class="tc-text">Creating an obstruction for overtaking: <span class="tc-fine">$5,000</span></span></div>
+      </div>
+    </div>
+
+    <!-- EMERGENCY -->
+    <div class="tab-panel" id="tab-emergency">
+      <div class="art-heading"><span>Article 4.</span> Emergency Vehicles</div>
+      <div class="article-item"><span class="tc-num">T.C 4.1</span><span class="tc-text">Drivers of emergency vehicles may activate flashing lights or a siren in performance of their duties. When activated, they may benefit from exemptions from certain traffic rules as long as maneuvers can be done without danger.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 4.2</span><span class="tc-text">Emergency vehicles are: police vehicles, ambulances, and fire safety vehicles.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 4.3</span><span class="tc-text">An emergency vehicle driver with lights & siren activated is not required to follow: road signs / traffic lights, prescribed speed limits, road markings, indicators for turns/lane changes, the ban on zigzag passes, the ban on passing in opposite lane near intersections, the ban on overtaking on the right, nor the prohibition to immobilize on a sidewalk, limited access path, or prohibited area.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 4.4</span><span class="tc-text">When an emergency vehicle is approaching with lights/siren on, all road users must: give way, reduce speed, stay to the right of their lane, and stop when required to ensure safe passage.</span></div>
+    </div>
+
+    <!-- SPECIAL ZONES -->
+    <div class="tab-panel" id="tab-zones">
+      <div class="art-heading"><span>Article 5.</span> Special Zones</div>
+      <div class="article-item"><span class="tc-num">T.C 5.1</span><span class="tc-text">A Special Zone is a geographic area defined by special conditions prevailing over the general Traffic Code laws.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 5.2</span><span class="tc-text">A Special Zone covers the named geographic location and its adjacent territory within a radius of 30 meters (100 ft).</span></div>
+      <div class="article-item"><span class="tc-num">T.C 5.3</span><span class="tc-text">The speed limit in the Special Zone must be <span class="tc-fine">60 km/h</span> at all times.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 5.4</span><span class="tc-text">List of Special Zones:</span></div>
+      <div class="zone-list">
+        <div class="zone-item">Capitol</div><div class="zone-item">Station</div>
+        <div class="zone-item">Central Hospital</div><div class="zone-item">FIB HQ</div>
+        <div class="zone-item">LSPD HQ</div><div class="zone-item">SAHP HQ</div>
+        <div class="zone-item">Casino</div><div class="zone-item">Power Plant</div>
+        <div class="zone-item">Amphitheaters</div><div class="zone-item">Auto Fairs</div>
+        <div class="zone-item">Trade Market</div>
+      </div>
+      <div class="article-item" style="margin-top:12px"><span class="tc-num">T.C 5.5</span><span class="tc-text">Violation of speed limit inside Special Zones: <span class="tc-fine">$15,000</span></span></div>
+    </div>
+
+    <!-- PARKING RULES -->
+    <div class="tab-panel" id="tab-parking">
+      <div class="art-heading"><span>Article 6.</span> Parking Rules</div>
+      <div class="article-item"><span class="tc-num">T.C 6.1</span><span class="tc-text">Parking along roadways, a driver must park a vehicle in the direction of traffic with wheels parallel and next to the curb.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 6.2</span><span class="tc-text">Parking of vehicles is prohibited: on curbs marked in red, when interfering with other vehicles, when blocking exit, at crosswalks, if more than 2/3 of sidewalk is blocked, on dividing strips, against direction of traffic, on bridges or tunnels, on highways or freeways, closer than 20m from a building on fire, at bus stops, on railway tracks, in yellow parking spaces, in violation of road markings, and on lawns. <em>Exception: official state organization transport.</em></span></div>
+      <div class="article-item"><span class="tc-num">T.C 6.3</span><span class="tc-text">Violation of parking rules: <span class="tc-fine">$5,000</span> and possible evacuation to Penalty Parking lot.</span></div>
+      <div class="article-item"><span class="tc-num">T.C 6.4</span><span class="tc-text">Unauthorized presence of vehicles on Prison territory (exception: parking lot at entrance): <span class="tc-fine">$15,000</span> + evacuation to Penalty Parking lot.</span></div>
+    </div>
+
+    <!-- PARKING LOCATIONS -->
+    <div class="tab-panel" id="tab-locations">
+      <div class="art-heading"><span>Article 7.</span> Parking in Public Places</div>
+
+      <!-- COLOR LEGEND GLOBAL -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:4px;padding:14px 18px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;">
+        <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);">COLOR LEGEND:</span>
+        <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone</div>
+        <div class="legend-item"><div class="legend-dot dot-blue"></div>Dept. vehicles only</div>
+        <div class="legend-item"><div class="legend-dot dot-red"></div>No parking</div>
+        <div class="legend-item"><div class="legend-dot dot-yellow"></div>Staff only</div>
+        <div class="legend-item"><div class="legend-dot dot-purple"></div>State official vehicles</div>
+      </div>
+
+      <!-- 7.1 Capitol -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.1 Capitol (City Hall)</div><div class="location-num">T.C 7.1</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone</div>
+          <div class="legend-item"><div class="legend-dot dot-blue"></div>Government employees only</div>
+          <div class="legend-item"><div class="legend-dot dot-red"></div>No parking</div>
+        </div>
+        <div class="parking-imgs cols-2">
+          <img class="parking-img" src="tc_images/parking_01.jpg" alt="Capitol parking view 1" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_02.jpg" alt="Capitol parking view 2" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_03.jpg" alt="Capitol parking view 3" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_04.jpg" alt="Capitol parking view 4" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.2 Casino -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.2 Casino</div><div class="location-num">T.C 7.2</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-red"></div>No parking (red zones)</div>
+          <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--green);">✓ All vehicles allowed on Casino parking lot</span>
+        </div>
+        <div class="parking-imgs cols-2">
+          <img class="parking-img" src="tc_images/parking_05.jpg" alt="Casino parking 1" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_06.jpg" alt="Casino parking 2" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_07.jpg" alt="Casino parking 3" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_08.jpg" alt="Casino parking 4" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.3 Real Estate -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.3 Real Estate Agency</div><div class="location-num">T.C 7.3</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone</div>
+        </div>
+        <div class="parking-imgs cols-1">
+          <img class="parking-img" src="tc_images/parking_09.jpg" alt="Real Estate parking" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.4 Hospital -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.4 Hospital</div><div class="location-num">T.C 7.4</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone</div>
+          <div class="legend-item"><div class="legend-dot dot-yellow"></div>Hospital staff only</div>
+          <div class="legend-item"><div class="legend-dot dot-red"></div>No parking</div>
+          <div class="legend-item"><div class="legend-dot dot-purple"></div>State official vehicles only</div>
+        </div>
+        <div class="parking-imgs cols-2">
+          <img class="parking-img" src="tc_images/parking_10.jpg" alt="Hospital parking 1" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_11.jpg" alt="Hospital parking 2" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.5 Bank -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.5 Bank</div><div class="location-num">T.C 7.5</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone</div>
+          <div class="legend-item"><div class="legend-dot dot-red"></div>No parking</div>
+        </div>
+        <div class="parking-imgs cols-1">
+          <img class="parking-img" src="tc_images/parking_12.jpg" alt="Bank parking" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.6 LSPD -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.6 LSPD</div><div class="location-num">T.C 7.6</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone</div>
+          <div class="legend-item"><div class="legend-dot dot-red"></div>No parking</div>
+          <div class="legend-item"><div class="legend-dot dot-purple"></div>LSPD official vehicles only</div>
+        </div>
+        <div class="parking-imgs cols-1">
+          <img class="parking-img" src="tc_images/parking_13.jpg" alt="LSPD parking" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.7 Power Plant -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.7 Power Plant</div><div class="location-num">T.C 7.7</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone</div>
+          <div class="legend-item"><div class="legend-dot dot-red"></div>No parking</div>
+        </div>
+        <div class="parking-imgs cols-1">
+          <img class="parking-img" src="tc_images/parking_14.jpg" alt="Power Plant parking" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.8 SAHP -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.8 SAHP</div><div class="location-num">T.C 7.8</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone</div>
+          <div class="legend-item"><div class="legend-dot dot-red"></div>No parking</div>
+          <div class="legend-item"><div class="legend-dot dot-blue"></div>SAHP official vehicles only</div>
+        </div>
+        <div class="parking-imgs cols-2">
+          <img class="parking-img" src="tc_images/parking_15.jpg" alt="SAHP parking 1" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_16.jpg" alt="SAHP parking 2" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.9 Quarries -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.9 Quarries</div><div class="location-num">T.C 7.9</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone (green zones only)</div>
+          <div class="legend-item"><div class="legend-dot dot-red"></div>Everywhere else — no parking</div>
+        </div>
+        <div style="padding:10px 20px 0;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);">QUARRY 1</div>
+        <div class="parking-imgs cols-2">
+          <img class="parking-img" src="tc_images/parking_17.jpg" alt="Quarry 1 map" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_18.jpg" alt="Quarry 1 aerial" onclick="openLightbox(this.src)">
+        </div>
+        <div style="padding:10px 20px 0;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);">QUARRY 2</div>
+        <div class="parking-imgs cols-2">
+          <img class="parking-img" src="tc_images/parking_19.jpg" alt="Quarry 2 map" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_20.jpg" alt="Quarry 2 aerial" onclick="openLightbox(this.src)">
+        </div>
+        <div style="padding:10px 20px 0;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);">QUARRY 3 & 4</div>
+        <div class="parking-imgs cols-2">
+          <img class="parking-img" src="tc_images/parking_21.jpg" alt="Quarry 3,4 map" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_22.jpg" alt="Quarry 3,4 aerial" onclick="openLightbox(this.src)">
+        </div>
+        <div style="padding:10px 20px 0;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);">QUARRY 5, 6 & 7</div>
+        <div class="parking-imgs cols-3">
+          <img class="parking-img" src="tc_images/parking_23.jpg" alt="Quarry 5,6,7 map" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_24.jpg" alt="Quarry 5,6,7 aerial 1" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_25.jpg" alt="Quarry 5,6,7 aerial 2" onclick="openLightbox(this.src)">
+        </div>
+        <div style="padding:10px 20px 0;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);">QUARRY 8</div>
+        <div class="parking-imgs cols-2" style="padding-bottom:14px;">
+          <img class="parking-img" src="tc_images/parking_26.jpg" alt="Quarry 8 map" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_27.jpg" alt="Quarry 8 aerial" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.10 Sawmill -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.10 Sawmill</div><div class="location-num">T.C 7.10</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone (green zones only)</div>
+          <div class="legend-item"><div class="legend-dot dot-red"></div>Everywhere else — no parking</div>
+        </div>
+        <div class="parking-imgs cols-1">
+          <img class="parking-img" src="tc_images/parking_28.jpg" alt="Sawmill parking" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.11 Farm 1 -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.11 Farm 1</div><div class="location-num">T.C 7.11</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone</div>
+          <div class="legend-item"><div class="legend-dot dot-red"></div>Red & everywhere else — no parking</div>
+        </div>
+        <div class="parking-imgs cols-2">
+          <img class="parking-img" src="tc_images/parking_29.jpg" alt="Farm 1 parking 1" onclick="openLightbox(this.src)">
+          <img class="parking-img" src="tc_images/parking_30.jpg" alt="Farm 1 parking 2" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+      <!-- 7.12 Farm 2 -->
+      <div class="location-card">
+        <div class="location-header"><div class="location-name">7.12 Farm 2</div><div class="location-num">T.C 7.12</div></div>
+        <div class="color-legend">
+          <div class="legend-item"><div class="legend-dot dot-green"></div>Everyone</div>
+          <div class="legend-item"><div class="legend-dot dot-red"></div>Red & everywhere else — no parking</div>
+        </div>
+        <div class="parking-imgs cols-1">
+          <img class="parking-img" src="tc_images/parking_31.jpg" alt="Farm 2 parking" onclick="openLightbox(this.src)">
+        </div>
+      </div>
+
+    </div><!-- end locations -->
+  </div><!-- end tab-content -->
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="Parking diagram">
+</div>
+
+<script>
+// ── Traffic Code Search ──
+const TC_INDEX = [
+  // General
+  {tab:'general',tabLabel:'General',code:'T.C 1.1',text:'Traffic Code official rules road traffic safety registration licences permits LSPD SAHP'},
+  {tab:'general',tabLabel:'General',code:'T.C 1.2',text:'Traffic Code mandatory all residents visitors State San-Andreas'},
+  {tab:'general',tabLabel:'General',code:'T.C 1.3',text:'Violations penalties fine seizure vehicle detention imprisonment revocation drivers license'},
+  {tab:'general',tabLabel:'General',code:'T.C 1.4',text:'Road offenses charged every vehicle road incident'},
+  {tab:'general',tabLabel:'General',code:'T.C 1.5',text:'Cannot be fined twice same article single traffic incident'},
+  {tab:'general',tabLabel:'General',code:'T.C 1.6',text:'Officer visual inspection vehicle documents licenses registrations pull-over trunk glove compartment'},
+  {tab:'general',tabLabel:'General',code:'T.C 1.7',text:'Officer check documents driver wanted listing passenger'},
+  {tab:'general',tabLabel:'General',code:'T.C 1.8',text:'Driver obliged provide documents first request law enforcement officer'},
+  {tab:'general',tabLabel:'General',code:'T.C 1.9',text:'Driver obliged stop first request law enforcement officer'},
+  {tab:'general',tabLabel:'General',code:'T.C 1.10',text:'Driver passengers remain in car stopped officer prohibited leave assault threat open fire'},
+  // Registration
+  {tab:'registration',tabLabel:'Registration',code:'T.C 2.1',text:'State license plate valid registration mandatory vehicles fine $5000'},
+  {tab:'registration',tabLabel:'Registration',code:'T.C 2.2',text:'Vehicle Identification Number VIN instrument panel windshield damaging evacuated penalty parking'},
+  {tab:'registration',tabLabel:'Registration',code:'T.C 2.3',text:'Insurance vehicle optional private choice cannot be imposed revoked'},
+  // Traffic Rules
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.1',text:'Speed limit 120 km/h highway 180 km/h Special Zones 60 km/h fine $5000 $10000'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.2',text:'Direction of traffic road markings mandatory'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.2.1',text:'Opposite lane road fine $10000'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.2.2',text:'Opposite lane highway fine $15000 imprisonment 30 months'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.3',text:'Stopping road no reason ignoring officer demands fine $5000 malfunction'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.4',text:'Cars left illegal places towed LSPD impound buyout $10000'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.5',text:'Dangerous driving criminal offence public'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.5.1',text:'Driving sidewalks bike paths fine $3000'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.5.2',text:'Chaotic movement lanes fine $5000'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.5.3',text:'Failure keep distance fine $3000'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.5.4',text:'Hard braking fine $5000 accident avoidance exception'},
+  {tab:'traffic',tabLabel:'Traffic Rules',code:'T.C 3.5.5',text:'Obstruction overtaking fine $5000'},
+  // Emergency
+  {tab:'emergency',tabLabel:'Emergency Vehicles',code:'T.C 4.1',text:'Emergency vehicles flashing lights siren duties exemptions traffic rules'},
+  {tab:'emergency',tabLabel:'Emergency Vehicles',code:'T.C 4.2',text:'Emergency vehicles police ambulances fire safety'},
+  {tab:'emergency',tabLabel:'Emergency Vehicles',code:'T.C 4.3',text:'Emergency vehicle lights siren not required road signs speed limits markings indicators zigzag overtaking'},
+  {tab:'emergency',tabLabel:'Emergency Vehicles',code:'T.C 4.4',text:'Emergency vehicle approaching give way reduce speed stay right stop safe passage'},
+  // Special Zones
+  {tab:'zones',tabLabel:'Special Zones',code:'T.C 5.1',text:'Special Zone geographic area special conditions traffic code laws'},
+  {tab:'zones',tabLabel:'Special Zones',code:'T.C 5.2',text:'Special Zone 30 meters 100 ft radius adjacent territory'},
+  {tab:'zones',tabLabel:'Special Zones',code:'T.C 5.3',text:'Speed limit Special Zone 60 km/h at all times'},
+  {tab:'zones',tabLabel:'Special Zones',code:'T.C 5.4',text:'Special Zones Capitol Station Central Hospital FIB HQ LSPD HQ SAHP HQ Casino Power Plant Amphitheaters Auto Fairs Trade Market'},
+  {tab:'zones',tabLabel:'Special Zones',code:'T.C 5.5',text:'Violation speed limit Special Zones $15000'},
+  // Parking Rules
+  {tab:'parking',tabLabel:'Parking Rules',code:'T.C 6.1',text:'Parking direction traffic wheels parallel curb roadways'},
+  {tab:'parking',tabLabel:'Parking Rules',code:'T.C 6.2',text:'Parking prohibited red curbs interfering blocking crosswalk sidewalk dividing strip bridge tunnel highway freeway bus stop railway yellow markings lawns'},
+  {tab:'parking',tabLabel:'Parking Rules',code:'T.C 6.3',text:'Violation parking rules fine $5000 evacuation penalty parking lot'},
+  {tab:'parking',tabLabel:'Parking Rules',code:'T.C 6.4',text:'Prison territory unauthorized vehicles fine $15000 evacuation'},
+  // Parking Locations
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.1',text:'Capitol City Hall green everyone blue government employees red no parking'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.2',text:'Casino red no parking casino parking lot all vehicles allowed'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.3',text:'Real Estate Agency green everyone parking'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.4',text:'Hospital green everyone yellow staff red no parking purple state official vehicles'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.5',text:'Bank green everyone red no parking'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.6',text:'LSPD green everyone red no parking purple LSPD official vehicles'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.7',text:'Power Plant green everyone red no parking'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.8',text:'SAHP green everyone red no parking blue SAHP official vehicles'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.9',text:'Quarries green zones everywhere else no parking quarry 1 2 3 4 5 6 7 8'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.10',text:'Sawmill green everywhere else no parking'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.11',text:'Farm 1 green red everywhere else no parking'},
+  {tab:'locations',tabLabel:'Parking Locations',code:'7.12',text:'Farm 2 green red everywhere else no parking'},
+];
+
+const tcInput = document.getElementById('tcSearchInput');
+const tcResults = document.getElementById('tcResults');
+const tcClear = document.getElementById('tcSearchClear');
+const tcIcon = document.getElementById('tcSearchIcon');
+
+tcInput.addEventListener('input', function(){
+  const q = this.value.trim().toLowerCase();
+  tcClear.style.display = q ? 'block' : 'none';
+  tcIcon.style.display = q ? 'none' : 'block';
+  if(q.length < 2){ tcResults.classList.remove('open'); return; }
+
+  const results = TC_INDEX.filter(item =>
+    item.text.toLowerCase().includes(q) ||
+    item.code.toLowerCase().includes(q) ||
+    item.tabLabel.toLowerCase().includes(q)
+  ).slice(0, 12);
+
+  if(!results.length){
+    tcResults.innerHTML = '<div class="tc-no-results">No results found</div>';
+    tcResults.classList.add('open');
+    return;
+  }
+
+  function hl(str){ return str.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'), '<mark>$1</mark>'); }
+
+  tcResults.innerHTML = results.map(r =>
+    `<div class="tc-result" onclick="jumpToTab('${r.tab}','${r.code}')">
+      <span class="tc-result-tab">${r.tabLabel}</span>
+      <span class="tc-result-code">${hl(r.code)}</span>
+      <span class="tc-result-text">${hl(r.text.split(' ').slice(0,10).join(' '))}...</span>
+    </div>`
+  ).join('');
+  tcResults.classList.add('open');
+});
+
+function clearTcSearch(){
+  tcInput.value='';
+  tcResults.classList.remove('open');
+  tcClear.style.display='none';
+  tcIcon.style.display='block';
+  tcInput.focus();
+}
+
+function jumpToTab(tabId, code){
+  // Switch to the correct tab
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const panel = document.getElementById('tab-'+tabId);
+  const btn = document.querySelector(`.tab-btn[onclick*="'${tabId}'"]`);
+  if(panel) panel.classList.add('active');
+  if(btn) btn.classList.add('active');
+
+  // Close results
+  tcResults.classList.remove('open');
+  tcInput.value = '';
+  tcClear.style.display='none';
+  tcIcon.style.display='block';
+
+  // Scroll to and highlight the article
+  setTimeout(()=>{
+    // Find by T.C number in tc-num spans or location card names
+    const spans = panel ? panel.querySelectorAll('.tc-num, .location-name') : [];
+    let target = null;
+    spans.forEach(el => {
+      if(el.textContent.trim().includes(code)) target = el;
+    });
+    if(target){
+      const card = target.closest('.article-item, .location-card');
+      if(card){
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        card.classList.add('tc-highlight');
+        setTimeout(()=>card.classList.remove('tc-highlight'), 1600);
+      } else {
+        target.scrollIntoView({behavior:'smooth', block:'center'});
+      }
+    } else {
+      panel && panel.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }, 120);
+}
+
+// Close on outside click
+document.addEventListener('click', e => {
+  if(!document.querySelector('.tc-search-wrap').contains(e.target)){
+    tcResults.classList.remove('open');
+  }
+});
+
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+function openLightbox(src){
+  document.getElementById('lightboxImg').src=src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+</script>
+
+<script>
+(function(){
+  if(!sessionStorage.getItem('_lc_auth')) return;
+  let timer;
+  const TIMEOUT=30*60*1000;
+  function reset(){ clearTimeout(timer); timer=setTimeout(expire,TIMEOUT); }
+  function expire(){
+    sessionStorage.removeItem('_lc_auth');
+    const ov=document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;background:rgba(6,6,10,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;';
+    ov.innerHTML='<div style="font-family:Bebas Neue,sans-serif;font-size:28px;letter-spacing:4px;color:#e8393a;">SESSION EXPIRED</div><div style="font-family:Share Tech Mono,monospace;font-size:12px;color:#555;letter-spacing:2px;">30 minutes of inactivity</div><a href="../index.html" style="background:#e8393a;border:none;color:#fff;font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:3px;padding:10px 24px;border-radius:3px;cursor:pointer;text-decoration:none;">GO HOME</a>';
+    document.body.appendChild(ov);
+  }
+  ['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.addEventListener(e,reset,{passive:true}));
+  reset();
+})();
+</script>
+</body>
+</html>

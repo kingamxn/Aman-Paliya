@@ -1,0 +1,2867 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="auth.js"></script>
+<script>LC_Guard('legislation.html');</script>
+
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐍%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IC Laws – Legislation | The Viper</title>
+
+
+<style>
+  /* Disable text selection via CSS too */
+  * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #0d0d0d;
+    --bg2:        #141414;
+    --bg3:        #1a1a1a;
+    --border:     #2a2a2a;
+    --border2:    #333;
+    --text:       #c8c8c8;
+    --text-dim:   #666;
+    --text-bright:#e8e8e8;
+    --red:        #e8393a;
+    --red-dim:    rgba(232,57,58,0.15);
+    --red-glow:   rgba(232,57,58,0.06);
+    --yellow:     #f0c040;
+    --yellow-dim: rgba(240,192,64,0.15);
+    --green:      #4caf6e;
+    --orange:     #e8833a;
+    --orange-dim: rgba(232,131,58,0.12);
+    --purple:     #9b6dff;
+    --purple-dim: rgba(155,109,255,0.12);
+  }
+.arrest-btn {
+  background: linear-gradient(135deg, #e63946, #c1121f);
+  color: white;
+  border: none;
+  padding: 11px 28px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(230,57,70,0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+.arrest-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 24px rgba(230,57,70,0.8);
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+  /* ── TOP BAR ── */
+  .topbar {
+    background: #0a0a0a;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 0 24px;
+    min-height: 80px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 200px;
+  }
+  .logo-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: #fff;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .logo-name {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    color: #fff;
+  }
+  .logo-name span { color: var(--red); }
+
+  .topbar-center { text-align: center; flex: 1; }
+  .topbar-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-bright);
+  }
+  .topbar-title span { color: var(--red); }
+  .topbar-sub {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ── CLOCK ── */
+  .clock-block {
+    font-family: 'Share Tech Mono', monospace;
+    background: #111;
+    border: 1px solid var(--border2);
+    border-top: none;
+    border-right: none;
+    border-radius: 0 0 0 4px;
+    padding: 10px 16px 10px;
+    text-align: right;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 160px;
+    gap: 6px;
+  }
+  .clock-row { display: flex; flex-direction: column; align-items: flex-end; }
+  .clock-row .ck-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    line-height: 1.3;
+  }
+  .clock-row .ck-time {
+    font-size: 18px;
+    color: var(--text-bright);
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+  }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    padding: 20px 24px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+  }
+  .search-inner {
+    max-width: 620px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .search-inner input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 12px 40px 12px 18px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-inner input::placeholder { color: var(--text-dim); }
+  .search-inner input:focus { border-color: var(--red); }
+  .search-inner .si {
+    position: absolute; right: 11px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim); font-size: 14px; pointer-events: none;
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; min-height: calc(100vh - 135px); }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 240px;
+    min-width: 240px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 14px 0;
+    position: sticky;
+    top: 135px;
+    height: calc(100vh - 135px);
+    overflow-y: auto;
+  }
+  .sidebar-label {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 0 14px 10px;
+  }
+  .cat-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background 0.12s;
+    border-left: 2px solid transparent;
+  }
+  .cat-item:hover { background: var(--bg3); }
+  .cat-item.active {
+    background: var(--red-glow);
+    border-left-color: var(--red);
+  }
+  .cat-item.active .cat-name { color: var(--text-bright); }
+  .cat-name { font-size: 12.5px; color: var(--text); }
+  .cat-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    background: var(--bg3);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── MAIN ── */
+  .main { flex: 1; overflow-y: auto; height: calc(100vh - 135px); }
+  .code-section { display: none; }
+  .code-section.visible { display: block; }
+
+  .code-title-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .code-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-bright);
+  }
+  .code-art-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+
+  .article-header {
+    padding: 8px 20px;
+    background: var(--bg3);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .law-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 11px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    gap: 14px;
+    transition: background 0.1s;
+  }
+  .law-row:hover { background: rgba(255,255,255,0.02); }
+  .law-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    min-width: 38px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .law-text {
+    flex: 1;
+    line-height: 1.6;
+    color: var(--text);
+    font-size: 12.5px;
+  }
+  .law-penalty {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    flex-shrink: 0;
+    padding-top: 2px;
+    flex-wrap: wrap;
+    max-width: 140px;
+    justify-content: flex-end;
+  }
+  .penalty-tag {
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .pt-fine    { background: var(--yellow-dim); color: var(--yellow); }
+  .pt-arrest  { background: var(--red-dim);    color: var(--red); }
+  .pt-license { background: var(--orange-dim); color: var(--orange); }
+  .pt-dismiss { background: var(--purple-dim); color: var(--purple); }
+
+  .no-results {
+    padding: 48px 20px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    display: none;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: #2e2e2e; border-radius: 3px; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+@media(max-width: 768px) {
+  table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; font-size: 12px !important; }
+  th, td { min-width: 80px; padding: 6px 8px !important; white-space: nowrap; }
+  .container, .main, .content { padding: 12px 8px !important; }
+  .panel { overflow-x: auto; }
+}
+
+</head>
+<body>
+<!-- GUARD START -->
+
+<div class="topbar">
+  <div class="logo-wrap">
+    <div class="logo-icon">KA</div>
+    <div class="logo-name">KING <span>AMXN</span></div>
+  </div>
+  <div class="topbar-center">
+    <div class="topbar-title">IC LAWS &nbsp;<span>&middot;</span>&nbsp; LEGISLATION</div>
+    <div class="topbar-sub">GRAND RP &nbsp;&middot;&nbsp; EN02</div>
+  </div>
+  <div class="clock-block">
+    <div class="clock-row">
+      <div class="ck-label">IC TIME (UK)</div>
+      <div class="ck-time" id="ic-clock">--:--:--</div>
+    </div>
+    <div class="clock-row">
+      <div class="ck-label">INDIA TIME</div>
+      <div class="ck-time" id="india-clock">--:--:--</div>
+    </div>
+  </div>
+</div>
+
+<div class="search-wrap" style="display:flex; align-items:center; justify-content:center; gap:12px;">
+    <div class="search-inner">
+        <input id="search-input" type="text" placeholder="Search laws … try 'arrest' or '2.1' or 'firearm'" />
+        <span class="si">⌕</span>
+    </div>
+         <button onclick="window.location.href='/arrest'" class="arrest-btn">🚔 ARREST</button>
+    </div>
+<div class="layout">
+
+  <div class="sidebar">
+    <div class="sidebar-label">Categories</div>
+
+    <div class="cat-item active" onclick="showCode('cr',this)">
+      <span class="cat-name">⚖️ Criminal Code</span>
+      <span class="cat-count">10 Arts</span>
+    </div>
+    <div class="cat-item" onclick="showCode('ci',this)">
+      <span class="cat-name">🏛️ Civil &amp; Procedural Code</span>
+      <span class="cat-count">17 Arts</span>
+    </div>
+    <div class="cat-item" onclick="showCode('la',this)">
+      <span class="cat-name">💼 Labour Code</span>
+      <span class="cat-count">15 Arts</span>
+    </div>
+    <div class="cat-item" onclick="showCode('fw',this)">
+      <span class="cat-name">🔫 Firearms Code</span>
+      <span class="cat-count">5 Arts</span>
+    </div>
+    <div class="cat-item" onclick="showCode('co',this)">
+      <span class="cat-name">💰 Commercial &amp; Tax Code</span>
+      <span class="cat-count">8 Arts</span>
+    </div>
+    <div class="cat-item" onclick="showCode('im',this)">
+      <span class="cat-name">🛡️ Immunity &amp; Status Code</span>
+      <span class="cat-count">8 Arts</span>
+    </div>
+    <div class="cat-item" onclick="showCode('ev',this)">
+      <span class="cat-name">🔍 Evidence &amp; Investigation</span>
+      <span class="cat-count">10 Arts</span>
+    </div>
+  </div>
+
+  <div class="main" id="main-content">
+
+    <div class="code-section visible" id="sec-cr">
+      <div class="code-title-block">
+        <div class="code-title">⚖️ Code of Criminal &amp; Misdemeanour Law</div>
+        <div class="code-art-count">10 articles + Appendix</div>
+      </div>
+
+      <div class="article-header">Article 1 — General Provisions and Principles of Criminal Law</div>
+      <div class="law-row">
+        <div class="law-num">1.1</div>
+        <div class="law-text"><strong>Code of Criminal and Misdemeanour Law.</strong> Establishes the principles of criminal liability and the laws relating to crimes, both felonies and misdemeanours, and the punishments for those crimes. It must be interpreted and applied as a whole, balancing the interests of justice for the accused and the victim, state security, public safety, and the rights and duties of citizens. Where no specific provision exists, but a clear unlawful violation of rights occurred, punishments shall be determined by the Court.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.2</div>
+        <div class="law-text"><strong>General Purpose.</strong> To proscribe conduct which unjustifiably causes or threatens substantial harm; give fair warning of the nature of the conduct and sentences; define the act of criminal intent; differentiate on reasonable grounds between serious (felonies) and minor (misdemeanours) violations; provide appropriate public response considering victims; and ensure public safety through deterrence, rehabilitation, and confinement.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.3</div>
+        <div class="law-text"><strong>Principles of Corpus Delicti.</strong> Criminal liability is based on the Principle of Corpus Delicti (body of evidence) that a crime must be proved to have occurred. Where no such body of evidence exists, it cannot reasonably be upheld that a crime has been committed.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.4</div>
+        <div class="law-text"><strong>Principles of Criminal Liability.</strong> Requires that an unlawful action was performed with criminal intent. Exemptions from Criminal Liability include: Defence of Self (Self-Defence), Defence of Others, Unintentional/Accidental Acts (requires victim approval), Performance of Duty (within lawful limits), and Consent to Harm.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.5</div>
+        <div class="law-text"><strong>Complicity in Criminal Activity.</strong> Defined as intentional joint participation in the commission of a crime. Accomplices are liable jointly. Complicity is an aggravating factor. Assistance in planning, execution, or covering up evidence constitutes complicity.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.6</div>
+        <div class="law-text"><strong>Unwilling Participant.</strong> A suspect present at the scene against their will, or with no reasonable means of safely removing themselves, may be considered an unwilling participant. They are not considered an accomplice unless evidence proves otherwise.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.7</div>
+        <div class="law-text"><strong>Principle of Commutation.</strong> A reduction or substitution of the final sentence with a lesser sentence, fine, or other punishment. Cannot be applied to a Class-5 Felony.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.8</div>
+        <div class="law-text"><strong>First Offence.</strong> Commutation can be applied at the officer's discretion for Class-1 or Class-2 Felonies by substituting imprisonment with a fine of no less than $20,000.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.9</div>
+        <div class="law-text"><strong>Confession / Cooperation.</strong> Cooperation with an investigation may result in commutation of the final sentence at the sentencing officer’s discretion.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.10</div>
+        <div class="law-text"><strong>State Witness.</strong> A participant in a crime may provide valid evidence in exchange for exemption from prosecution or commutation. The DOJ evaluates validity under Client-Attorney Privilege. Must have no financial gain.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.12</div>
+        <div class="law-text"><strong>Sentencing for a Felony.</strong> The maximum duration of imprisonment is 75 months (85 months if isolation is mandated). All sentences may be increased by 10 months for correctional offences. The maximum fine imposed by an officer shall not exceed $50,000.<br><br>
+        ★ Class-1: 15 mo / $10k<br>
+        ★★ Class-2: 30 mo / $20k<br>
+        ★★★ Class-3: 45 mo / $30k<br>
+        ★★★★ Class-4: 60 mo / $40k<br>
+        ★★★★★ Class-5: 75 mo / $50k</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">MAX 85 MO</span>
+          <span class="penalty-tag pt-fine">MAX $50K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.13</div>
+        <div class="law-text"><strong>Sentencing for a Misdemeanour.</strong> Does not ordinarily carry imprisonment. A suspect may not be searched for a Misdemeanour. If misdemeanours exceed 5 points, the suspect may face up to 30 months prison + $25,000 fine.<br><br>
+        ● 1-Point: $5k Fine<br>
+        ●● 2-Point: $10k Fine<br>
+        ●●● 3-Point: $15k Fine<br>
+        ●●●● 4-Point: $20k Fine<br>
+        ●●●●● 5-Point: $25k Fine</div>
+      </div>
+
+      <div class="article-header">Article 2 — Crimes Against Society</div>
+      <div class="law-row">
+        <div class="law-num">2.1.1</div>
+        <div class="law-text"><strong>Possession of Narcotics:</strong> Possession of Narcotics to a total less than (5) items. Results in seizure of substances and a fine. Repeat offences escalate to a felony.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">3-PT / $15K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.1.2</div>
+        <div class="law-text"><strong>Possession of Narcotics in Large Quantities:</strong> Possession of five (5) to nine (9) units. Bail granted only if suspect cooperates regarding origin.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.1.3</div>
+        <div class="law-text"><strong>Possession of Narcotics with Intent to Distribute:</strong> Sale or attempted distribution of Narcotics in excess of ten (10) items. Bail granted only with cooperation regarding origin.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.1.6</div>
+        <div class="law-text"><strong>Possession of Prohibited Items:</strong> Possession of two (2) or less prohibited items as defined in the Appendix.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.1.7</div>
+        <div class="law-text"><strong>Possession of Prohibited Items with Intent to Distribute:</strong> Possession of three (3) or more prohibited items. Bail granted only with cooperation.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.2.1</div>
+        <div class="law-text"><strong>Culpable Homicide/Manslaughter:</strong> Action that results in the death of another citizen through negligence or carelessness (e.g., striking a pedestrian due to speed, not rendering aid).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.2.2</div>
+        <div class="law-text"><strong>Murder or Attempted Murder:</strong> Intentionally and unlawfully causing the death of another citizen, or the attempt to do so.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.2.3</div>
+        <div class="law-text"><strong>Premeditated Murder:</strong> Intentionally causing death through a pre-planned course of action, or the attempt to do so.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.3.1</div>
+        <div class="law-text"><strong>Assault by Threat:</strong> Threatening to unlawfully attack another person where there is sufficient reason to believe the threat includes bodily harm.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.3.2</div>
+        <div class="law-text"><strong>Attempted Suicide:</strong> Any attempt at self-harm. Officers should restrain and call EMS. Unclassified Misdemeanour carrying no penalty unless committed with other crimes.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">NO FINE</span>
+          <span class="penalty-tag pt-license">MEDICAL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.4.1</div>
+        <div class="law-text"><strong>Abandonment:</strong> Deliberate abandonment by a citizen of a person in a life-threatening condition. Does not apply if there is unreasonable risk.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 1 / 15 MO</span>
+          <span class="penalty-tag pt-fine">$10K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.4.2</div>
+        <div class="law-text"><strong>Abandonment by a Law Enforcement Officer or Civil Servant:</strong> Deliberate abandonment by a civil servant of a person in a life-threatening condition. Does not apply if unreasonable risk (active gunfight).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.5.1</div>
+        <div class="law-text"><strong>Kidnapping or Attempted Kidnapping:</strong> The abduction or attempted abduction of a civilian.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.5.2</div>
+        <div class="law-text"><strong>Kidnapping of a Civil Servant:</strong> Abduction of a law enforcement officer or civil servant.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.5.3</div>
+        <div class="law-text"><strong>Kidnapping of a State Official:</strong> Abduction of a leader, deputy leader, or government official.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.6.1</div>
+        <div class="law-text"><strong>Taking of a Hostage:</strong> Holding a person hostage to force relatives, state, or institutions to commit a crime, or pay for release.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.7.1</div>
+        <div class="law-text"><strong>Sexual Harassment:</strong> Unwanted and deliberate verbal harassment and advances when the victim has refused.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.7.2</div>
+        <div class="law-text"><strong>Sexual Assault:</strong> Unwanted physical contact (touching, pinching, kissing) when the victim has refused.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.7.3</div>
+        <div class="law-text"><strong>Rape:</strong> Forced sexual acts with the use or threat of violence or helpless state of the victim.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.8.1</div>
+        <div class="law-text"><strong>Forgery:</strong> Illegal production or storage of licences, permits, certificates, or health insurance.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.8.2</div>
+        <div class="law-text"><strong>Dealing in Forged Documents:</strong> Attempting to purchase or sell forged licences, permits, or certificates.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.9.1</div>
+        <div class="law-text"><strong>Petty Larceny or Theft:</strong> Theft of goods/money with value less than $25,000 (includes ATM robberies). Repeat offenders face Felony 2.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 1 / 15 MO</span>
+          <span class="penalty-tag pt-fine">$10K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.9.2</div>
+        <div class="law-text"><strong>Grand Larceny:</strong> Theft of goods/money valued greater than $25,000 but not more than $100,000. Full reimbursement required.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+          <span class="penalty-tag pt-fine">REIMBURSE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.9.3</div>
+        <div class="law-text"><strong>Felony Larceny:</strong> Theft of goods/money valued more than $100,000. Full reimbursement required.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-fine">REIMBURSE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.9.4</div>
+        <div class="law-text"><strong>Grand Theft Auto:</strong> Theft, or attempted theft, of a vehicle that does not belong to the suspect.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-license">REVOKE DRIVER LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.10.1</div>
+        <div class="law-text"><strong>Armed Robbery:</strong> Open theft of property with the threat or use of violence.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.11.1</div>
+        <div class="law-text"><strong>Heist:</strong> Attack with intent to take possession of property, combined with dangerous violence. Full cost must be restituted.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.12.1</div>
+        <div class="law-text"><strong>Extortion:</strong> Taking possession of property by non-violent coercion.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.13.1</div>
+        <div class="law-text"><strong>Fraud:</strong> Taking possession of property by deception or abuse of trust.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.14.1</div>
+        <div class="law-text"><strong>Creation of a Criminal Community:</strong> Organization of any group to commit criminal activity.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.15.1</div>
+        <div class="law-text"><strong>Participation in Banditry:</strong> Assisting in a stable armed group to attack citizens/organizations.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.15.2</div>
+        <div class="law-text"><strong>Leading of Banditry:</strong> Leadership of a stable armed group. Applies to the person actively robbing victims.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.16.1</div>
+        <div class="law-text"><strong>Assault:</strong> Intentionally pushing/pulling without significant injuries.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">2-PT / $10K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.16.2</div>
+        <div class="law-text"><strong>Assault with Intent to Harm:</strong> Intentional infliction of non-life-threatening medium gravity bodily harm.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 1 / 15 MO</span>
+          <span class="penalty-tag pt-fine">$10K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.16.3</div>
+        <div class="law-text"><strong>Assault GBH:</strong> Intentional infliction of serious gravity bodily harm (unarmed or melee weapon).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.17.1</div>
+        <div class="law-text"><strong>Unlicensed Firearms Carry:</strong> Possession/carry of a firearm without a license.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">2-PT / $10K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.17.2</div>
+        <div class="law-text"><strong>Excessive Firearms Carry (Overcarrying):</strong> Possession of weapons/ammo more than allowed in backpack or vehicle.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.17.3</div>
+        <div class="law-text"><strong>Possession of Illegal Firearms:</strong> Possession of firearms without an AMMO serial number.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.17.4</div>
+        <div class="law-text"><strong>Dealing in Illegal Firearms:</strong> Sale/purchase of prohibited weapons, or possession of three (3) or more illegal firearms.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.17.5</div>
+        <div class="law-text"><strong>Possession of State Issued Items:</strong> Wearing/possessing a taser, marked body armour, batons, or balaclavas without being an employee.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.17.6</div>
+        <div class="law-text"><strong>Possession of Illegal Body Armour:</strong> Possession of dyed/colored bullet proof vests.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.17.7</div>
+        <div class="law-text"><strong>Brandishing a Firearm:</strong> Intending to intimidate or frighten. Does not apply to merely holding without threats.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.17.8</div>
+        <div class="law-text"><strong>Discharging a Firearm:</strong> Discharging a weapon without a legal reason. First Offence: 2-PT Misdemeanour. Repeat: Felony 2.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.17.9</div>
+        <div class="law-text"><strong>Public Carry of a Firearm:</strong> Open carry in the hand in public without lawful reason, after one warning. Repeat: Felony 1.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">2-PT / $10K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.18.1</div>
+        <div class="law-text"><strong>Misappropriation of a Vehicle (Reckless Driving):</strong> Hazardous operation placing lives at risk. Excludes mere speeding.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+          <span class="penalty-tag pt-license">REVOKE DRIVER LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.18.2</div>
+        <div class="law-text"><strong>Misappropriation of an Official Vehicle:</strong> Hazardous operation of a state vehicle. Excludes emergency response.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+          <span class="penalty-tag pt-license">REVOKE DRIVER LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.18.3</div>
+        <div class="law-text"><strong>Misuse of a Vehicle:</strong> Operating to annoy, harass, intimidate, or obstruct another person.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 1 / 15 MO</span>
+          <span class="penalty-tag pt-fine">$10K</span>
+          <span class="penalty-tag pt-license">REVOKE DRIVER LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.18.4</div>
+        <div class="law-text"><strong>Vehicle Used in Criminal Activity:</strong> Vehicle used as escape or left at scene. Owner fined and loses license if involved.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">2-PT / $10K</span>
+          <span class="penalty-tag pt-license">REVOKE DRIVER LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.19.1</div>
+        <div class="law-text"><strong>Pimping:</strong> Forcing/controlling a person into prostitution.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.20.1</div>
+        <div class="law-text"><strong>Prostitution:</strong> Attempt or act of sex for payment. First: 2-PT. Repeat: Felony 1.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">2-PT / $10K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.21.1</div>
+        <div class="law-text"><strong>Hooliganism:</strong> Gross violation of public order, false calls, obscene gestures, unauthorized races, gross ethics violations.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.22.1</div>
+        <div class="law-text"><strong>Bribery Of An Official:</strong> Offering or transferring a bribe to a public official.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.23.1</div>
+        <div class="law-text"><strong>Failure To Pay Fines:</strong> Unpaid fines reaching $50,000 without payment when asked, or unable to locate individual for tickets.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+          <span class="penalty-tag pt-license">REVOKE ALL LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.24.1</div>
+        <div class="law-text"><strong>Leaving the Scene:</strong> Leaving a crime scene when ordered to remain for investigation.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.24.2</div>
+        <div class="law-text"><strong>Evading Arrest:</strong> Attempt to evade arrest by chase on foot or vehicle.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.25.1</div>
+        <div class="law-text"><strong>Attempted or Actual Escape:</strong> Escaping from custody.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.26.1</div>
+        <div class="law-text"><strong>Insubordination / Failure to Comply:</strong> Disobeying lawful requirements from a state servant.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.27.1</div>
+        <div class="law-text"><strong>Violation of Privacy:</strong> Illegal collection/storage/sharing of personal data without consent/warrant.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.28.1</div>
+        <div class="law-text"><strong>Intentional Spreading of Disease:</strong> Infecting another person while knowing of the disease.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.29.1</div>
+        <div class="law-text"><strong>Breaking and Entering:</strong> Unlawfully entering private property without permission.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.30.1</div>
+        <div class="law-text"><strong>Animal Cruelty:</strong> Deliberate abuse of a pet (excludes wildlife).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.30.2</div>
+        <div class="law-text"><strong>Killing an Animal or Pet:</strong> Unlawful killing of a pet (excludes hunted wildlife).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 3 — Crimes against the State</div>
+      <div class="law-row">
+        <div class="law-num">3.1.1</div>
+        <div class="law-text"><strong>Terrorism (Participant):</strong> Violence to frighten population, cause death, destabilize the state.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.1.2</div>
+        <div class="law-text"><strong>Leading of Terrorism:</strong> Organizing or recruiting violence against the state/population.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.2.1</div>
+        <div class="law-text"><strong>Participating in a Riot:</strong> Mass gathering disrupting civilian life, traffic, or official duties.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.2.2</div>
+        <div class="law-text"><strong>Leading of a Riot:</strong> Inciting/organizing a mass gathering that disrupts normal state life.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.3.1</div>
+        <div class="law-text"><strong>Sedition (Participant):</strong> Rebelling or preventing orderly conduct of the government.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.3.2</div>
+        <div class="law-text"><strong>Leading of Sedition:</strong> Organizing rebellion or mass riots against the state.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-dismiss">7-DAY BLACKLIST</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.4.1</div>
+        <div class="law-text"><strong>Treason (Participant):</strong> Attempting to seize political power or destabilize the state system.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.4.2</div>
+        <div class="law-text"><strong>High Treason (Leader):</strong> Organizing seizure of power or mass destabilization. May require deportation.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+          <span class="penalty-tag pt-dismiss">28-DAY BLACKLIST</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.5.1</div>
+        <div class="law-text"><strong>Obstruction of Investigation:</strong> Deceiving/lying to an officer during investigation or traffic stop.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.5.2</div>
+        <div class="law-text"><strong>Obstruction of an Officer:</strong> Hindering a civil servant performing official duties.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.5.3</div>
+        <div class="law-text"><strong>Obstruction of Arrest:</strong> Interfering while an officer arrests a suspect.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.6.1</div>
+        <div class="law-text"><strong>Murder/Attempted Murder in Line of Duty:</strong> Attacks on recognized officers during raids/robberies.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.6.2</div>
+        <div class="law-text"><strong>Murder/Attempted Murder of Civil Servant:</strong> General assassination/attacks on officers.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+          <span class="penalty-tag pt-license">REVOKE GUN LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.7.1</div>
+        <div class="law-text"><strong>False Reporting:</strong> Knowingly giving false info about criminal activity.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.8.1</div>
+        <div class="law-text"><strong>Trespassing:</strong> Remaining on property after ordered to leave 2 times.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.8.2</div>
+        <div class="law-text"><strong>Trespassing in Secure Facility:</strong> Applies instantly in Red Zones without 2 warnings.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.9.1</div>
+        <div class="law-text"><strong>Collusion:</strong> Intentional cooperation with criminals by an officer.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 7-DAY BL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.11.1</div>
+        <div class="law-text"><strong>Failure to Submit Documents:</strong> Refusal to provide license when asked by officer.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 1 / 15 MO</span>
+          <span class="penalty-tag pt-fine">$10K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.11.2</div>
+        <div class="law-text"><strong>Failure to Identify:</strong> Refusal to present Passport/ID. Undercover officers may reasonably refuse.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.12.1</div>
+        <div class="law-text"><strong>Disclosure of State Secrets:</strong> Leaking info harming state intelligence/military.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 7-DAY BL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.12.2</div>
+        <div class="law-text"><strong>Disclosure of Classified Information:</strong> Highly classified leak threatening state security.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 14-DAY BL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.13.1</div>
+        <div class="law-text"><strong>Posing as a Civil Servant:</strong> Wearing restricted items (medical masks) or claiming false authority.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.13.2</div>
+        <div class="law-text"><strong>Posing as LEO:</strong> Wearing LEO armor or impersonating an officer.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.14.1</div>
+        <div class="law-text"><strong>Corruption:</strong> Cooperation with criminals by an official for financial/material reward.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 14-DAY BL</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 4 — Malfeasance by an Employee of the State</div>
+      <div class="law-row">
+        <div class="law-num">4.1.1</div>
+        <div class="law-text"><strong>Disobeying an Order of a Superior:</strong> Unless the order violates state law/ethics.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 7-DAY BL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.1.2</div>
+        <div class="law-text"><strong>Disobeying an Order of State Leader:</strong> Refusing an order from Governor/Deputy.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 14-DAY BL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.1.3</div>
+        <div class="law-text"><strong>Disobeying an Order of Judicial Authority:</strong> Defying AG or Supreme Court Judge.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 7-DAY BL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.2.1</div>
+        <div class="law-text"><strong>Negligence by Civil Servant:</strong> Willful neglect causing serious damage.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.2.2</div>
+        <div class="law-text"><strong>Negligence by LEO:</strong> Willful neglect causing serious damage.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.3.1</div>
+        <div class="law-text"><strong>Sabotage:</strong> Deliberate destruction of military equipment/ammo.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+          <span class="penalty-tag pt-dismiss">28-DAY BL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.4.1</div>
+        <div class="law-text"><strong>Disclosure of Police/Federal Info:</strong> Leaking operational data.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3-4</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.4.2</div>
+        <div class="law-text"><strong>Disclosure of State Information:</strong> Warning targets of warrants/raids.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 28-DAY BL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.5.1</div>
+        <div class="law-text"><strong>Arbitrariness:</strong> Unauthorized actions contrary to law by state employee.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.6.1</div>
+        <div class="law-text"><strong>Receiving a Bribe:</strong> Reward for performance/non-performance.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 14-DAY BL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.7.1</div>
+        <div class="law-text"><strong>Conduct Unbecoming:</strong> Multiple (5+) ethics violations.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.7.2</div>
+        <div class="law-text"><strong>Gross Ethics Violations:</strong> 10+ ethics violations in single interaction.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 7-DAY BL</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 5 — Traffic Statute Crimes</div>
+      <div class="law-row">
+        <div class="law-num">5.1</div>
+        <div class="law-text"><strong>Speeding Limits:</strong> General limit 120km/h; Highway 180km/h; Special Zone 60km/h. Speeding up to 30km over (1-Pt / $5k), 60km over (2-Pt / $10k), 90km over (3-Pt / $15k).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">FINES</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.1.4</div>
+        <div class="law-text"><strong>Excessive Speeding:</strong> Speeding in excess of 90km over limit.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+          <span class="penalty-tag pt-license">REVOKE DRIVER LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.3</div>
+        <div class="law-text"><strong>Habitual Traffic Offender:</strong> Consistently violating statutes (e.g. 3 moving/parking in 7 days, or 7 total). Punished by revocation of license.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">REVOKE DRIVER LIC</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.5.1</div>
+        <div class="law-text"><strong>Abandoning a Vehicle:</strong> Leaving vehicle outside allowed places.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">1-PT / $5K</span>
+          <span class="penalty-tag pt-license">IMPOUND</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.6.1</div>
+        <div class="law-text"><strong>Unsafe Transporting:</strong> Transporting people in trunk.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">2-PT / $10K</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 6 — Judicial Crimes</div>
+      <div class="law-row">
+        <div class="law-num">6.1.1</div>
+        <div class="law-text"><strong>Contempt of Court:</strong> Defying court orders or disrespecting judicial process. If done by state employee: Felony 4.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.2.1</div>
+        <div class="law-text"><strong>Disruption of Trial:</strong> Interfering to disrupt judicial process. If done by state employee: Felony 4.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.3.1</div>
+        <div class="law-text"><strong>Threats to Litigants:</strong> Harassment or violence threats against judicial chamber/trial members.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.4.1</div>
+        <div class="law-text"><strong>Falsification of Evidence:</strong> Tampering, concealing, or destroying primary evidence.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.5.1</div>
+        <div class="law-text"><strong>Perjury:</strong> False testimony during a trial/investigation.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 8 — Commercial and Taxation Crimes</div>
+      <div class="law-row">
+        <div class="law-num">8.1.1</div>
+        <div class="law-text"><strong>Selling of Prohibited Items:</strong> Sale of less than 5 prohibited items in public shop.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 1 / 15 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.1.2</div>
+        <div class="law-text"><strong>Distribution of Prohibited Items:</strong> Sale of 5 to 10 prohibited items in public shop.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.1.3</div>
+        <div class="law-text"><strong>Dealing in Prohibited Items:</strong> Sale of more than 10 prohibited items in public shop.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.2.1</div>
+        <div class="law-text"><strong>False Advertising:</strong> False/deceptive advertisements to promote sales.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">3-PT / $15K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.3.1</div>
+        <div class="law-text"><strong>Tax Evasion:</strong> Intentional attempt to avoid paying taxes.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-fine">TAX PENALTY $50K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.3.2</div>
+        <div class="law-text"><strong>Felony Tax Evasion:</strong> Tax evasion through fraud or deceit.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 60 MO</span>
+          <span class="penalty-tag pt-fine">$40K</span>
+          <span class="penalty-tag pt-fine">TAX PENALTY $100K</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 9 — Correctional Crimes</div>
+      <div class="law-row">
+        <div class="law-num">9.1</div>
+        <div class="law-text"><strong>Crimes by Inmates:</strong> Failure to behave (3+ insults/noise), failure to comply, sexual acts, sabotage, attempted escape (max 2), mass escape (3+), inciting riot, rioting, assaulting an officer.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">+10 MO</span>
+          <span class="penalty-tag pt-arrest">ISOLATION</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">9.2.1</div>
+        <div class="law-text"><strong>Smuggling Contraband:</strong> Handing prohibited items to prisoners by civilian.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 3 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">9.2.2</div>
+        <div class="law-text"><strong>Smuggling Contraband by State Employee:</strong> Handing prohibited items to prisoners.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 4 / 45 MO</span>
+          <span class="penalty-tag pt-fine">$30K</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL / 7-DAY BL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">9.3.1</div>
+        <div class="law-text"><strong>Aiding an Escape:</strong> Contributing to the escape of less than 3 prisoners. If by State Employee: Dismissal / 14-day BL.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">9.4.1</div>
+        <div class="law-text"><strong>Aiding a Mass Escape:</strong> Escape of 3 or more prisoners. If by State Employee: Dismissal / 28-day BL.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 5 / 75 MO</span>
+          <span class="penalty-tag pt-fine">$50K</span>
+          <span class="penalty-tag pt-arrest">NO BAIL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">9.5.1</div>
+        <div class="law-text"><strong>Sexual Acts with Inmates:</strong> Acts committed with prisoners. If by state employee: Dismissal.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY 2 / 30 MO</span>
+          <span class="penalty-tag pt-fine">$20K</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 10 — Violations of Public Order</div>
+      <div class="law-row">
+        <div class="law-num">10.1.1</div>
+        <div class="law-text"><strong>Public Obscenity:</strong> Excessive vulgarity after one warning.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">1-PT / $5K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.1.2</div>
+        <div class="law-text"><strong>Public Nudity:</strong> Showing underwear/naked after one warning.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">1-PT / $5K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.1.3</div>
+        <div class="law-text"><strong>Public Nuisance:</strong> Screaming/loud noises after one warning.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">2-PT / $10K</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.1.4</div>
+        <div class="law-text"><strong>Public Drunkenness:</strong> Alcohol induced state outside residence/bar after one warning.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">2-PT / $10K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.1.5</div>
+        <div class="law-text"><strong>Public Intoxication (Drug Use):</strong> Drug use in public (no warning required).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">3-PT / $15K</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.1.6</div>
+        <div class="law-text"><strong>Public Harassment:</strong> Unwanted repeated harassment after warning. Repeat offense becomes Felony 1.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">2-PT / $10K</span>
+        </div>
+      </div>
+
+      <div class="article-header">Appendix A — List of Prohibited Items</div>
+      <div class="law-row">
+        <div class="law-num">A.1</div>
+        <div class="law-text"><strong>Firearms and Related Items:</strong> Firearms without a Serial/AMMO Number. Dyed/colored Armoured Vest (only default grey Ammunation vests are legal). Components/parts for firearms. Note: Scrap Metal is legal.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">A.2</div>
+        <div class="law-text"><strong>State Issued Items:</strong> Firearms with GOV/FIB/LSPD/SAHP/NG marks. Vests with marks. Baton/Nightstick. Stun-Gun/Taser. (Exempt if LEO with permission).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">A.3</div>
+        <div class="law-text"><strong>State Issued Masks:</strong> Balaclava. EMS Medical Mask (except EMS).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">A.4</div>
+        <div class="law-text"><strong>Illicit Substances:</strong> Cocaine, Marijuana/Drugs.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">A.5</div>
+        <div class="law-text"><strong>Prohibited for Public Shops:</strong> Firearms/Ammo, Alcohol/Drugs, Medical Products, Licences, State Marked Vests, Firearm components, and items listed in A.6.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">A.6</div>
+        <div class="law-text"><strong>Items Used in Crime:</strong> Key Sets/Lockpicks, False/Fake Documents, Flash Drive with Virus, Vehicle Scanner, People Scanner, Paper for Counterfeit Money, Counterfeit Money.</div>
+      </div>
+    </div>
+
+    <div class="code-section" id="sec-ci">
+      <div class="code-title-block">
+        <div class="code-title">🏛️ Code of Civil &amp; Procedural Law</div>
+        <div class="code-art-count">17 articles</div>
+      </div>
+
+      <div class="article-header">Article 1 — General Provisions and Principles</div>
+      <div class="law-row">
+        <div class="law-num">1.1</div>
+        <div class="law-text"><strong>Code of Civil and Procedural Law:</strong> Establishes the principles of civil justice and governs the procedural order, the sequence of actions of law enforcement agencies, procedure before the court, and the execution of judgments. Must be interpreted and applied as a whole.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.2</div>
+        <div class="law-text"><strong>Objectives:</strong> Protection of rights, freedoms, and interests of participants; legal regulation of procedural measures; provision and control over procedural compulsion/fines; adequacy of the applicable legal procedure.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.3</div>
+        <div class="law-text"><strong>Primacy of this Code:</strong> Proceedings in the state of San Andreas, regardless of where the crime was committed, are conducted in accordance with this Code.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.4</div>
+        <div class="law-text"><strong>Principle of Justice and Equality:</strong> Justice is carried out on the basis of equality before the law and the court for all citizens and organizations, regardless of gender, race, nationality, status, origin, or other circumstances.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.5</div>
+        <div class="law-text"><strong>Presumption of Innocence:</strong> Every person accused is considered innocent until proven guilty by an effective court verdict. A suspect is not required to prove his innocence; the burden of proof lies with the prosecution. All doubts are interpreted in favour of the accused.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.6</div>
+        <div class="law-text"><strong>Principle of the Burden of Proof:</strong> Each party must prove the circumstances to which it refers. The court determines what circumstances are relevant.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.7</div>
+        <div class="law-text"><strong>Principles of Evidence:</strong><br>
+        • <em>Illegal Evidence:</em> Obtained illegally; has no legal force.<br>
+        • <em>Unreliable Testimony:</em> Based on guesswork or hearsay.<br>
+        • <em>Inadmissible Evidence:</em> Obtained violating regulatory acts (e.g., without warrants).<br>
+        • <em>Manipulated Evidence:</em> Doctored/edited photo/video (unless full unedited version is available).<br>
+        • <em>Corrupted/Incomplete Evidence:</em> Low quality, distorted, or cut short.<br>
+        • <em>Physical Evidence:</em> Tools/equipment retaining traces of a crime.<br>
+        • <em>Direct Evidence:</em> Property received in hot pursuit of a crime occurring right before the eyes.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.8</div>
+        <div class="law-text"><strong>Unreasonable Delay in Justice:</strong> "Justice delayed is Justice denied". A detainee has the right not to be unreasonably detained or wait for their case to be decided. Does not apply if the detainee was the cause of the delay.</div>
+      </div>
+
+      <div class="article-header">Article 2 — Basic Concepts, Definitions and Rights</div>
+      <div class="law-row">
+        <div class="law-num">2.1</div>
+        <div class="law-text"><strong>Law Enforcement Agencies:</strong> State Agencies (FIB, LSPD, SAHP) and Government/Departmental Agencies (USSS, IRS). Other state organizations (NG, DOJ, DOC) may be empowered for specific actions but are not primary LEOs.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.2</div>
+        <div class="law-text"><strong>Investigation:</strong> A set of measures to clarify circumstances of an offense and establish those responsible.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.3</div>
+        <div class="law-text"><strong>Lawyers:</strong> A person holding a legally obtained State Lawyer’s Licence. Can be a public defender, prosecutor, private attorney, or organizational counsel.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.4</div>
+        <div class="law-text"><strong>Judges:</strong> Employees of the DOJ granted authority to preside over cases. Not required to hold a Lawyer's Licence. Cannot act as a Lawyer while performing Judge duties.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.5</div>
+        <div class="law-text"><strong>Pre-Trial Proceedings:</strong> Regulated activities (investigations/searches) by LEOs aimed at bringing offenders to justice. Participants include victim, accused, legal reps, LEOs, and witnesses.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.6</div>
+        <div class="law-text"><strong>Miranda Rights:</strong> "You have the right to remain silent. Anything you say can and will be used against you in a court of law. You have the right to an attorney. If you cannot afford an attorney, one will be provided for you. Do you understand the rights I have just read to you?" Must be read upon detainment. Repeat up to 3 times if no response.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.7</div>
+        <div class="law-text"><strong>Miranda Warning (Martial Law):</strong> "You have the right to remain silent, The State is under Martial Law, there is no bail, lawyer, or other legal services available at this time do you understand these rights?" Read only once.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.8</div>
+        <div class="law-text"><strong>Rights of a Detainee:</strong> Right to one phone call in presence of an agent; Right to a lawyer (cannot be denied); Right to remain silent without coercion.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.9</div>
+        <div class="law-text"><strong>The Right to a Lawyer Procedure:</strong><br>
+        • <em>State:</em> Ask GOV on radio. Wait 3 mins for response. If yes, wait for arrival.<br>
+        • <em>Private:</em> Detainee gives name. LEO confirms via DOJ/Registry. 3 mins phone call. If coming, wait 15 mins max.<br>
+        • <em>State Org:</em> Detainee requests Org lawyer via radio. Wait for arrival if confirmed.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.10</div>
+        <div class="law-text"><strong>The Right to a Trial:</strong> A conditional right. Granted if law application is in doubt, requires clarification, or to resolve an impasse between lawyer and LEO. Handled via DOJ/Judge.</div>
+      </div>
+
+      <div class="article-header">Article 3 — The Use of Force on a Suspect</div>
+      <div class="law-row">
+        <div class="law-num">3.1</div>
+        <div class="law-text"><strong>Principle of Adequacy:</strong> State Employee is obliged to act professionally, not exceeding official powers, and understand the case before conclusions.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.2</div>
+        <div class="law-text"><strong>Principle of Urgency:</strong> Employee is obliged to react without undue delay. If impossible, gather evidence for later investigation.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.3</div>
+        <div class="law-text"><strong>Principle of Necessity (Stages of Force):</strong> Use only necessary force.<br>
+        a) Presence of LEO.<br>
+        b) Verbal Commands.<br>
+        c) Simple Forceful Action (handcuffs, pain points).<br>
+        d) Severe Forceful Impact (batons, taser, strikes for minor bodily harm threats).<br>
+        e) Lethal Force (threats to life, fleeing felons with direct threats. At least one verbal warning required for fleeing).</div>
+      </div>
+
+      <div class="article-header">Article 4 — Detention and Arrest Procedure</div>
+      <div class="law-row">
+        <div class="law-num">4.1</div>
+        <div class="law-text"><strong>Detention vs Arrest:</strong> Detention is short-term deprivation of liberty for investigation. Arrest occurs when charges are finalized. Must follow sequential procedures.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.3</div>
+        <div class="law-text"><strong>Reasonable Cause for Detention:</strong> Caught red-handed; photo/video evidence (if older than 15 mins, warrant needed); authorized decree; deliberate concealment of identity (masks/makeup).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">15 MIN EVIDENCE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.4</div>
+        <div class="law-text"><strong>State LEO Procedure (FIB/LSPD/SAHP):</strong> Handcuff & notify reason &rarr; Identify self (Badge/ID) &rarr; Read Miranda Rights &rarr; Body Search &rarr; Transport &rarr; Offer to remove mask (or force if aggressive/Gov mask) &rarr; Identify suspect &rarr; Interrogate (max 10 mins) / Lawyer consult &rarr; Formal Arrest &rarr; Choose preventive measure (PDA) within 25 mins &rarr; Offer clothes &rarr; Fill Database (within 1 hour).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">MAX 25 MINS</span>
+          <span class="penalty-tag pt-fine">1 HR DB</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.5</div>
+        <div class="law-text"><strong>Gov/Dept Procedure (USSS/GOV/IRS):</strong> Handcuff & notify &rarr; Identify self &rarr; Read Miranda &rarr; Search &rarr; Transport &rarr; Transfer suspect to State LEO (FIB/LSPD/SAHP) & email all evidence &rarr; Remind State LEO about Miranda.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.6</div>
+        <div class="law-text"><strong>Other Org Procedure (NG):</strong> Handcuff & notify &rarr; Identify (Military ID) &rarr; Search &rarr; Transport &rarr; Transfer to State LEO &rarr; Remind State LEO that Miranda is needed &rarr; Provide evidence on request.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.7</div>
+        <div class="law-text"><strong>Detaining State Employees:</strong> Employee must announce status & show ID &rarr; LEO identifies self &rarr; Read Miranda &rarr; Search &rarr; Transport to FIB/LSPD/SAHP HQ &rarr; Contact Head of Org & DOJ (Wait 5 mins max for radio response) &rarr; Provide evidence &rarr; If DOJ approves, process to DOC. If rejected, employee released and LEO investigated.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">DOJ APPROVAL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.9</div>
+        <div class="law-text"><strong>Parties to Detention:</strong> Primary: LEOs, Detainee. Additional: Lawyer, Judge, State Org Rep, DOJ Rep, EMS. No other third parties allowed (must move 10 metres away; in DOC, instant arrest for trespassing/obstruction).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.11</div>
+        <div class="law-text"><strong>Duration of Detention:</strong> Maximum duration is 25 minutes from first handcuffing. Timer pauses for: Radio response wait (max 5 mins), Arrival wait (max 10 mins), and performance of lawful duties by additional parties (lawyer consults).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">MAX 25 MINS</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.12</div>
+        <div class="law-text"><strong>Recording/Evidence:</strong> Officers must record the arrest and explain charges/evidence to the lawyer. Video evidence (screen share) must be provided within 10 minutes of request. If unable, detainee is set free (LEO can seek warrant within 48 hrs later).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">10 MIN SHARE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.13</div>
+        <div class="law-text"><strong>Onus of Care:</strong> Harm caused is the responsibility of the Org. Medical assistance cannot be refused. Detention timer pauses during EMS medical treatment.</div>
+      </div>
+
+      <div class="article-header">Article 5 — Procedural Actions: Complete Immunity</div>
+      <div class="law-row">
+        <div class="law-num">5.1</div>
+        <div class="law-text"><strong>Full Immunity Detention:</strong> Evidence must be sent to the AG to file a motion with the Supreme Court. No arrest/search without a Supreme Court or Immunity Review Board warrant.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">IMMUNITY</span>
+          <span class="penalty-tag pt-license">WARRANT REQ.</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.2</div>
+        <div class="law-text"><strong>DOJ Leaders:</strong> Investigations into the AG or Supreme Court Justice are handed to the Immunity Review Board (7 members: FIB, SAHP, LSPD, USSS, Gov, 2x Dep Gov/LI/EMS).</div>
+      </div>
+
+      <div class="article-header">Article 6 — Grounds for the Release of a Suspect</div>
+      <div class="law-row">
+        <div class="law-num">6.1</div>
+        <div class="law-text"><strong>Release by Arresting Officer:</strong> Suspect released if: no evidence of guilt; no grounds for arrest; Gross/Numerous Civil Code violations occurred; 25-minute detention timer expired; or released on Bond.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">RELEASED</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.2</div>
+        <div class="law-text"><strong>Violations:</strong> Gross Violation = 1 Major or 2 Minor. Major violations: No Miranda + Badge on demand; Unreasonable transport; Ripping mask off compliant suspect; Denying lawyer; Processing without ID; Incorrect charges.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.3</div>
+        <div class="law-text"><strong>Conditions of Court Appearance (Bond):</strong> Agreement by all parties to release suspect to appear in Court at a set date/time. Impasses referred to DOJ.</div>
+      </div>
+
+      <div class="article-header">Article 7 — Search as a Procedural Coercive Measure</div>
+      <div class="law-row">
+        <div class="law-num">7.1</div>
+        <div class="law-text"><strong>Search of Suspect/Security:</strong> Body search allowed during arrest, with AG/Court warrant, or by USSS for security near guarded persons/Capitol.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">7.2</div>
+        <div class="law-text"><strong>Search of Building:</strong> Requires AG Warrant, Supreme Court Warrant + AG approval, or consent of residents. Exception: Hot pursuit into a building. Video must be saved for 72 hours and submitted to DOJ within 1 hour.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">WARRANT REQ.</span>
+          <span class="penalty-tag pt-fine">72 HOURS</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">7.4</div>
+        <div class="law-text"><strong>Search of Vehicle:</strong> No warrant needed for: hot pursuit, raids, martial law, direct evidence of felony, wanted individuals, routine/unscheduled org checks by FIB/USSS, on NG territory, or failure to stop (4 signals/5 verbal). Must store video for 72 hours.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">7.5</div>
+        <div class="law-text"><strong>Abandoned Vehicle:</strong> Opening trunk/running VIN only allowed if tied to a penal code felony. Must store video for 72 hours.</div>
+      </div>
+
+      <div class="article-header">Article 9 — Termination of a Case and Pre-Trial Procedures</div>
+      <div class="law-row">
+        <div class="law-num">9.1</div>
+        <div class="law-text"><strong>Pre-Trial Hearings:</strong> DOJ/Judges/Lawyers may arrange pre-trial hearings to reach settlements or present grounds for termination.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">9.2</div>
+        <div class="law-text"><strong>Grounds for Termination:</strong> Lack of Corpus Delicti (no body of evidence); Statute of Limitations (48 hours from crime); Double Jeopardy.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">9.3</div>
+        <div class="law-text"><strong>Insufficient Grounds:</strong> Plea of Insanity (may mitigate sentence, but doesn't terminate); Mistake in Law ("ignorance of the law is no excuse", may reduce sentence if law is obscure).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">9.4</div>
+        <div class="law-text"><strong>Termination during Hearing:</strong> Total Reconciliation, Partial Reconciliation, Mutual Agreement, or Nolle Prosequi (Prosecution drops case).</div>
+      </div>
+
+      <div class="article-header">Article 10 — Legal Documentation</div>
+      <div class="law-row">
+        <div class="law-num">10.1</div>
+        <div class="law-text"><strong>Order of Cease and Desist:</strong> Judge-issued to prohibit/restrain actions violating rights. Breach results in arrest.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.2</div>
+        <div class="law-text"><strong>Restraining Order:</strong> Judge-issued punitive measure prohibiting proximity to a subject. Breach results in arrest.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.3</div>
+        <div class="law-text"><strong>Subpoena for Appearance:</strong> Legal demand to present in court. Failure without cause leads to Contempt of Court (Arrest Warrant).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.4</div>
+        <div class="law-text"><strong>Subpoena for Information:</strong> Legal demand for evidence. Failure without cause leads to Contempt of Court.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.5</div>
+        <div class="law-text"><strong>Warrant of Arrest:</strong> Issued by Judge, stays active until executed anywhere in the state. Must contain defendant name and charges.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.6</div>
+        <div class="law-text"><strong>Warrant of Search:</strong> Issued by Judge, valid for 24 hours or until executed. Must contain property and grounds.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.7</div>
+        <div class="law-text"><strong>Warrant of Seizure:</strong> Issued by Judge for personal property based on Government Value.</div>
+      </div>
+
+      <div class="article-header">Article 11 — Court Structure of the State</div>
+      <div class="law-row">
+        <div class="law-num">11.1</div>
+        <div class="law-text"><strong>Small Claims Court:</strong> Civil process for pecuniary compensation. Filed directly to court, no lawyer required. Judge determines damages based on email filings and hearings.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">11.2</div>
+        <div class="law-text"><strong>District Court & Justices:</strong> Hears civil cases, single-citizen criminal cases, traffic cases. (Cannot hear 75-month felonies or Immunity cases unless directed). Justices issue warrants, render verdicts up to $1M, issue subpoenas, hold contempt, and introduce Bills.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">11.3</div>
+        <div class="law-text"><strong>Supreme Court & Justices:</strong> Exercises all District powers plus reviewing District verdicts. Can revoke First Person Immunity, issue immunity warrants, and render civil verdicts of any amount.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">IMMUNITY JURISDICTION</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 12 — Ethics Codes</div>
+      <div class="law-row">
+        <div class="law-num">12.1</div>
+        <div class="law-text"><strong>General Rules:</strong> Politeness, cooperation with Gov orgs, honesty, cleanliness of property, no vandalism. Etiquette: no eavesdropping, modesty, decency in volume.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">12.3</div>
+        <div class="law-text"><strong>Public Places:</strong> No loud noises, English language only, clothes required, no sexual acts or verbal vulgarity.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">12.4</div>
+        <div class="law-text"><strong>Professional Ethics:</strong> State employees must respect chain of command, follow dress code, use no slang/obscene words, respect state property, prioritize the State over personal ambition, and adhere to org Charters. No disclosing professional info. No demanding pay raises (must submit written HR request).</div>
+      </div>
+
+      <div class="article-header">Article 13 — Uniforms and Dress Code for State Organisations</div>
+      <div class="law-row">
+        <div class="law-num">13.1</div>
+        <div class="law-text"><strong>Dress Code:</strong> No tattoos on hands, face, or neck (Exception: Undercover LEOs). Must comply with org dress code. No backpacks on duty (Exception: workwear, Undercover LEOs).</div>
+      </div>
+
+      <div class="article-header">Article 14 — Legal Immunity</div>
+      <div class="law-row">
+        <div class="law-num">14.1</div>
+        <div class="law-text"><strong>Full Immunity:</strong> First Persons (Gov, Dep Gov, Org Leaders, USSS Directors, SC Judges, AG, Ministers). Protected from Class D/E crimes and misdemeanours. Cannot be detained or their motorcades searched without Supreme Court/AG/Review Board orders.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">FULL IMMUNITY</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">14.3</div>
+        <div class="law-text"><strong>Suspension:</strong> Cannot be executed without a valid waiver order directly by the AG, SC Judge, or Immunity Review Board.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">14.4</div>
+        <div class="law-text"><strong>Incomplete Immunity:</strong> Cannot be arrested, searched, or interrogated on duty without Org High Command / First Person present. Granted to: Dep USSS, Dep DOJ, District Judges, Non-Undercover USSS/FIB Agents, Special Forces.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">PARTIAL IMMUNITY</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 15 — Government Engagement Code</div>
+      <div class="law-row">
+        <div class="law-num">15.1</div>
+        <div class="law-text"><strong>Executive Branch:</strong> Governor, Deputy Governors, Ministers, Directors. Aide de Camps assist First Persons (only carry tasers/personal defense, cannot issue gov orders).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">15.2</div>
+        <div class="law-text"><strong>Ministers:</strong><br>
+        • <em>Homeland Security:</em> Supervises/coordinates LEOs (FIB, LSPD, SAHP, USSS, IRS), unannounced inspections.<br>
+        • <em>Justice (AG):</em> Leads DOJ, chief attorney. Must hold lawyer licence.<br>
+        • <em>Finance:</em> Leads Dept Finance/IRS. Audits, labor, funding.<br>
+        • <em>Social Development:</em> Coordinates EMS, LI, and state events.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">15.3</div>
+        <div class="law-text"><strong>Legislative Branch:</strong> Congress. Headed by Speaker of the House (appointed by Gov, handles clemency/meetings), assisted by Adjutants.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">15.4</div>
+        <div class="law-text"><strong>State Orgs:</strong> Report to Governor. Guided by compliant Charters. LEOs cannot have criminal links (unless undercover). Solo patrols discouraged (officer pays rescue costs if taken hostage, unless backup/orders/off-duty).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">15.5</div>
+        <div class="law-text"><strong>The State Structure:</strong><br>
+        • <em>NG:</em> Military, Blaine County/Sandy jurisdiction, statewide patrol support.<br>
+        • <em>FIB:</em> Federal intel/investigation statewide.<br>
+        • <em>USSS:</em> Federal protection, counterfeiting, treasury statewide.<br>
+        • <em>IRS:</em> Federal tax/financial crimes.<br>
+        • <em>LSPD:</em> District jurisdiction (Los Santos).<br>
+        • <em>SAHP:</em> District jurisdiction (Coastal Blaine/Highways).<br>
+        • <em>EMS:</em> Statewide medical/inspections.<br>
+        • <em>LI:</em> Statewide media/ads.</div>
+      </div>
+
+      <div class="article-header">Article 16 — Government Organisations, Departments and Structure</div>
+      <div class="law-row">
+        <div class="law-num">16.1</div>
+        <div class="law-text"><strong>Cooperation:</strong> LEOs conduct joint ops (commanded by Homeland Security). Must hold video 48 hrs. Must present Badge on request (except undercover). LEOs abandoning org without returning ammo face arrest.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">16.2</div>
+        <div class="law-text"><strong>LSPD & SAHP:</strong> Hand off cases if suspects cross county lines. FIB steps in on impasses. Provide maximum assist to NG/FIB/USSS.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">16.3</div>
+        <div class="law-text"><strong>FIB & USSS:</strong> Equivalent top-level federal LEOs. Can issue lawful orders to state org employees for federal cases. USSS commands First Person emergencies; FIB commands other special ops.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">16.4</div>
+        <div class="law-text"><strong>National Guard:</strong> Cannot interfere with LEOs. Fort Zancudo has Yellow (ID check) and Red (Shoot on sight) zones. Access strictly limited. Military Police hunt deserters statewide. Cannot use lethal force on unarmed persons (except base trespass/threat to life).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">16.5</div>
+        <div class="law-text"><strong>EMS:</strong> Medical care cannot be refused unless there is a threat to EMS life. Ambulances required at events.</div>
+      </div>
+
+      <div class="article-header">Article 17 — The Congress of San Andreas</div>
+      <div class="law-row">
+        <div class="law-num">17.1</div>
+        <div class="law-text"><strong>Administrators:</strong> Speaker of the House (sets meetings, grants clemency), Adjutants (assistants/judges).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">17.2</div>
+        <div class="law-text"><strong>The House:</strong> Commences weekly in Capitol. 1 vote per org: 5 State, 5 Significant Families, 5 Illegal Orgs, 5 Elected Citizens, Speaker, Governor. Representatives remain anonymous and may request NG escort/clemency. Gov & Speaker have Veto power.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">17.3</div>
+        <div class="law-text"><strong>Legislative Process:</strong> Submissions required 48 hrs prior. Speaker reads summary. Each member gets 20 seconds to speak, plus 20s reply. Voted via email. Passed if signed by Gov (no veto).</div>
+      </div>
+    </div>
+
+    <div class="code-section" id="sec-la">
+      <div class="code-title-block">
+        <div class="code-title">💼 Code of Labour &amp; Employment Law</div>
+        <div class="code-art-count">15 articles</div>
+      </div>
+
+      <div class="article-header">Article 1 — General Provisions and Principles</div>
+      <div class="law-row">
+        <div class="law-num">1.1</div>
+        <div class="law-text"><strong>Code of Labor and Employment Law:</strong> Regulates the employment relationship between Employers and Employees. Aims to protect the Right to Employment. All forms of Employment in San Andreas, including the formation and operation of state or private organizations and their Charters, must comply.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.2</div>
+        <div class="law-text"><strong>Mandatory Compliance:</strong> Every employer and organization must adhere to these provisions. No employer is exempt from laws regulating worker rights, wages, and fair treatment. Conflicts with other State Laws are ruled on by the Supreme Court.</div>
+      </div>
+
+      <div class="article-header">Article 2 — Basic Concepts and Definitions</div>
+      <div class="law-row">
+        <div class="law-num">2.1</div>
+        <div class="law-text"><strong>Employer:</strong> The State (represented by Leaders/Deputies) or a Private Company (represented by Leaders/Deputies) that hires/pays people. Can delegate authority to HR/IA or Department Heads.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.2</div>
+        <div class="law-text"><strong>Employee Types:</strong> Full-Time (28+ hours/week, eligible for benefits), Part-Time, Temporary, and Contract/Fixed-Term.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.3</div>
+        <div class="law-text"><strong>Private Employment:</strong> Includes LI, registered companies, or permitted businesses. Private Employers set their own lawful requirements and may hire individuals with prior convictions.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.4</div>
+        <div class="law-text"><strong>State Employment Requirements:</strong> To be employed at a State Org (EMS, FIB, GOV, LSPD, NG, SAHP), a citizen MUST: have a clean criminal record, no gang affiliation, not be on the State Blacklist, have valid health insurance, hold a Gun Licence (if required), and have NO tattoos on the face, neck, or dorsal area of the hand. Must sign the Org Charter and Contract.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">NO FACE/HAND TATTOOS</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.6</div>
+        <div class="law-text"><strong>Bonuses:</strong> Performance, Loyalty, or Referral bonuses must be approved by GOV, paid in SA currency, and are at the employer's discretion.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.9</div>
+        <div class="law-text"><strong>Governor's Delegates:</strong> Political appointments (Dep Gov, AG, Ministers, USSS Director, Aide-de-camp, Supreme Court Judges). Only the Governor can appoint, discipline, or dismiss them.</div>
+      </div>
+
+      <div class="article-header">Article 3 — Key Components of a Charter</div>
+      <div class="law-row">
+        <div class="law-num">3.1</div>
+        <div class="law-text"><strong>Charter Elements:</strong> State Orgs must have a formal charter defining Title/Preamble, Mission, Authority/Powers (Regulatory, Enforcement, Administrative, Disciplinary), Structure, Jurisdiction, Duties, Code of Ethics, and inter-organizational relations.</div>
+      </div>
+
+      <div class="article-header">Article 4 — Protection of Labour and Employment Rights</div>
+      <div class="law-row">
+        <div class="law-num">4.1</div>
+        <div class="law-text"><strong>DOL & DOJ Authority:</strong> The Dept of Labour (DOL) and Dept of Justice (DOJ) uphold labour rights. They may investigate complaints, initiate arbitration, and conduct scheduled/unscheduled inspections (max 2 per week per org, unless a specific complaint is filed). Employees cannot be discriminated against for protecting their rights.</div>
+      </div>
+
+      <div class="article-header">Article 5 — Rights and Obligations of an Employer</div>
+      <div class="law-row">
+        <div class="law-num">5.1</div>
+        <div class="law-text"><strong>Employer Rights:</strong> To commence/terminate employment, require duties, approve manuals, reward employees, establish schedules, and implement Disciplinary Sanctions.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.2</div>
+        <div class="law-text"><strong>Employer Obligations:</strong> Provide suitable working conditions, pay bonuses for high standards, define ranks/roles clearly, ensure career growth, address complaints, familiarize employees with rules, and uphold equality/non-discrimination.</div>
+      </div>
+
+      <div class="article-header">Article 6 — Rights and Obligations of an Employee</div>
+      <div class="law-row">
+        <div class="law-num">6.1</div>
+        <div class="law-text"><strong>Employee Rights:</strong> Receive info on duties, professional training, take vacation/leave, request reasons/evidence for dismissal within 48 hours, and file complaints if laws are broken.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.3</div>
+        <div class="law-text"><strong>Working Hours:</strong> Required daily work cannot exceed 8 hours/day for State Orgs. Maximum weekly required hours cannot exceed 56 hours. Employees may voluntarily work more.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">MAX 8 HRS/DAY</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.4</div>
+        <div class="law-text"><strong>Leave / Vacation:</strong> Paid Leave (max 1 day per 6 days worked), Unpaid Leave (LOA), or Vacation (must inform employer of duration).</div>
+      </div>
+
+      <div class="article-header">Article 7 — Disciplinary Actions for State Organisations</div>
+      <div class="law-row">
+        <div class="law-num">7.1</div>
+        <div class="law-text"><strong>Measures:</strong> Reprimand (Verbal), Training, Strikes, Demotion, Suspension without pay, Dismissal, Blacklisting.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">7.2</div>
+        <div class="law-text"><strong>Authorized Persons:</strong> Employer, Authorized Staff (HR/IA/Heads), State Authorities (Gov, Dep Gov, AG, SC/DC Judges, Labour Minister). Judges cannot intervene internally without a judicial order.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">7.4</div>
+        <div class="law-text"><strong>Absenteeism:</strong> Repeated failure to report allows Suspension. After 7 days of Suspension without contact, the Employer may Terminate employment.</div>
+      </div>
+
+      <div class="article-header">Article 8 — Disciplinary Sanctions</div>
+      <div class="law-row">
+        <div class="law-num">8.1</div>
+        <div class="law-text"><strong>Reprimand (Verbal):</strong> For minor offenses. Remains on record for a maximum of 7 days. Can be removed if the employee works diligently without incident.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.3</div>
+        <div class="law-text"><strong>Strikes:</strong> Given per Org rules. Must have proof. Remains on record for a maximum of 7 days (cannot be removed sooner than 24 hours).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.4</div>
+        <div class="law-text"><strong>Demotion:</strong> Valid grounds: Meaningless contribution, Unsuitability/Incompetence, Abuse of Authority, Arbitrary Appointment, or Dereliction of Duty (failing to perform crucial duties).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">DEMOTION</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.5</div>
+        <div class="law-text"><strong>Suspension:</strong> Temporary ban on powers (max 7 days). Grounds: Serious ethics violations, serious dress code violations (tattoos), criminal indictment, or criminal record discovery.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">MAX 7 DAYS</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.6</div>
+        <div class="law-text"><strong>Dismissal (Firing):</strong> Grounds: Dereliction of Duty, Abuse of Authority, Incitement to Conflict, Criminal Conviction (Felony), Unlawful Change in Identity, or Insubordination.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.7</div>
+        <div class="law-text"><strong>Blacklisting:</strong> Internal (banned from current Org) or State (banned from all State Orgs). Limits: Minor (max 10 days), Major (max 20 days), Serious (max 30 days). Grounds for State Blacklist: Quitting without notice, Felony conviction, Gross disrespect, Abandonment of employment, Seditious conduct, Disobeying State Leaders/Judges.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">MAX 30 DAYS</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 9 — Conviction of a State Employee</div>
+      <div class="law-row">
+        <div class="law-num">9.1</div>
+        <div class="law-text"><strong>Felony:</strong> A State Employee cannot be imprisoned for a felony without DOJ/Judge approval. Doing so is Unlawful Imprisonment. Conviction leads to Mandatory Dismissal/Blacklist. Accidental/Training convictions warrant Suspension while DOJ clears the record.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">9.2</div>
+        <div class="law-text"><strong>Misdemeanour:</strong> Does not ordinarily result in disciplinary action unless committed On-Duty, In-Uniform, or at the Org Headquarters.</div>
+      </div>
+
+      <div class="article-header">Article 10 — Termination of Employment</div>
+      <div class="law-row">
+        <div class="law-num">10.1</div>
+        <div class="law-text"><strong>Termination & Resignation:</strong> Terminated by Employee request (letter or in-person). If employer unreasonably delays >24 hrs, employee may quit freely. Transfers to other State Orgs require Leader agreements and terminate the current contract.</div>
+      </div>
+
+      <div class="article-header">Article 11 &amp; 12 — Ethics, Dress Code, and Uniforms</div>
+      <div class="law-row">
+        <div class="law-num">11.1</div>
+        <div class="law-text"><strong>Professional Ethics:</strong> Be polite, follow chain of command, do not use excessive slang, maintain honesty, and protect state secrets. Prioritize the State over personal ambition. Do not demand pay raises (use written HR requests).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">12.1</div>
+        <div class="law-text"><strong>Dress Code:</strong> Tattoos on the face, neck, or dorsal area of the hand are strictly prohibited (results in Suspension/Dismissal until removed). Undercover agents may be exempt per Charter. Must wear Org uniform. Accessories allowed: Gloves, Glasses, Hats, Shoulder Pets. No visible inventory.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">NO FACE/HAND TATTOOS</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 13 &amp; 14 &amp; 15 — Administrative Penalties and Fines</div>
+      <div class="law-row">
+        <div class="law-num">14.1</div>
+        <div class="law-text"><strong>Unlawful Delay in Justice:</strong> Detaining a suspect >10 mins ($2,000 Fine). Holding a suspect in custody >25 mins without DOC processing ($5,000 Fine).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">$2K - $5K FINE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">14.2</div>
+        <div class="law-text"><strong>Unlawful Denial of Due Process:</strong> Processing a State Employee without DOJ approval, or failing to contact their High Command/DOJ ($5,000 Fine).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">$5K FINE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">14.3</div>
+        <div class="law-text"><strong>Unlawful Denial of a Lawyer/Medical:</strong> Refusing to request a State/Private Lawyer when asked ($5,000 Fine). Refusing to request EMS for medical treatment ($5,000 Fine).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">$5K FINE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">14.5</div>
+        <div class="law-text"><strong>Unlawful Harm / Force:</strong> Recklessly harming a suspect in custody ($3,500 Fine). Unlawful use of Non-Lethal force ($2,000 Fine). Unlawful use of Lethal force ($2,500 Fine).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">$2K - $3.5K FINE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">15.1</div>
+        <div class="law-text"><strong>Failure to Confiscate:</strong> Transporting a suspect to DOC without searching and confiscating illegal items ($10,000 Fine).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">$10K FINE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">15.2</div>
+        <div class="law-text"><strong>Bodycam & Evidence Failures:</strong> Failure to have valid Bodycam Proof ($6,000 Fine). Failure to provide Bodycam Recording for major incidents/arrests ($7,000 Fine). Failure to provide evidence overall results in $5,000 to the defense lawyer and $5,000 to the suspect.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">$6K - $10K FINE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">15.5</div>
+        <div class="law-text"><strong>Failure to Complete Logs:</strong> Failing to complete Shift Logs or internal records ($4,000 Fine). Issued by IA/Employer/DOJ.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">$4K FINE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">15.6</div>
+        <div class="law-text"><strong>Dress Code Failure:</strong> Having face, neck, or hand tattoos while employed ($10,000 Fine + ordered Dismissal until removed).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">$10K FINE</span>
+          <span class="penalty-tag pt-dismiss">DISMISSAL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-section" id="sec-fw">
+      <div class="code-title-block">
+        <div class="code-title">🔫 Code of Firearms &amp; Weapons Law</div>
+        <div class="code-art-count">5 articles</div>
+      </div>
+
+      <div class="article-header">Article 1 — General Provisions and Principles</div>
+      <div class="law-row">
+        <div class="law-num">1.1</div>
+        <div class="law-text"><strong>The Code of Firearms and Weapons Law:</strong> Regulates the lawful use, possession, sale, and storage of Firearms, Weapons, and Ammunition. Any use of such items must comply with this Code.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.2</div>
+        <div class="law-text"><strong>Rules and Principles:</strong> Applies to all Citizens and State Employees. The Supreme Court or Attorney General makes official rulings on conflicts. The National Guard (NG) and Government (GOV) manage the regulation and distribution of weapons/ammunition.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.3</div>
+        <div class="law-text"><strong>Types of Armament:</strong><br>
+        • <em>Melee Weapons:</em> Possessing these does not require a gun license.<br>
+        • <em>Firearms:</em> Pistols, SMGs, shotguns, rifles, MGs, snipers, flares.<br>
+        • <em>Explosive & Artillery:</em> Blast/fragmentation and long-range military arms.<br>
+        • <em>Ammunition & Components:</em> Materials discharged and parts for assembly.<br>
+        • <em>Bulletproof Vests:</em> Body armor; owning civilian/standard vests is permitted without a firearm license.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.4</div>
+        <div class="law-text"><strong>Right to Bear Arms:</strong> Citizens may possess weapons/firearms if they comply with laws. Citizens have the right to proportionate Self-Defence and Defence of Property. This right is revoked if convicted of a Felony or if actively interfering with Law Enforcement.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.5</div>
+        <div class="law-text"><strong>Use of Firearms:</strong> Must be preceded by a clearly expressed Warning, except in cases where delay creates immediate danger to life. Should not cause harm to innocent bystanders.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.6</div>
+        <div class="law-text"><strong>Use by State Employees:</strong> Employees may use State Firearms on-duty. EMS may not carry weapons on-duty (except a torch). Personal firearms may be carried on-duty if registered and compliant with limits. LEOs must retain Bodycam of any firearm use for 48 hours.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">48 HRS BODYCAM</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.7</div>
+        <div class="law-text"><strong>Sale/Transfer:</strong> Citizens may transfer, donate, or sell a weapon/ammo to another Citizen only if both possess a valid Gun Licence and remain within possession limits.</div>
+      </div>
+
+      <div class="article-header">Article 2 — Basic Concepts and Definitions</div>
+      <div class="law-row">
+        <div class="law-num">2.1</div>
+        <div class="law-text"><strong>Gun License:</strong> Issued by GOV; requires valid medical insurance. Grants the right to buy, carry, and use Legal Firearms. Cannot be transferred. Carrying without a license is a Felony. Self-defence provisions do not apply if unlicenced.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">MEDICAL REQ.</span>
+          <span class="penalty-tag pt-arrest">FELONY</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.2</div>
+        <div class="law-text"><strong>Legal Firearms:</strong> Only includes items with a visible AMMO Serial Number (e.g., 1234567 AMMO).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.3</div>
+        <div class="law-text"><strong>Illegal Firearms:</strong> Firearms with scratched serials [XXX], painted weapons, or weapons with State Org identifiers (if held by a non-employee). Illegal weapons are prohibited from use and must be surrendered for destruction.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.4</div>
+        <div class="law-text"><strong>State Organisation Equipment:</strong> Property of the State; civilian possession is strictly prohibited. Includes Balaclavas, EMS Masks, and gear marked GOV, FIB, LSPD (or CP), SAHP, or NG.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.5</div>
+        <div class="law-text"><strong>Evidence:</strong> LEOs may retain illegal firearms/ammo as Evidence. Not a felony if valid bodycam of the seizure is available. Must be discarded/destroyed at HQ when no longer needed.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.6</div>
+        <div class="law-text"><strong>Ammunition:</strong> Ammo legality cannot be proven unless there is clear theft from a State Armory. Accidentally returning personal ammo to an armory means forfeiting it.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.7</div>
+        <div class="law-text"><strong>Open Carry:</strong> Civilians are strictly prohibited from openly carrying weapons (includes holsters under outer clothing for quick access). Open wearing of Body Armour without a valid reason is also Open Carry. LEOs may request licenses if seen.</div>
+      </div>
+
+      <div class="article-header">Article 3 — Possession and Storage</div>
+      <div class="law-row">
+        <div class="law-num">3.1</div>
+        <div class="law-text"><strong>Possession Limits:</strong> A Citizen with a Gun License may possess no more than ONE (1) legal firearm and a total of 100 rounds of ammunition. Exceeding this is Overcarrying (Felony). State Employees may carry only one personal weapon on-duty.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.2</div>
+        <div class="law-text"><strong>State Org Gear:</strong> Reserved for On-Duty and In-Uniform employees. Must hold a Gun License to use armory. Cannot be sold, donated, carelessly discarded, or stored in personal/family vehicles or houses. Undercover FIB agents are limited to 1 weapon, 150 rounds, and 1 vest (exceeding is a Class-4 Felony + 10-day suspension).</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">PROF. MISCONDUCT</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.3</div>
+        <div class="law-text"><strong>Vehicle Storage:</strong> A Citizen may store a max of 3 Legal Firearms and 300 total rounds of ammo in a vehicle. NG/LEOs with Military IDs may carry double this amount in personal vehicles. Driver is responsible for trunk contents.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.4</div>
+        <div class="law-text"><strong>House / Backpack Storage:</strong> No legal limit for secure storage in a Private/Shared Warehouse. Carrying in a backpack or trunk is permitted if unloaded and secured. Civilians are strictly prohibited from acquiring or using Tasers.</div>
+      </div>
+
+      <div class="article-header">Article 4 — Lawful Use of Force by Citizens</div>
+      <div class="law-row">
+        <div class="law-num">4.1</div>
+        <div class="law-text"><strong>Self Defense:</strong> Permitted if facing an unprovoked attack, imminent threat of injury/death, and if the citizen did not insert themselves into danger. Force must be proportionate (no lethal force against non-lethal, unless necessary).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.2</div>
+        <div class="law-text"><strong>Reciprocal Defense:</strong> Permitted to protect another Citizen facing an unprovoked attack and imminent threat of injury/death. Force must be reasonable.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.3</div>
+        <div class="law-text"><strong>Defense of Private Property:</strong> Owners may protect their enclosed property (driveway, interior, fenced areas; excludes public streets/sidewalks) from trespass/theft. Must give a clear Verbal Warning to leave first.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.4</div>
+        <div class="law-text"><strong>Defense of Shared Property:</strong> Stakeholders of Family/Communal property may protect it from trespass/theft. Must give a clear Verbal Warning first, and must be able to prove membership.</div>
+      </div>
+
+      <div class="article-header">Article 5 — Lawful Use of Force by the State</div>
+      <div class="law-row">
+        <div class="law-num">5.1</div>
+        <div class="law-text"><strong>Principle of Necessity:</strong> LEOs are encouraged to use a taser prior to resorting to lethal force (unless suspect is armed/hostile). Force must be proportionate. Must provide on-scene first aid if damaging/lethal force is used.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.2</div>
+        <div class="law-text"><strong>Excessive Force:</strong> Higher tiers of force may only be used to resolve immediate situations if the suspect is in clear violation of law and no other options exist. Warning or warning shot required.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.3</div>
+        <div class="law-text"><strong>Restraining Force (Handcuffs):</strong> Used to ensure compliance, remove citizens, or detain/arrest. Can be used preventatively (officer must state the citizen is only restrained, not detained).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.4</div>
+        <div class="law-text"><strong>Immobilising Force (Tasers):</strong> First option against unarmed suspects. Used for failure to comply, attempting to escape, or intentionally causing damage to property.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.5</div>
+        <div class="law-text"><strong>Damaging / Harmful Force:</strong> Unarmed attacks or batons. Used in Self-Defence or Reciprocal Defence against physical attacks where lethal force is excessive.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">5.6</div>
+        <div class="law-text"><strong>Lethal Force:</strong> May be used without warning for Direct Threats to life, Armed & Dangerous suspects (pointing weapons or refusing to disarm), State Security (USSS protecting First Persons), or Military Security (NG Red Zone trespass). Fleeing suspects require a clear warning ("Stop or I will Shoot") and/or a warning shot.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">WARNING REQ.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-section" id="sec-co">
+      <div class="code-title-block">
+        <div class="code-title">💰 Code of Commercial, Taxation &amp; Financial Law</div>
+        <div class="code-art-count">8 articles (Tax &amp; Finance)</div>
+      </div>
+
+      <div class="article-header">Article 1 — General Provisions and Principles of Commercial Law</div>
+      <div class="law-row">
+        <div class="law-num">1.1</div>
+        <div class="law-text"><strong>Code of Commercial and Taxation Law:</strong> Establishes the Principles of Commerce within the State of San Andreas and regulates the conduct of all lawful business, the activities of Business Owners, Private Companies, and Entrepreneurs, as well as the collection and payment of Taxes and penalties for failure to pay.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.2</div>
+        <div class="law-text"><strong>Principles of the Code:</strong> Promulgated to protect commercial and business interests, provide guidance for lawful commercial activity, and impose regulations for tax collection. Amendments do not apply retroactively.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.3</div>
+        <div class="law-text"><strong>Right to Private Commercial Enterprise:</strong> A Citizen has the unhindered right to possess a commercial property or business and freely engage in lawful commercial activity (e.g., operating a 24/7, gas station, market stall, or private company) without unlawful State interference. <br><br>
+        This right shall NOT apply and may be restricted if the Business Owner: <br>
+        a) Defaults on Bank payments.<br>
+        b) Fails to pay or obtain legally required Permits.<br>
+        c) Fails to pay Taxes (may result in removal from Tax Registry and forced Sales Tax).<br>
+        d) Engages in unlawful, unethical, or illegal practices.</div>
+      </div>
+
+      <div class="article-header">Article 2 — Definitions in Commercial and Taxation Law</div>
+      <div class="law-row">
+        <div class="law-num">2.1</div>
+        <div class="law-text"><strong>Sales Tax (Taxes On):</strong> Applies to Businesses that have opted to pay taxes automatically on each sale. Cannot be sealed by the GOV. Willful evasion may result in massive fines. Intentional deceit regarding tax status is a Felony.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">MAX $500K FINE</span>
+          <span class="penalty-tag pt-arrest">FELONY</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.2</div>
+        <div class="law-text"><strong>Direct Tax (Taxes Off):</strong> Applies to Businesses that have not opted for automatic tax payments. May be Sealed by the GOV if they default on taxes. Tax Evasion is a Felony.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">SEAL BUSINESS</span>
+          <span class="penalty-tag pt-arrest">FELONY</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.3</div>
+        <div class="law-text"><strong>Taxable Businesses:</strong> Required to pay Sales or Direct Tax. Includes: Auto workshops, Chip Tunings, 24/7 stores, Clothing stores, Gas Stations, Ammunations, Bars, Tattoo Studios, Barber Shops, and Jewellery stores.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.4</div>
+        <div class="law-text"><strong>Non-Taxable Businesses:</strong> Not required to pay taxes or obtain GOV permits. Includes: Ticket tables, Resource buying/selling (unless high business numbers), Oil platforms, Public farms, Car Sharing, Parking, Taxis, ATMs, Juice Shops, and State Objects.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.5</div>
+        <div class="law-text"><strong>Public Market Shops:</strong> Citizens renting a market shop (e.g., Beach Market) do not pay taxes on this small business. It is STRICTLY PROHIBITED to sell: Illegal/Prohibited items, items used in crimes, medical products, or licences.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">ARREST</span>
+          <span class="penalty-tag pt-license">CONFISCATE</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 3 — Tax Policy and Payment of Taxes</div>
+      <div class="law-row">
+        <div class="law-num">3.1</div>
+        <div class="law-text"><strong>Schedule of Tax Policy:</strong> GOV determines taxation amounts per Business Classification. May be changed once per Governor's term (requires signature of Gov, Dep Gov, AG, and Treasury Minister). Owners may request reduced taxes directly from the Governor.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.2</div>
+        <div class="law-text"><strong>Payment of Sales Taxes:</strong> Owners must ensure their Tax Status is set to PAID at all times. Cannot be sealed, but owners are liable for imprisonment/fines if guilty of Tax Evasion.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.3</div>
+        <div class="law-text"><strong>Payment &amp; Recording of Direct Taxes:</strong> Direct taxes are paid in person at the Capitol to Treasury personnel. A receipt must be issued. Funds must be meticulously logged (Business #, Date, Amount, Paid-up-to date, Owner details). A Tax Week is 7 days.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.4</div>
+        <div class="law-text"><strong>Use of Collected Taxes:</strong> Used to supplement passing State Orgs, purchase emergency supplies, provide retention/performance bonuses, fund special GOV events, and establish cash reserves.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.5</div>
+        <div class="law-text"><strong>Department of the Treasury / IRS:</strong> Supervises business activities and tax payments. Has unhindered access to commercial property for verification. May involve USSS for aid, or LEOs if there is reasonable suspicion or a Court Order.</div>
+      </div>
+
+      <div class="article-header">Article 4 — Legal Documentation for Tax Law</div>
+      <div class="law-row">
+        <div class="law-num">4.1</div>
+        <div class="law-text"><strong>Audit File (AF):</strong> A special-purpose Case File submitted to the AG or Governor following an Audit by Treasury/IRS/DOJ. Must include Bodycam proof, Business Panel proof, PDA records, and clear evidence of Tax Evasion.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.2</div>
+        <div class="law-text"><strong>Order of Foreclosure:</strong> Issued by the Governor or AG, authorising a business to be sealed for Tax Evasion. The owner must be informed and granted the Right to Appeal prior to sealing.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">SEAL BUSINESS</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.3</div>
+        <div class="law-text"><strong>Warrant of Foreclosure (WOF):</strong> Issued by the AG or a Judge, authorising Felony Charges against the Owner AND the sealing of the business for Felony Tax Evasion (deceit/defrauding). No Right of Appeal against the sealing, only against the criminal charges.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">FELONY</span>
+          <span class="penalty-tag pt-license">SEAL BUSINESS</span>
+        </div>
+      </div>
+
+      <div class="article-header">Finance Code — Article 1 &amp; 2 — State Organisation Funding &amp; Audits</div>
+      <div class="law-row">
+        <div class="law-num">F.1</div>
+        <div class="law-text"><strong>Code of Financial and Audit Law:</strong> Regulates the use of all State Funding by State Organisations, the procedures to request funding, and the authority to grant and audit that funding.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">F.2</div>
+        <div class="law-text"><strong>Funding Requests (SOFA):</strong> Org Leaders may request GOV funding through the Treasury. Orgs should retain a cash reserve of $1,000,000 and must request funds when the balance nears $1,500,000. Treasury must be given unhindered access to logbooks to verify requests.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">F.3</div>
+        <div class="law-text"><strong>Allocation &amp; Usage:</strong> Funds may be used for: Prizes (max $30k/day per employee), approved Bonuses, Hostage reimbursements, Public events, Media articles, Armory supplies, Vehicle maintenance, and necessary duties. All transactions must be logged with dates, amounts, reasons, balances, and valid visual proof.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">F.4</div>
+        <div class="law-text"><strong>Financial Audits:</strong> Treasury/Finance may audit Orgs fortnightly, monthly, or on GOV orders. An Org Leader/Deputy must be present to clarify doubts. A Non-Compliance outcome (missing evidence/discrepancies) allows GOV to withhold future funding.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">F.5</div>
+        <div class="law-text"><strong>Payment of Ransom Demands:</strong> The State will ONLY pay hostage ransoms if the State Employee was taken while: responding to a backup request, under High Command orders, or acting as High Command in the Org's interests. <br><br>
+        If taken hostage while travelling alone (or off-duty/out of uniform), the Employee is personally responsible for the rescue costs. Conspiring with kidnappers results in a fine equal to the ransom amount.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">REIMBURSE STATE</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-section" id="sec-im">
+      <div class="code-title-block">
+        <div class="code-title">🛡️ Code of Immunity &amp; Special Status Law</div>
+        <div class="code-art-count">8 articles</div>
+      </div>
+
+      <div class="article-header">Article 1 — General Provisions and Principles of Immunity Law</div>
+      <div class="law-row">
+        <div class="law-num">1.1</div>
+        <div class="law-text"><strong>Code of Immunity and Special Status Law:</strong> Establishes the Principles of Legal Immunity and any Special Status granted to a State Employee or Citizen to protect them from certain actions under the law and facilitate the conduct of their duties. Replaces Articles 5 and 14 of the previous Civil Code.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.3</div>
+        <div class="law-text"><strong>Rules and Principles of Legal Immunity:</strong> A legal status protecting State Employees from Civil and/or Criminal Liability to allow them to make difficult decisions necessary for their Duties. Immunity Types include: Full Legal Immunity (First Person), Partial Immunity (Federal), and Judicial Immunity. Protection requires the Rank on their State ID to clearly indicate an immune position (an email role does not grant immunity).</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.4</div>
+        <div class="law-text"><strong>Expectations and Rules of Conduct for First Persons:</strong> First Persons are Senior State Officials and must conduct and dress themselves befitting their status. Repeated misconduct may result in an Order of Waiver (OW) or an Impeachment Hearing.<br><br>
+        <strong>Code of Conduct (Canons):</strong><br>
+        • <em>Canon 1:</em> Do not unlawfully abuse immunity or repeatedly violate the law. Do not flaunt the status.<br>
+        • <em>Canon 2:</em> Set a professional example for all Citizens and State Employees.<br>
+        • <em>Canon 3:</em> Respect the authority of other First Persons (Governor, Leaders, DOJ). Must cooperate with lawful DOJ investigations and court orders.<br>
+        • <em>Canon 4:</em> Dress professionally and appropriately to the duty (e.g., suits for Gov meetings, tactical gear for raids). Must comply with Labour Code tattoo/accessory rules. Gov officials may request permission to wear personal business clothing.<br>
+        • <em>Canon 5:</em> Respect State Property and use it only for State Duties.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">PROF. CONDUCT</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 2 — Definitions in Immunity Law</div>
+      <div class="law-row">
+        <div class="law-num">2.1</div>
+        <div class="law-text"><strong>Full Legal Immunity (First Person):</strong> Cannot be held liable for minor crimes or conduct impeding their duties. Applies to: Governor, Deputy Governors, Attorney General, Supreme Court Judges, District Court Judges, USSS Director, Heads of Gov Departments, and Leaders/Deputy Leaders of State Organisations. Must show Badge/ID to prove claim; failure to do so allows detention until verified.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">FIRST PERSON</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.2</div>
+        <div class="law-text"><strong>Partial Immunity (Federal Immunity):</strong> Limits interference in federal law enforcement duties. Applies ONLY to FIB, USSS, and DOJ. State ID must clearly state the Organisation/Department.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">FEDERAL IMMUNITY</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.3</div>
+        <div class="law-text"><strong>Judicial Immunity:</strong> Protects senior judicial authorities from liability while making necessary judicial decisions. Applies ONLY to the Attorney General, Supreme Court Judges, and District Court Judges.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">JUDICIAL IMMUNITY</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 3 — Full Legal Immunity (First Person Immunity)</div>
+      <div class="law-row">
+        <div class="law-num">3.1</div>
+        <div class="law-text"><strong>Protections Under Full Legal Immunity:</strong><br>
+        • <em>Criminal Liability:</em> Cannot be imprisoned for Misdemeanours, Class-1, or Class-2 Felonies unless committed with Criminal Intent to Cause Harm.<br>
+        • <em>Civil Liability:</em> Cannot be held personally liable for a Tort Case/Lawsuit regarding official duties (liability shifts to the State, unless rights were harmed without cause). Still liable for Off-Duty civil cases.<br>
+        • <em>Traffic Penalties:</em> Immune to Traffic Fines/Penalties.<br>
+        • <em>Detention:</em> Cannot be detained without an Order of Investigation (OI) or a Direct Order from the Gov/AG.<br>
+        • <em>Search:</em> Cannot be searched (person, vehicle, property) without an OI or expressed consent.<br>
+        • <em>Investigation:</em> No investigation/case file allowed without an OI approved by the Supreme Court.<br>
+        • <em>Safety/Privacy:</em> Right to a USSS Protection Detail/Motorcade (exempt from traffic laws with lights/sirens). Right to be Classified via the FIB.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">OI REQUIRED</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.2</div>
+        <div class="law-text"><strong>Application and Duration:</strong> Applies at all times (On-Duty and Off-Duty), though a First Person is only "On-Duty" when formally performing expected duties. Immunity is applied at the time of the violation (cannot be granted retroactively to hide crimes). Cannot be removed except via an Order of Waiver (cannot be fired/demoted to bypass immunity).</div>
+      </div>
+
+      <div class="article-header">Article 4 — Partial Legal Immunity (Federal Immunity)</div>
+      <div class="law-row">
+        <div class="law-num">4.1</div>
+        <div class="law-text"><strong>Protections Under Partial Immunity:</strong> Applies only while On-Duty and In-Uniform (does NOT apply undercover, or if committing a clear crime/harassment).<br>
+        • <em>Detention:</em> Cannot be detained/questioned without a First Person or High Command present (unless failing to ID).<br>
+        • <em>Search:</em> Cannot be searched without a First Person or High Command present (unless at a secure State Facility like DOC/Fort Zancudo).<br>
+        • <em>Arrest:</em> NO protection from direct arrest if a Felony is committed in the presence of Law Enforcement.</div>
+      </div>
+
+      <div class="article-header">Article 5 — Judicial Immunity (Judges Immunity)</div>
+      <div class="law-row">
+        <div class="law-num">5.1</div>
+        <div class="law-text"><strong>Protections Under Judicial Immunity:</strong><br>
+        • <em>Advisory Counsel:</em> The AG cannot be held liable for legal advice provided to the State.<br>
+        • <em>Judicial Privilege:</em> Judges/AG cannot be held criminally liable for engaging with wanted/investigated citizens while seeking to uphold justice.<br>
+        • <em>Judicial Authority:</em> Immune from civil liability for lawful/reasonable decisions and verdicts. Verdicts with clear criminal intent or unreasonableness are exempt and may be appealed.</div>
+      </div>
+
+      <div class="article-header">Article 6 — Procedural Actions Against Persons With Full Legal Immunity</div>
+      <div class="law-row">
+        <div class="law-num">6.1</div>
+        <div class="law-text"><strong>Authority for Investigations:</strong> Only the Governor, Attorney General, or FIB Director may apply directly to the Supreme Court for actions against a First Person. Only DOJ, DHS, USSS, and FIB may conduct the investigation once an OI is granted. LSPD, SAHP, and NG have NO authority/jurisdiction and must hand over evidence to the authorised agencies.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.2</div>
+        <div class="law-text"><strong>Supreme Court Actions:</strong> Based on evidence, the SC may:<br>
+        a) <em>Issue an Order of Investigation (OI):</em> Authorises investigation, must be shown during detention/search.<br>
+        b) <em>Issue an Order of Waiver (OW):</em> Removes Immunity for abuse without clear criminal evidence. Must notify the First Person immediately.<br>
+        c) <em>Issue a Criminal Indictment (CI):</em> Authorises prosecution. Person must be notified within 48-hours to retain bodycam.<br>
+        d) <em>Dismiss the Case.</em></div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">SC APPROVAL</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.3</div>
+        <div class="law-text"><strong>Detention / Arrest of a First Person:</strong> If detained without an OI, they must be released immediately once identity is established. First Persons MUST cooperate and show ID; if they refuse, they can be detained until verified. Cannot be processed into DOC without an active Order of Waiver (OW) or a Special Warrant of Arrest (SWA).</div>
+      </div>
+
+      <div class="article-header">Article 7 — Legal Documentation for Legal Immunity Cases</div>
+      <div class="law-row">
+        <div class="law-num">7.1</div>
+        <div class="law-text"><strong>Order of Investigation (OI):</strong> Issued by the Supreme Court. Grants authority to investigate. Immediately Declassifies the First Person (they cannot hide evidence by claiming classified status). Expires in 30 days.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">7.2</div>
+        <div class="law-text"><strong>Order of Waiver (OW):</strong> Issued by the Supreme Court. Formally removes Full Legal Immunity and Classified Status. Required before a Special Warrant of Arrest can be issued. Expires in 30 days.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">7.3</div>
+        <div class="law-text"><strong>Special Warrant of Arrest (SWA):</strong> Issued against a First Person to authorise arrest, charges, and fines. Not required if the person's immunity was already waived via OW prior to the crime (standard Direct Warrant applies then). Expires in 30 days.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">ARREST WARRANT</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 8 — Rules and Principles of Classified Status</div>
+      <div class="law-row">
+        <div class="law-num">8.1</div>
+        <div class="law-text"><strong>The Status of Classified:</strong> Personal Data (contact details, vehicles, property) must be kept secret by State Employees and FIB. Does NOT grant the right to break the law, refuse to identify to LEOs, or withhold evidence from Lawyers/Court/AG. Civilians cannot be classified.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.2</div>
+        <div class="law-text"><strong>Classified Persons:</strong> First Persons have the right to be Classified. Only the FIB Director/Deputy Directors can Classify/Declassify. If the list is mismanaged, the Gov/AG/SC may order a total Declassification reset, requiring valid re-applications.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.3</div>
+        <div class="law-text"><strong>Suspension of Classified Status:</strong> Losing Full Legal Immunity or receiving an Order of Investigation (OI) immediately revokes Classified Status to allow PDA evidence collection for the case file.</div>
+      </div>
+    </div>
+
+    <div class="code-section" id="sec-ev">
+      <div class="code-title-block">
+        <div class="code-title">🔍 Code of Evidence &amp; Investigation Law</div>
+        <div class="code-art-count">10 articles</div>
+      </div>
+
+      <div class="article-header">Article 1 — General Provisions and Principles of Evidence</div>
+      <div class="law-row">
+        <div class="law-num">1.1</div>
+        <div class="law-text"><strong>Principles of Evidence Law:</strong> Establishes the principles and forms of Evidence, the regulations for obtaining Evidence through investigations, and its use by Law Enforcement, Judges, and Lawyers.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.3</div>
+        <div class="law-text"><strong>Rules of Evidence:</strong> Evidence must be both Valid and Admissible to prove a claim. It must be Probative (tends to prove relevant facts). Irrelevant evidence, hearsay, guesswork, or unsupported speculation may be Excluded by the Court.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.4</div>
+        <div class="law-text"><strong>Burden of Proof:</strong> The burden of proof for any actions taken against a Citizen (detention, search, arrest) lies squarely with the Law Enforcement Officer(s) conducting the Investigation.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.5</div>
+        <div class="law-text"><strong>Gathering and Recording:</strong> State Employees must have a valid Proof of Bodycam (e.g., turning it on) and record all Major Incidents (Detentions, Arrests, Use of Lethal Force, Global Emergencies). Recordings must be complete and show the suspect's identity and the entire duration of custody.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">BODYCAM REQ.</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.6</div>
+        <div class="law-text"><strong>Retaining Evidence:</strong> Law Enforcement must retain all Evidence of Major Incidents for a minimum of 48 hours. If requested by a Judge or Lawyer via Subpoena, it must be provided and then retained for at least 7 days.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-fine">48 HOURS</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.7</div>
+        <div class="law-text"><strong>Chain of Custody:</strong> Evidence must have valid proof of how it was obtained and transferred (e.g., SSD handover for bodycam). If the chain is broken or in doubt, it may be objected to and excluded.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.8</div>
+        <div class="law-text"><strong>Requests for Evidence:</strong> Judges may order LEOs to present evidence in Court. Lawyers have the right to request Evidence for their clients (wanted status, criminal record, charges) and this cannot be denied without lawful grounds.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.9</div>
+        <div class="law-text"><strong>Anonymous &amp; Classified Evidence:</strong> Identities of whistleblowers can be kept Anonymous (reviewed privately by the Judge/AG). Classified Evidence protects State Security, but cannot be arbitrarily classified to hide it from the Governor, AG, or SC Judges.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">1.12</div>
+        <div class="law-text"><strong>Duration of Validity:</strong> Photo and Video Evidence remains valid for 7 days from the time of recording. If a trial cannot be concluded before then, it must be dismissed unless the delay was intentionally caused by a party.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">7 DAYS VALID</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 2 &amp; 3 — Definitions and Standards of Evidence</div>
+      <div class="law-row">
+        <div class="law-num">2.2</div>
+        <div class="law-text"><strong>Reasonable Suspicion vs. Probable Cause:</strong> Reasonable Suspicion allows for a brief Stop and Frisk (Terry Stop) if firearms are seen or a crime is suspected. Probable Cause is required for full Detention/Arrest/Search and requires trustworthy facts that a crime was/is being committed. Probable cause cannot be established "after-the-fact".</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">2.5</div>
+        <div class="law-text"><strong>Evidence Categories:</strong><br>
+        • <em>Admissible &amp; Valid:</em> Lawfully obtained, logical, relevant, and meets requirements.<br>
+        • <em>Invalid &amp; Inadmissible:</em> Fails validity checks (e.g., no Proof of Bodycam) or relevance. Excluded from Court.<br>
+        • <em>Illegal Evidence:</em> Obtained by violating rights or committing a crime (e.g., unlawful search). <br>
+        • <em>Fruit of the Poisonous Tree:</em> Any subsequent evidence found because of Illegal Evidence is also excluded.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">INADMISSIBLE</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">3.1</div>
+        <div class="law-text"><strong>Standards of Evidence:</strong> Ranging from No Evidence &rarr; Insufficient &rarr; Circumstantial &rarr; Prima Facie (enough to warrant investigation) &rarr; Preponderance (Civil cases only) &rarr; Clear &amp; Convincing (Civil) &rarr; Beyond a Reasonable Doubt (required for Criminal Convictions).</div>
+      </div>
+
+      <div class="article-header">Article 4 — Rules for Valid Evidence</div>
+      <div class="law-row">
+        <div class="law-num">4.2</div>
+        <div class="law-text"><strong>Valid Bodycam Rules:</strong> Must show Proof of Bodycam (turning it on, with unobstructed Date/Time). Resets at 4 AM or if Uniform/Clothing is changed. Sent to the hospital invalidates the *recording* (not the proof). Damaged/Broken bodycams invalidate the footage. A restart/refresh is not required at the exact start of a situation. Civilian GoPros are valid if they follow the same rules.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.4</div>
+        <div class="law-text"><strong>Valid Documents:</strong> Official registries, Tax records, and Signed Legal Documents (Warrants, Contracts, Charters) do not expire unless stated on the document. Must contain valid signatures.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.9</div>
+        <div class="law-text"><strong>Testimony &amp; Statements:</strong> Affidavits (written under oath) and Depositions (verbal under oath) are valid. Suspect statements/confessions are ONLY valid if the suspect was clearly read their Miranda Rights. If a lawyer is requested, questioning must stop.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">MIRANDA REQ.</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.12</div>
+        <div class="law-text"><strong>Digital Evidence:</strong> PDA evidence, Official Gov Emails, GPS alerts, VIN checks, Phone Calls, and Radio Communications are valid. Private emails and "second-hand" recordings (discord/email videos) are strictly Invalid.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">4.18</div>
+        <div class="law-text"><strong>Identification:</strong> If a citizen can recognize someone by name in the city, it is valid proof of identity. State/Private Employees and Family members can recognize each other through masks. Masks are bypassed if a Passport/Badge was shown or pockets were checked.</div>
+      </div>
+
+      <div class="article-header">Article 5 &amp; 6 — Invalid and Illegal Evidence</div>
+      <div class="law-row">
+        <div class="law-num">5.1</div>
+        <div class="law-text"><strong>Invalid Evidence Forms:</strong><br>
+        • <em>Corrupted:</em> Low quality, distorted audio/video.<br>
+        • <em>Manipulated:</em> Doctored/edited to hide facts (overlays/branding are fine if Date/Time is visible).<br>
+        • <em>Incomplete:</em> Missing Date/Time, or unnatural cuts during a situation.<br>
+        • <em>Unreliable:</em> Guesswork or hearsay.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">6.1</div>
+        <div class="law-text"><strong>Illegal Evidence Forms:</strong><br>
+        • <em>Fabricated:</em> Staged or planted evidence (results in criminal liability).<br>
+        • <em>Attorney-Client Violation:</em> Breaching privileged communications.<br>
+        • <em>Privacy Violation:</em> Unlawful access to property, medical records, or personal data without cause.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-arrest">ARREST</span>
+        </div>
+      </div>
+
+      <div class="article-header">Article 7, 8 &amp; 9 — Search and Seizure Procedures</div>
+      <div class="law-row">
+        <div class="law-num">7.1</div>
+        <div class="law-text"><strong>Search of a Citizen:</strong> Allowed ONLY under: Consent (can be refused), Reasonable Suspicion (weapons seen/fleeing crime), Probable Cause, Valid Arrest, Martial Law, Capitol/Protective/Military/Correctional/Judicial Security, Unwilling Participant, or a Search Warrant. Illegal items must be confiscated.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">8.1</div>
+        <div class="law-text"><strong>Search of Private Property:</strong> LEOs must announce presence. Allowed ONLY under: Consent of Owner, Probable Cause (crime scene/disturbance), Hot Pursuit of a fleeing suspect, or a Search Warrant. If the owner is present and cleared, LEOs must leave when asked.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-license">WARRANT REQ.</span>
+        </div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">9.1</div>
+        <div class="law-text"><strong>Search of a Vehicle:</strong> Allowed ONLY under: Consent, Probable Cause (used in crime, not just speeding), Martial Law, Search/Raid Warrant, or Impound Inventory. LEOs MUST be able to logically access the trunk (e.g., breaking it if owner absent) to search or confiscate.</div>
+      </div>
+
+      <div class="article-header">Article 10 — State Inspections by the Government</div>
+      <div class="law-row">
+        <div class="law-num">10.1</div>
+        <div class="law-text"><strong>State Inspection Rules:</strong> Conducted to ensure compliance. Max 2 per week per Org. Cannot be on consecutive days. Cannot interfere with crucial State duties (e.g., Aircraft Carrier, Informant). Can be led by Gov, Dep Gov, or Head of DHS.</div>
+      </div>
+      <div class="law-row">
+        <div class="law-num">10.2</div>
+        <div class="law-text"><strong>Inspection Procedures:</strong><br>
+        • <em>Searches:</em> Full search of State Property, State Vehicles, and Personal Vehicles on site. Any employee with illegal items or excessive ammo is arrested.<br>
+        • <em>Compliance:</em> Passports, IDs, Medical Insurance, and Gun Licenses are checked.<br>
+        • <em>Background Checks:</em> Any employee with a Criminal Record (Previous crimes/Prison/Gang affiliation) must be immediately dismissed and handed over to DOJ/DOL.</div>
+        <div class="law-penalty">
+          <span class="penalty-tag pt-dismiss">BGC REQUIRED</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-results" id="no-results">No laws found matching your search.</div>
+  </div>
+</div>
+
+<script>
+  // Clocks — UK (Europe/London) and India (Asia/Kolkata)
+  function tick() {
+    const fmt = tz => new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit', second:'2-digit', timeZone: tz, hour12: false});
+    document.getElementById('ic-clock').textContent    = fmt('Europe/London');
+    document.getElementById('india-clock').textContent = fmt('Asia/Kolkata');
+  }
+  tick(); setInterval(tick, 1000);
+
+  // Tab switching
+  function showCode(code, el) {
+    document.querySelectorAll('.code-section').forEach(s => s.classList.remove('visible'));
+    document.querySelectorAll('.cat-item').forEach(c => c.classList.remove('active'));
+    document.getElementById('sec-' + code).classList.add('visible');
+    el.classList.add('active');
+    document.getElementById('search-input').value = '';
+    document.getElementById('no-results').style.display = 'none';
+    document.querySelectorAll('.law-row').forEach(r => r.style.display = '');
+  }
+
+  // Search
+  document.getElementById('search-input').addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    if (!q) {
+      document.querySelectorAll('.law-row').forEach(r => r.style.display = '');
+      document.getElementById('no-results').style.display = 'none';
+      return;
+    }
+    let found = 0;
+    document.querySelectorAll('.code-section.visible .law-row').forEach(row => {
+      const hit = row.textContent.toLowerCase().includes(q);
+      row.style.display = hit ? '' : 'none';
+      if (hit) found++;
+    });
+    document.getElementById('no-results').style.display = found === 0 ? 'block' : 'none';
+  });
+</script>
+
+<!-- LEGISLATION BUG POPUP -->
+<div id="legBugOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#0f0f18;border:1px solid #1e1e30;border-top:2px solid #e63946;border-radius:4px;padding:36px 40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.8);animation:legPopIn 0.3s ease;">
+    <div style="font-size:36px;margin-bottom:14px;">⚠️</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:#e63946;margin-bottom:8px;">NOTICE</div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#8888a8;line-height:1.7;margin-bottom:24px;letter-spacing:1px;">
+      There are bugs in the<br>
+      <span style="color:#f0c040;font-size:14px;">IC Legislation</span><br>
+      will be updated soon
+    </div>
+    <button onclick="document.getElementById('legBugOverlay').style.display='none'" style="background:#e63946;border:none;border-radius:3px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:3px;padding:10px 28px;cursor:pointer;transition:background .2s;">UNDERSTOOD</button>
+  </div>
+</div>
+<style>
+@keyframes legPopIn { from{opacity:0;transform:scale(0.9) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+</style>
+<script>
+// Show bug popup on every page load/refresh
+window.addEventListener('DOMContentLoaded', function(){
+  setTimeout(function(){
+    const ov = document.getElementById('legBugOverlay');
+    if(ov) ov.style.display = 'flex';
+  }, 800);
+});
+</script>
+
+</body>
+</html>

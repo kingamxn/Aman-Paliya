@@ -1,0 +1,672 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐍%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King Amxn | Grand RP — EN 02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<script>
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    if (e.key === 'F12') e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) e.preventDefault();
+    if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'p')) e.preventDefault();
+  });
+  document.addEventListener('selectstart', e => e.preventDefault());
+  document.addEventListener('dragstart', e => e.preventDefault());
+  setInterval(() => {
+    const t = 300;
+    const open = window.outerWidth - window.innerWidth > t || window.outerHeight - window.innerHeight > t;
+    const el = document.getElementById('_devblur');
+    if(el) el.style.display = open ? 'block' : 'none';
+  }, 2000);
+</script>
+
+<style>
+* { -webkit-user-select:none; -moz-user-select:none; user-select:none; margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg: #06060a;
+  --bg2: #0b0b12;
+  --card: #0f0f18;
+  --border: #1e1e30;
+  --red: #e63946;
+  --gold: #f0c040;
+  --text: #eaeaf2;
+  --muted: #52526e;
+  --dim: #8888a8;
+}
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 58px;
+  background: rgba(6,6,10,0.97);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-left { display:flex; align-items:center; gap:14px; }
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: 5px; color: var(--text);
+}
+.nav-logo em { color: var(--red); font-style:normal; }
+
+.nav-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 2px; color: var(--muted);
+  border: 1px solid var(--border); padding: 3px 8px; border-radius: 2px;
+}
+
+.nav-right { display:flex; align-items:center; gap:12px; }
+
+.nav-badge {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; color: var(--gold);
+  border: 1px solid rgba(240,192,64,0.3);
+  padding: 4px 10px; border-radius: 2px; letter-spacing: 1px;
+}
+
+.discord-btn-nav {
+  display: flex; align-items: center; gap: 7px;
+  background: #5865F2; border: none; border-radius: 3px;
+  padding: 7px 14px; cursor: pointer;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  color: #fff; text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.discord-btn-nav:hover { background: #4752C4; transform: translateY(-1px); }
+.discord-btn-nav svg { flex-shrink:0; }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 80px 40px 60px;
+  overflow: visible;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 15%, rgba(230,57,70,0.09) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 35% at 15% 85%, rgba(88,101,242,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Thin red top line accent */
+.hero::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, transparent 0%, var(--red) 30%, var(--red) 70%, transparent 100%);
+  opacity:0.6;
+}
+
+.hero-family-tag {
+  position: relative; z-index:3;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px; letter-spacing: 3px; color: var(--muted);
+  border: 1px solid var(--border); padding: 5px 14px; border-radius: 2px;
+  margin-bottom: 22px;
+  animation: fadeUp 0.5s 0.05s ease both;
+}
+.hero-family-tag::before {
+  content:''; width:6px; height:6px; border-radius:50%;
+  background: #5865F2; box-shadow: 0 0 8px rgba(88,101,242,0.8);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+
+/* ── NEW BRANDING ── */
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-box {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px; letter-spacing: 2px;
+  background: var(--red); color: #fff;
+  padding: 3px 7px; border-radius: 2px;
+  line-height: 1;
+}
+.logo-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 4px; color: var(--text);
+  display: flex; flex-direction: column; line-height: 0.85;
+  gap: 1px;
+}
+.logo-text em {
+  color: var(--red); font-style: normal;
+  font-size: 13px; letter-spacing: 5px;
+}
+.logo-box-sm {
+  display: inline-block;
+  background: var(--red); color: #fff;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px; letter-spacing: 2px;
+  padding: 2px 6px; border-radius: 2px; margin-right: 6px;
+}
+
+/* ── HERO BRAND ── */
+.hero-brand {
+  display: flex; align-items: center; gap: 20px;
+  position: relative; z-index:3;
+  animation: fadeUp 0.5s 0.1s ease both;
+  margin-bottom: 16px;
+}
+.hero-brand-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px; letter-spacing: 4px;
+  width: 90px; height: 90px;
+  background: var(--red);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; border-radius: 4px;
+  box-shadow: 0 0 40px rgba(230,57,70,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+  flex-shrink: 0;
+}
+.hero-brand-words {
+  display: flex; flex-direction: column;
+  text-align: left; line-height: 0.82;
+  gap: 4px;
+}
+.brand-legacy {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 9vw, 110px);
+  letter-spacing: 6px; color: var(--text);
+  -webkit-text-stroke: 0px;
+}
+.brand-cartel {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 9vw, 110px);
+  letter-spacing: 6px; color: var(--red);
+  text-shadow: 0 0 40px rgba(230,57,70,0.5);
+}
+
+
+/* Discord big CTA */
+.discord-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #5865F2; border: none; border-radius: 4px;
+  padding: 13px 28px; cursor: pointer;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 3px;
+  color: #fff; text-decoration: none;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  position: relative; z-index:3;
+  margin-bottom: 36px;
+  animation: fadeUp 0.5s 0.26s ease both;
+}
+.discord-cta:hover {
+  background: #4752C4;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(88,101,242,0.4);
+}
+
+/* ── PORTAL GRID ── */
+.portal-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 12px; max-width: 780px; width: 100%;
+  position: relative; z-index: 1;
+}
+
+.portal-card {
+  position: relative;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 4px; padding: 24px 24px 20px;
+  cursor: pointer; text-decoration: none; display: block;
+  text-align: left; overflow: hidden;
+  transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+.portal-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, transparent, var(--ac, var(--red)), transparent);
+  opacity:0; transition: opacity 0.18s;
+}
+.portal-card:hover { border-color: var(--ac, var(--red)); transform:translateY(-2px); box-shadow:0 6px 28px rgba(0,0,0,0.5); z-index: 5; }
+.portal-card:hover::before { opacity:1; }
+
+.portal-icon { font-size:24px; margin-bottom:9px; display:block; }
+.portal-tag {
+  font-family:'Share Tech Mono',monospace; font-size:10px;
+  letter-spacing:2px; text-transform:uppercase;
+  color: var(--ac, var(--red)); margin-bottom:4px;
+}
+.portal-name {
+  font-family:'Bebas Neue',sans-serif; font-size:21px;
+  letter-spacing:2px; color:var(--text); margin-bottom:4px;
+}
+.portal-desc { font-size:13px; color:var(--muted); line-height:1.5; font-weight:500; }
+.portal-arrow {
+  position:absolute; bottom:16px; right:16px;
+  font-size:16px; color:var(--muted);
+  transition: color 0.18s, transform 0.18s;
+}
+.portal-card:hover .portal-arrow { color:var(--ac,var(--red)); transform:translateX(3px); }
+
+.c-red    { --ac:#e63946; }
+.c-gold   { --ac:#f0c040; }
+.c-cyan   { --ac:#00d4ff; }
+.c-purple { --ac:#9b5de5; }
+
+/* City silhouette */
+.hero-city { position:absolute; bottom:0; left:0; right:0; height:200px; pointer-events:none; z-index:2; }
+
+
+
+/* ── FOOTER ── */
+footer {
+  border-top:1px solid var(--border);
+  padding:28px 48px; display:flex;
+  justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:14px;
+}
+.footer-logo { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:5px; color:var(--red); }
+.footer-credit {
+  font-family:'Share Tech Mono',monospace; font-size:11px;
+  letter-spacing:1px; color:var(--muted); text-align:center; line-height:1.9;
+}
+.footer-credit strong { color:var(--gold); font-weight:normal; }
+
+/* ── CREDIT STRIP ── */
+.credit-strip {
+  position:fixed; bottom:0; left:0; right:0; z-index:500;
+  background:#06060a; border-top:1px solid var(--border);
+  padding:5px 20px; text-align:center;
+}
+.credit-strip span {
+  font-family:'Share Tech Mono',monospace; font-size:10px;
+  letter-spacing:2px; color:var(--muted);
+}
+.credit-strip strong { color:var(--gold); font-weight:normal; }
+
+/* ── PASSWORD MODAL ── */
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.9); z-index:9000;
+  align-items:center; justify-content:center;
+}
+.modal-overlay.open { display:flex; }
+.modal-box {
+  background:var(--card); border:1px solid var(--border);
+  border-top:2px solid var(--red); border-radius:4px;
+  padding:38px; width:100%; max-width:390px; position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,0.85);
+  animation: modalIn 0.22s ease;
+}
+@keyframes modalIn { from{opacity:0;transform:scale(0.96) translateY(14px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.modal-lock { font-size:32px; text-align:center; margin-bottom:12px; }
+.modal-title { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:4px; color:var(--text); text-align:center; margin-bottom:4px; }
+.modal-sub { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); text-align:center; margin-bottom:24px; }
+.modal-input {
+  width:100%; background:var(--bg2); border:1px solid var(--border);
+  border-radius:3px; padding:13px; color:var(--text);
+  font-family:'Share Tech Mono',monospace; font-size:16px;
+  letter-spacing:4px; outline:none; text-align:center;
+  transition:border-color 0.2s, box-shadow 0.2s; margin-bottom:9px;
+}
+.modal-input:focus { border-color:var(--red); box-shadow:0 0 0 3px rgba(230,57,70,0.12); }
+.modal-input.error { animation:shake 0.28s ease; border-color:var(--red); }
+.modal-input::placeholder { color:var(--muted); }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+.modal-error { font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--red); text-align:center; min-height:16px; margin-bottom:12px; letter-spacing:1px; }
+.modal-btn {
+  width:100%; padding:12px; background:var(--red); border:none;
+  border-radius:3px; color:#fff; font-family:'Bebas Neue',sans-serif;
+  font-size:18px; letter-spacing:3px; cursor:pointer; transition:background 0.2s;
+}
+.modal-btn:hover { background:#c0222e; }
+.modal-close { position:absolute; top:11px; right:13px; background:none; border:none; color:var(--muted); font-size:19px; cursor:pointer; transition:color 0.2s; }
+.modal-close:hover { color:var(--text); }
+
+#_devblur { display:none; position:fixed; inset:0; background:rgba(6,6,10,0.95); z-index:99998; pointer-events:none; }
+
+
+/* search bar */
+.global-search {
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  margin-bottom: 28px;
+  z-index: 9999;
+  isolation: isolate;
+}
+.global-search input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px 44px 12px 16px;
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.global-search input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(230,57,70,0.1); }
+.global-search input::placeholder { color: var(--muted); }
+
+.s-clear {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--muted);
+  font-size: 16px; cursor: pointer; line-height: 1; padding: 2px;
+  transition: color 0.2s; z-index: 2;
+}
+.s-clear:hover { color: var(--red); }
+
+.global-search .s-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size: 14px; }
+.search-results {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 4px; z-index: 99999; max-height: 280px; overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  display: none;
+}
+.search-results.open { display: block; }
+.search-result-item {
+  padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+  cursor: pointer; transition: background .15s;
+  border-bottom: 1px solid var(--border);
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: rgba(255,255,255,0.04); }
+.sr-page { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; color: var(--red); flex-shrink: 0; min-width: 70px; }
+.sr-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--dim); line-height: 1.4; }
+.sr-text mark { background: rgba(230,57,70,0.2); color: var(--text); border-radius: 2px; padding: 0 2px; }
+
+
+.rv-name {
+  font-family: 'Dancing Script', cursive !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--gold) !important;
+  letter-spacing: 1px;
+}
+
+
+.hero-brand-single {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(72px, 12vw, 140px);
+  font-weight: 700;
+  color: #f0c040;
+  line-height: 1;
+  letter-spacing: 2px;
+  position: relative; z-index: 3;
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+@media(max-width:768px){
+  nav { padding:0 16px; }
+  .nav-tag { display:none; }
+  .portal-grid { position: relative; z-index: 4; grid-template-columns:1fr; max-width:360px; }
+  
+  footer { flex-direction:column; align-items:center; text-align:center; }
+  .discord-btn-nav span { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div id="_devblur"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div class="nav-logo"><span class="logo-text" style="font-family:'Dancing Script',cursive;font-size:22px;font-weight:700;color:#f0c040;letter-spacing:2px;">King Amxn</span></div>
+  </div>
+  <div class="nav-right">
+    <a class="discord-btn-nav" href="https://discord.gg/PGPQXj4X9C" target="_blank" rel="noopener">
+      <svg width="16" height="12" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60.1 4.9A58.5 58.5 0 0 0 45.6.7a.22.22 0 0 0-.23.11 40.8 40.8 0 0 0-1.8 3.7 54 54 0 0 0-16.2 0A37.5 37.5 0 0 0 25.5.8a.22.22 0 0 0-.23-.1A58.3 58.3 0 0 0 10.8 4.9a.2.2 0 0 0-.09.08C1.58 18.2-.96 31.1.3 43.8a.24.24 0 0 0 .09.16 58.8 58.8 0 0 0 17.7 8.95.22.22 0 0 0 .24-.08 42 42 0 0 0 3.63-5.9.22.22 0 0 0-.12-.3 38.7 38.7 0 0 1-5.53-2.63.22.22 0 0 1-.02-.37c.37-.28.74-.57 1.1-.86a.21.21 0 0 1 .22-.03c11.6 5.3 24.15 5.3 35.6 0a.21.21 0 0 1 .22.02c.36.3.73.59 1.1.87a.22.22 0 0 1-.02.37 36.3 36.3 0 0 1-5.54 2.63.22.22 0 0 0-.11.3 47.1 47.1 0 0 0 3.62 5.9.22.22 0 0 0 .24.08 58.6 58.6 0 0 0 17.72-8.95.22.22 0 0 0 .09-.15c1.48-15.32-2.48-28.1-10.5-39.83a.18.18 0 0 0-.08-.08ZM23.73 36.08c-3.5 0-6.38-3.21-6.38-7.15s2.82-7.15 6.38-7.15c3.59 0 6.44 3.24 6.38 7.15 0 3.94-2.82 7.15-6.38 7.15Zm23.6 0c-3.5 0-6.38-3.21-6.38-7.15s2.82-7.15 6.38-7.15c3.59 0 6.44 3.24 6.38 7.15 0 3.94-2.79 7.15-6.38 7.15Z" fill="#fff"/>
+      </svg>
+      <span>Discord</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+
+  <div class="hero-brand">
+    <div class="hero-brand-single">King Amxn</div>
+  </div>
+
+  <a class="discord-cta" href="https://discord.gg/PGPQXj4X9C" target="_blank" rel="noopener">
+    <svg width="22" height="17" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60.1 4.9A58.5 58.5 0 0 0 45.6.7a.22.22 0 0 0-.23.11 40.8 40.8 0 0 0-1.8 3.7 54 54 0 0 0-16.2 0A37.5 37.5 0 0 0 25.5.8a.22.22 0 0 0-.23-.1A58.3 58.3 0 0 0 10.8 4.9a.2.2 0 0 0-.09.08C1.58 18.2-.96 31.1.3 43.8a.24.24 0 0 0 .09.16 58.8 58.8 0 0 0 17.7 8.95.22.22 0 0 0 .24-.08 42 42 0 0 0 3.63-5.9.22.22 0 0 0-.12-.3 38.7 38.7 0 0 1-5.53-2.63.22.22 0 0 1-.02-.37c.37-.28.74-.57 1.1-.86a.21.21 0 0 1 .22-.03c11.6 5.3 24.15 5.3 35.6 0a.21.21 0 0 1 .22.02c.36.3.73.59 1.1.87a.22.22 0 0 1-.02.37 36.3 36.3 0 0 1-5.54 2.63.22.22 0 0 0-.11.3 47.1 47.1 0 0 0 3.62 5.9.22.22 0 0 0 .24.08 58.6 58.6 0 0 0 17.72-8.95.22.22 0 0 0 .09-.15c1.48-15.32-2.48-28.1-10.5-39.83a.18.18 0 0 0-.08-.08ZM23.73 36.08c-3.5 0-6.38-3.21-6.38-7.15s2.82-7.15 6.38-7.15c3.59 0 6.44 3.24 6.38 7.15 0 3.94-2.82 7.15-6.38 7.15Zm23.6 0c-3.5 0-6.38-3.21-6.38-7.15s2.82-7.15 6.38-7.15c3.59 0 6.44 3.24 6.38 7.15 0 3.94-2.79 7.15-6.38 7.15Z" fill="#fff"/>
+    </svg>
+    JOIN DISCORD
+  </a>
+
+  <div style="font-family:'Dancing Script',cursive;font-size:38px;font-weight:700;color:#f0c040;letter-spacing:2px;position:relative;z-index:9999;animation:fadeUp 0.5s 0.24s ease both;margin-bottom:8px;">King Amxn</div>
+
+  <!-- GLOBAL SEARCH -->
+  <div class="global-search" id="globalSearch">
+    <input type="text" id="globalSearchInput" placeholder="Search rules, commands, radio codes..." autocomplete="off">
+    <span class="s-icon" id="searchIconSpan">🔍</span>
+    <button class="s-clear" id="searchClearBtn" onclick="clearSearch()" style="display:none">✕</button>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
+  <!-- PORTAL CARDS -->
+  <div class="portal-grid" id="portal">
+    <a class="portal-card c-red" href="pages/rules.html" onclick="openProtected(event,'pages/rules.html')">
+      <span class="portal-icon">📋</span>
+      <div class="portal-tag">Access Required</div>
+      <div class="portal-name">Server Rules</div>
+      <div class="portal-desc">General, Ghetto, Leader, Election, Event, State & Green Zone rules.</div>
+      <span class="portal-arrow">→</span>
+    </a>
+    <a class="portal-card c-gold" href="pages/legislation.html" onclick="openProtected(event,'pages/legislation.html')">
+      <span class="portal-icon">⚖️</span>
+      <div class="portal-tag">Access Required</div>
+      <div class="portal-name">IC Legislation</div>
+      <div class="portal-desc">In-character laws, charges, and official state legislation for Los Santos.</div>
+      <span class="portal-arrow">→</span>
+    </a>
+    <a class="portal-card c-cyan" href="pages/arrest.html" onclick="openProtected(event,'pages/arrest.html')">
+      <span class="portal-icon">🚔</span>
+      <div class="portal-tag">Access Required</div>
+      <div class="portal-name">Arrest Protocol</div>
+      <div class="portal-desc">Step-by-step RP procedures for detaining a suspect.</div>
+      <span class="portal-arrow">→</span>
+    </a>
+    <a class="portal-card c-purple" href="pages/commands.html" onclick="openProtected(event,'pages/commands.html')">
+      <span class="portal-icon">⌨️</span>
+      <div class="portal-tag">Access Required</div>
+      <div class="portal-name">Quick Commands</div>
+      <div class="portal-desc">Essential in-game commands, shortcuts, and syntax reference guide.</div>
+      <span class="portal-arrow">→</span>
+    </a>
+
+    <a class="portal-card c-red" href="pages/radiocodes.html" onclick="openProtected(event,'pages/radiocodes.html')">
+      <span class="portal-icon">📻</span>
+      <div class="portal-tag">Access Required</div>
+      <div class="portal-name">Radio Codes</div>
+      <div class="portal-desc">10-codes and status codes reference for dispatch communications.</div>
+      <span class="portal-arrow">→</span>
+    </a>
+
+    <a class="portal-card c-cyan" href="pages/trafficcode.html" onclick="openProtected(event,'pages/trafficcode.html')">
+      <span class="portal-icon">🚗</span>
+      <div class="portal-tag">Access Required</div>
+      <div class="portal-name">Traffic Code</div>
+      <div class="portal-desc">State of San-Andreas traffic laws, parking rules and location diagrams.</div>
+      <span class="portal-arrow">→</span>
+    </a>
+  </div>
+
+  <!-- DOJ CENTERED CARD -->
+  <div style="width:100%;max-width:260px;position:relative;z-index:4;margin-top:12px;animation:fadeUp 0.5s 0.4s ease both;">
+    <a class="portal-card c-gold" href="pages/doj.html" onclick="openProtected(event,'pages/doj.html')" style="text-align:center;">
+      <span class="portal-icon">⚖️</span>
+      <div class="portal-tag" style="text-align:center;">Access Required</div>
+      <div class="portal-name" style="text-align:center;">DOJ</div>
+      <div class="portal-desc" style="text-align:center;">Department of Justice — legal procedures and court protocols.</div>
+      <span class="portal-arrow">→</span>
+    </a>
+  </div>
+
+  <svg class="hero-city" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none">
+    <path fill="#06060a" d="M0,200 L0,160 L40,160 L40,120 L60,120 L60,85 L80,85 L80,65 L100,65 L100,100 L130,100 L130,55 L150,55 L150,100 L170,100 L170,130 L200,130 L200,72 L220,72 L220,45 L240,45 L240,72 L260,72 L260,130 L290,130 L290,92 L310,92 L310,60 L330,60 L330,92 L350,92 L350,130 L380,130 L380,158 L400,158 L400,112 L420,112 L420,78 L440,78 L440,112 L460,112 L460,148 L490,148 L490,102 L510,102 L510,68 L530,68 L530,102 L550,102 L550,140 L580,140 L580,168 L600,168 L600,120 L620,120 L620,84 L640,84 L640,55 L660,55 L660,84 L680,84 L680,120 L710,120 L710,150 L730,150 L730,103 L750,103 L750,70 L770,70 L770,103 L790,103 L790,140 L820,140 L820,122 L840,122 L840,88 L860,88 L860,122 L880,122 L880,150 L910,150 L910,132 L930,132 L930,95 L950,95 L950,132 L970,132 L970,155 L1000,155 L1000,112 L1020,112 L1020,78 L1040,78 L1040,112 L1060,112 L1060,150 L1090,150 L1090,132 L1110,132 L1110,98 L1130,98 L1130,132 L1150,132 L1150,162 L1180,162 L1180,142 L1200,142 L1200,108 L1220,108 L1220,142 L1240,142 L1240,168 L1270,168 L1270,148 L1290,148 L1290,114 L1310,114 L1310,148 L1330,148 L1330,172 L1360,172 L1360,158 L1400,158 L1400,178 L1440,178 L1440,200 Z"/>
+  </svg>
+</section>
+
+<!-- FOOTER -->
+<footer style="border-top:1px solid var(--border);padding:28px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;">
+  <div style="font-family:'Dancing Script',cursive;font-size:28px;font-weight:700;color:#f0c040;letter-spacing:2px;">King Amxn</div>
+  <div style="text-align:center;">
+    <div style="font-family:'Dancing Script',cursive;font-size:24px;font-weight:700;color:#f0c040;margin-bottom:4px;">King Amxn</div>
+    <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:#52526e;">ID: 225019 · DC: 4sidexgamerz · Grand RP EN 02</span>
+  </div>
+  <a class="discord-btn-nav" href="https://discord.gg/PGPQXj4X9C" target="_blank" rel="noopener" style="text-decoration:none">
+    <svg width="16" height="12" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60.1 4.9A58.5 58.5 0 0 0 45.6.7a.22.22 0 0 0-.23.11 40.8 40.8 0 0 0-1.8 3.7 54 54 0 0 0-16.2 0A37.5 37.5 0 0 0 25.5.8a.22.22 0 0 0-.23-.1A58.3 58.3 0 0 0 10.8 4.9a.2.2 0 0 0-.09.08C1.58 18.2-.96 31.1.3 43.8a.24.24 0 0 0 .09.16 58.8 58.8 0 0 0 17.7 8.95.22.22 0 0 0 .24-.08 42 42 0 0 0 3.63-5.9.22.22 0 0 0-.12-.3 38.7 38.7 0 0 1-5.53-2.63.22.22 0 0 1-.02-.37c.37-.28.74-.57 1.1-.86a.21.21 0 0 1 .22-.03c11.6 5.3 24.15 5.3 35.6 0a.21.21 0 0 1 .22.02c.36.3.73.59 1.1.87a.22.22 0 0 1-.02.37 36.3 36.3 0 0 1-5.54 2.63.22.22 0 0 0-.11.3 47.1 47.1 0 0 0 3.62 5.9.22.22 0 0 0 .24.08 58.6 58.6 0 0 0 17.72-8.95.22.22 0 0 0 .09-.15c1.48-15.32-2.48-28.1-10.5-39.83a.18.18 0 0 0-.08-.08ZM23.73 36.08c-3.5 0-6.38-3.21-6.38-7.15s2.82-7.15 6.38-7.15c3.59 0 6.44 3.24 6.38 7.15 0 3.94-2.82 7.15-6.38 7.15Zm23.6 0c-3.5 0-6.38-3.21-6.38-7.15s2.82-7.15 6.38-7.15c3.59 0 6.44 3.24 6.38 7.15 0 3.94-2.79 7.15-6.38 7.15Z" fill="#fff"/></svg>
+    Join Discord
+  </a>
+</footer>
+
+<!-- CREDIT STRIP -->
+<div class="credit-strip">
+  <span style="font-family:'Dancing Script',cursive;font-size:15px;font-weight:700;color:#f0c040;letter-spacing:1px;">King Amxn</span><span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:#52526e;"> &nbsp;·&nbsp; ID: <strong style="color:#f0c040;font-weight:normal;">202665</strong> &nbsp;·&nbsp; DC: <strong style="color:#f0c040;font-weight:normal;">4sidexgamerz</strong> &nbsp;·&nbsp; Grand RP EN 02</span>
+</div>
+
+<!-- PASSWORD MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-lock">🔒</div>
+    <div class="modal-title">RESTRICTED ACCESS</div>
+    <div class="modal-sub">// King Amxn — Family Access Only</div>
+    <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;color:#52526e;text-align:center;margin-bottom:16px;margin-top:-8px;">For password ask <span style="color:#f0c040;">King Amxn</span> · DC: <span style="color:#f0c040;">4sidexgamerz</span></div>
+    <input type="password" class="modal-input" id="passInput" placeholder="• • • • • • • •" maxlength="32"
+      onkeydown="if(event.key==='Enter')checkPass()" autocomplete="off">
+    <div class="modal-error" id="passError"></div>
+    <button class="modal-btn" onclick="checkPass()">AUTHENTICATE</button>
+  </div>
+</div>
+
+<script>
+
+// Global search index
+const SEARCH_INDEX = [
+  {page:'Server Rules',file:'pages/rules.html',items:['General Rules','Ghetto Rules','Leader Rules','Election Rules','Event Rules','State Rules','Green Zone Rules','Fail RP','Deathmatch','Robbery','Ban','Warn','Demorgan']},
+  {page:'IC Legislation',file:'pages/legislation.html',items:['Penal Code','Murder','Assault','Robbery','Narcotics','Weapons','Traffic Violation','Warrant','Bail','Imprisonment']},
+  {page:'Arrest Protocol',file:'pages/arrest.html',items:['Detaining a Suspect','Penal Code','Arrest Summary','Fine','Stars','EMS','DOC','Jumpsuit','Cellphone','Handcuff']},
+  {page:'Quick Commands',file:'pages/commands.html',items:['LSPD','FIB','SAHP','NG','GOV','Corrupt Cop','Bodycam','Shift Start','Shift End','Radio','Perimeter','Jurisdiction']},
+  {page:'Radio Codes',file:'pages/radiocodes.html',items:['10-1','10-2','10-4','10-10','Shots fired','10-32','Backup','10-80','Pursuit','10-99','Code 1','Code 3','Code 4','Terrorist','Emergency']},
+  {page:'Traffic Code',file:'pages/trafficcode.html',items:['Speed limit','Parking','Registration','VIN','Special Zone','Emergency Vehicle','Capitol','Casino','Hospital','LSPD','SAHP','Farm','Quarry','Sawmill']},
+];
+
+const searchInput = document.getElementById('globalSearchInput');
+const searchResults = document.getElementById('searchResults');
+
+function clearSearch(){
+  searchInput.value='';
+  searchResults.classList.remove('open');
+  document.getElementById('searchClearBtn').style.display='none';
+  document.getElementById('searchIconSpan').style.display='block';
+}
+searchInput.addEventListener('input', function(){
+  const hasTxt = this.value.length > 0;
+  document.getElementById('searchClearBtn').style.display = hasTxt ? 'block' : 'none';
+  document.getElementById('searchIconSpan').style.display = hasTxt ? 'none' : 'block';
+  const q = this.value.trim().toLowerCase();
+  if(q.length < 2){ searchResults.classList.remove('open'); return; }
+  
+  let results = [];
+  SEARCH_INDEX.forEach(page => {
+    page.items.forEach(item => {
+      if(item.toLowerCase().includes(q)){
+        results.push({page: page.page, file: page.file, text: item});
+      }
+    });
+  });
+  
+  if(!results.length){ searchResults.classList.remove('open'); return; }
+  
+  searchResults.innerHTML = results.slice(0,12).map(r => 
+    `<div class="search-result-item" onclick="openProtected(event,'${r.file}')">
+      <span class="sr-page">${r.page}</span>
+      <span class="sr-text">${r.text.replace(new RegExp(q,'gi'), m => '<mark>'+m+'</mark>')}</span>
+    </div>`
+  ).join('');
+  searchResults.classList.add('open');
+});
+
+document.addEventListener('click', e => {
+  if(!document.getElementById('globalSearch').contains(e.target)){
+    searchResults.classList.remove('open');
+  }
+});
+
+const HASH = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92';
+let pendingURL = null;
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+function openProtected(e, url) {
+  e.preventDefault(); pendingURL = url;
+  document.getElementById('passInput').value = '';
+  document.getElementById('passError').textContent = '';
+  document.getElementById('passInput').classList.remove('error');
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('passInput').focus(), 80);
+}
+async function checkPass() {
+  const val = document.getElementById('passInput').value;
+  if (!val) { document.getElementById('passError').textContent = 'ENTER A PASSPHRASE'; return; }
+  const h = await sha256(val);
+  if (h === HASH) {
+    document.getElementById('modalOverlay').classList.remove('open');
+    window.location.href = pendingURL;
+  } else {
+    document.getElementById('passError').textContent = 'ACCESS DENIED';
+    const inp = document.getElementById('passInput');
+    inp.classList.add('error');
+    setTimeout(() => inp.classList.remove('error'), 400);
+  }
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); pendingURL = null; }
+document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target===document.getElementById('modalOverlay')) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+// ── SESSION TIMEOUT 30 MIN ──
+(function(){
+  let timer;
+  const TIMEOUT = 30 * 60 * 1000;
+  function reset(){ clearTimeout(timer); timer = setTimeout(expire, TIMEOUT); }
+  function expire(){
+    sessionStorage.removeItem('_lc_auth');
+    // Show expired overlay
+    const ov = document.createElement('div');
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(6,6,10,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;';
+    ov.innerHTML = '<div style="font-family:Bebas Neue,sans-serif;font-size:28px;letter-spacing:4px;color:#e63946;">SESSION EXPIRED</div><div style="font-family:Share Tech Mono,monospace;font-size:12px;color:#52526e;letter-spacing:2px;">30 minutes of inactivity</div><button onclick="location.reload()" style="background:#e63946;border:none;color:#fff;font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:3px;padding:10px 24px;border-radius:3px;cursor:pointer;">RELOAD</button>';
+    document.body.appendChild(ov);
+  }
+  ['mousemove','keydown','click','scroll','touchstart'].forEach(e => document.addEventListener(e, reset, {passive:true}));
+  reset();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="auth.js"></script>
+<script>LC_Guard('commands.html');</script>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐍%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick Commands | The Viper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script>
+  document.addEventListener('contextmenu',e=>e.preventDefault());
+  document.addEventListener('keydown',e=>{if(e.key==='F12')e.preventDefault();if(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'))e.preventDefault();if(e.ctrlKey&&(e.key==='u'||e.key==='s'||e.key==='a'||e.key==='c'||e.key==='p'))e.preventDefault();});
+  document.addEventListener('selectstart',e=>e.preventDefault());
+  document.addEventListener('dragstart',e=>e.preventDefault());
+</script>
+<style>
+*{-webkit-user-select:none;-moz-user-select:none;user-select:none;margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0e0e12;--bg2:#131318;--card:#1a1a22;--border:#2a2a38;
+  --cyan:#00d4ff;--cyan-dim:rgba(0,212,255,0.12);--cyan-glow:rgba(0,212,255,0.25);
+  --green:#00e5a0;--green-dim:rgba(0,229,160,0.1);
+  --gold:#ffd166;--gold-dim:rgba(255,209,102,0.1);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.1);
+  --red:#ff4d6d;--red-dim:rgba(255,77,109,0.12);
+  --text:#f0f0f8;--muted:#8888aa;--dim:#b0b0cc;
+}
+body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* ── PAGE HERO ── */
+.page-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:28px 32px;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+.page-hero h1{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:5px;color:var(--text);}
+.page-hero h1 span{color:var(--cyan);}
+.page-hero p{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--muted);margin-top:4px;}
+
+/* ── SEARCH ── */
+.search-bar{padding:14px 32px;background:var(--bg);border-bottom:1px solid var(--border);}
+.search-inner{max-width:500px;position:relative;}
+.search-inner input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:4px;padding:10px 40px 10px 14px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:12px;outline:none;transition:border-color .2s,box-shadow .2s;}
+.search-inner input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyan-dim);}
+.search-inner input::placeholder{color:#8888aa;}
+.search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none;}
+
+/* ── TABS ── */
+.tab-nav{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;overflow-x:auto;gap:0;}
+.tab-btn{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:3px;padding:13px 22px;color:#9090b0;border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;display:flex;align-items:center;gap:7px;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+.tab-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);transition:background .2s,box-shadow .2s;}
+.tab-btn.active .tab-dot{background:var(--cyan);box-shadow:0 0 8px var(--cyan-glow);}
+.tab-btn.corrupt.active .tab-dot{background:var(--purple);box-shadow:0 0 8px rgba(167,139,250,0.5);}
+.tab-btn.corrupt.active{color:var(--purple);border-bottom-color:var(--purple);}
+
+/* ── MAIN LAYOUT ── */
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.cmd-layout{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:500px;}
+.cmd-col{padding:24px 28px;}
+.cmd-col-left{border-right:1px solid var(--border);}
+.cmd-col-right{background:rgba(0,212,255,0.015);}
+
+/* ── SECTION LABEL ── */
+.sec-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#9090b0;margin-bottom:10px;margin-top:24px;display:flex;align-items:center;gap:10px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.sec-label:first-child{margin-top:0;}
+.sec-label.radio-label{color:var(--cyan);opacity:0.7;}
+.sec-label.doj-label{color:var(--gold);opacity:0.7;}
+.sec-label.gov-label{color:var(--green);opacity:0.7;}
+
+/* ── COMMAND ROW ── */
+.cmd-row{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:4px;padding:10px 14px;margin-bottom:7px;gap:10px;transition:border-color .15s;}
+.cmd-row:hover{border-color:#1a3a5a;}
+.cmd-row.hidden{display:none;}
+
+.cmd-type{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;padding:3px 7px;border-radius:2px;flex-shrink:0;min-width:34px;text-align:center;}
+.type-me{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,77,109,0.2);}
+.type-do{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(255,209,102,0.2);}
+.type-try{background:var(--green-dim);color:var(--green);border:1px solid rgba(0,229,160,0.2);}
+
+.cmd-text{font-family:'Share Tech Mono',monospace;font-size:12px;color:#f0f0f8;flex:1;line-height:1.4;}
+.copy-btn{background:none;border:1px solid var(--border);border-radius:3px;padding:4px 9px;cursor:pointer;color:#9090b0;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;display:flex;align-items:center;gap:4px;transition:all .15s;flex-shrink:0;}
+.copy-btn:hover{border-color:var(--green);color:var(--green);}
+.copy-btn.copied{border-color:var(--green);color:var(--green);background:var(--green-dim);}
+.copy-btn svg{width:11px;height:11px;}
+
+/* ── MSG ROW ── */
+.msg-row{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:4px;padding:10px 14px;margin-bottom:7px;display:flex;align-items:center;gap:10px;transition:border-color .15s;}
+.msg-row:hover{border-color:#1a3a5a;border-left-color:var(--cyan);}
+.msg-row.hidden{display:none;}
+.msg-row.all-msg{border-left-color:var(--gold);}
+.msg-row.last-msg{border-left-color:var(--purple);}
+.msg-row.doj-msg{border-left-color:var(--gold);}
+.msg-row.gov-msg{border-left-color:var(--green);}
+.msg-from{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:#00d4ff;flex-shrink:0;min-width:110px;}
+.msg-row.all-msg .msg-from{color:var(--gold);}
+.msg-row.last-msg .msg-from{color:var(--purple);}
+.msg-row.doj-msg .msg-from{color:var(--gold);}
+.msg-row.gov-msg .msg-from{color:var(--green);}
+.msg-text{font-family:'Share Tech Mono',monospace;font-size:11px;color:#c8c8e0;flex:1;line-height:1.4;}
+
+/* ── CORRUPT PANEL ── */
+.tab-panel.corrupt-panel .cmd-row{border-color:#1a1030;}
+.tab-panel.corrupt-panel .cmd-row:hover{border-color:#2a1a50;}
+
+/* ── NO RESULTS ── */
+.no-results{text-align:center;padding:60px 20px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--muted);}
+
+@media(max-width:900px){
+  .cmd-layout{grid-template-columns:1fr;}
+  .cmd-col-left{border-right:none;border-bottom:1px solid var(--border);}
+  .tab-nav{padding:0 16px;}
+  .search-bar{padding:12px 16px;}
+  .cmd-col{padding:16px;}
+  .page-hero{padding:20px 16px;}
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<div class="page-hero">
+  <h1>QUICK <span>COMMANDS</span></h1>
+  <p>// GRAND RP · EN 02 — DEPARTMENT REFERENCE</p>
+</div>
+
+<!-- SEARCH -->
+<div class="search-bar">
+  <div class="search-inner">
+    <input type="text" id="searchInput" placeholder="Search commands or messages... e.g. bodycam, DOJ, perimeter" autocomplete="off">
+    <span class="search-icon">🔍</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('lspd',this)"><span class="tab-dot"></span>LSPD</button>
+  <button class="tab-btn" onclick="switchTab('fib',this)"><span class="tab-dot"></span>FIB</button>
+  <button class="tab-btn" onclick="switchTab('sahp',this)"><span class="tab-dot"></span>SAHP</button>
+  <button class="tab-btn" onclick="switchTab('ng',this)"><span class="tab-dot"></span>NG</button>
+  <button class="tab-btn" onclick="switchTab('gov',this)"><span class="tab-dot"></span>GOV</button>
+  <button class="tab-btn corrupt" onclick="switchTab('corrupt',this)"><span class="tab-dot"></span>CORRUPT COP</button>
+</div>
+
+<!-- ════════════════ LSPD ════════════════ -->
+<div class="tab-panel active" id="tab-lspd">
+  <div class="cmd-layout">
+    <!-- LEFT: DUTY COMMANDS -->
+    <div class="cmd-col cmd-col-left">
+      <div class="sec-label">Shift Start</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">turns on bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me turns on bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">makes sure its recording and uploading to LSPD cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/me makes sure its recording and uploading to LSPD cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">connects the PDA from LSPD cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do connects the PDA from LSPD cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">takesout drone from Locker and put it in the backpack</span><button class="copy-btn" onclick="copyCmd(this,'/me takesout drone from Locker and put it in the backpack')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs the LSPD standard employment Contract understanding the terms and conditions.</span><button class="copy-btn" onclick="copyCmd(this,'/me signs the LSPD standard employment Contract understanding the terms and conditions.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs Charter of LSPD after understanding the terms and conditions</span><button class="copy-btn" onclick="copyCmd(this,'/me signs Charter of LSPD after understanding the terms and conditions')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-try">/try</span><span class="cmd-text">breaks opens trunk of the car</span><button class="copy-btn" onclick="copyCmd(this,'/try breaks opens trunk of the car')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+
+      <div class="sec-label">Shift End</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">turns off bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me turns off bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">makes sure its recording and uploading to LSPD cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do makes sure its recording and uploading to LSPD cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">makes sure it has been successfully recorded and uploaded to LSPD cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do makes sure it has been successfully recorded and uploaded to LSPD cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+
+    <!-- RIGHT: RADIO COMMS -->
+    <div class="cmd-col cmd-col-right">
+      <div class="sec-label radio-label">Radio — ALL / LAST</div>
+      <div class="msg-row all-msg"><span class="msg-from">LSPD to ALL</span><span class="msg-text">Global is for heavy 10-10, Need Max 10-32 ASAP !!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to ALL : Global is for heavy 10-10, Need Max 10-32 ASAP !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row all-msg"><span class="msg-from">LSPD to ALL</span><span class="msg-text">Do not engage targets or exit the secured area unless authorized. All personnel must stay within the operational perimeter and are strictly prohibited from firing beyond it.</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to ALL : Do not engage targets or exit the secured area unless authorized. All personnel must stay within the operational perimeter and are strictly prohibited from firing beyond it.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row all-msg"><span class="msg-from">LSPD to ALL</span><span class="msg-text">Do not discharge your weapon outside the designated perimeter, and do not leave the assigned area</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to ALL : Do not discharge your weapon outside the designated perimeter, and do not leave the assigned area')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row last-msg"><span class="msg-from">LSPD to LAST</span><span class="msg-text">Copy that. Appreciate the opportunity to assist — mission concluded</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to LAST : Copy that. Appreciate the opportunity to assist — mission concluded')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row last-msg"><span class="msg-from">LSPD to LAST</span><span class="msg-text">Operation concluded. Thank you all for your cooperation and teamwork — excellent work</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to LAST : Operation concluded. Thank you all for your cooperation and teamwork — excellent work')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+
+      <div class="sec-label">Cross-Dept</div>
+      <div class="msg-row"><span class="msg-from">LSPD to FIB</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to FIB : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">LSPD to SAHP</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to SAHP : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">LSPD to SAHP</span><span class="msg-text">I hereby request authorization to enter your jurisdiction</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to SAHP : I hereby request authorization to enter your jurisdiction')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">LSPD to SAHP</span><span class="msg-text">Be advised, a stolen car just crossed into your jurisdiction. We are in pursuit</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to SAHP : Be advised, a stolen car just crossed into your jurisdiction. We are in pursuit')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">LSPD to SAHP</span><span class="msg-text">Kindly grant entry authorization to address active ATM robbery.</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to SAHP : Kindly grant entry authorization to address active ATM robbery.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">LSPD to NG</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to NG : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">LSPD to GOV</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to GOV : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+
+      <div class="sec-label doj-label">DOJ Related</div>
+      <div class="msg-row doj-msg"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">Bad copy, we're currently in a situation!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : Bad copy, we\'re currently in a situation!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+
+      <div class="sec-label gov-label">GOV Related</div>
+      <div class="msg-row gov-msg"><span class="msg-from">LSPD to GOV</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to GOV : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">LSPD to GOV</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to GOV : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">LSPD to GOV</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to GOV : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">LSPD to GOV</span><span class="msg-text">Bad copy, we're currently in a situation!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to GOV : Bad copy, we\'re currently in a situation!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">LSPD to GOV</span><span class="msg-text">Units enroute!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to GOV : Units enroute!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">LSPD to GOV</span><span class="msg-text">Can we have a quick meeting at the Capitol?</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to GOV : Can we have a quick meeting at the Capitol?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">LSPD to GOV</span><span class="msg-text">Requesting permission to land on your lawn.</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to GOV : Requesting permission to land on your lawn.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">LSPD to GOV</span><span class="msg-text">We have one of your units in custody, could you 10-17 to DOC?</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to GOV : We have one of your units in custody, could you 10-17 to DOC?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">LSPD to GOV</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to GOV : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ FIB ════════════════ -->
+<div class="tab-panel" id="tab-fib">
+  <div class="cmd-layout">
+    <div class="cmd-col cmd-col-left">
+      <div class="sec-label">Shift Start</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">turns on bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me turns on bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">makes sure its recording and uploading to FIB cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/me makes sure its recording and uploading to FIB cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">connects the PDA from FIB cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do connects the PDA from FIB cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">takesout drone from Locker and put it in the backpack</span><button class="copy-btn" onclick="copyCmd(this,'/me takesout drone from Locker and put it in the backpack')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs the FIB standard employment Contract understanding the terms and conditions.</span><button class="copy-btn" onclick="copyCmd(this,'/me signs the FIB standard employment Contract understanding the terms and conditions.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs Charter of FIB after understanding the terms and conditions</span><button class="copy-btn" onclick="copyCmd(this,'/me signs Charter of FIB after understanding the terms and conditions')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-try">/try</span><span class="cmd-text">breaks opens trunk of the car</span><button class="copy-btn" onclick="copyCmd(this,'/try breaks opens trunk of the car')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label">Shift End</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">turns off bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me turns off bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">makes sure its recording and uploading to FIB cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do makes sure its recording and uploading to FIB cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">makes sure it has been successfully recorded and uploaded to FIB cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do makes sure it has been successfully recorded and uploaded to FIB cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+    <div class="cmd-col cmd-col-right">
+      <div class="sec-label radio-label">Radio — ALL / LAST</div>
+      <div class="msg-row all-msg"><span class="msg-from">FIB to ALL</span><span class="msg-text">Global is for heavy 10-10, Need Max 10-32 ASAP !!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to ALL : Global is for heavy 10-10, Need Max 10-32 ASAP !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row all-msg"><span class="msg-from">FIB to ALL</span><span class="msg-text">Do not engage targets or exit the secured area unless authorized. All personnel must stay within the operational perimeter and are strictly prohibited from firing beyond it.</span><button class="copy-btn" onclick="copyCmd(this,'FIB to ALL : Do not engage targets or exit the secured area unless authorized. All personnel must stay within the operational perimeter and are strictly prohibited from firing beyond it.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row all-msg"><span class="msg-from">FIB to ALL</span><span class="msg-text">Do not discharge your weapon outside the designated perimeter, and do not leave the assigned area</span><button class="copy-btn" onclick="copyCmd(this,'FIB to ALL : Do not discharge your weapon outside the designated perimeter, and do not leave the assigned area')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row last-msg"><span class="msg-from">FIB to LAST</span><span class="msg-text">Copy that. Appreciate the opportunity to assist — mission concluded</span><button class="copy-btn" onclick="copyCmd(this,'FIB to LAST : Copy that. Appreciate the opportunity to assist — mission concluded')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row last-msg"><span class="msg-from">FIB to LAST</span><span class="msg-text">Operation concluded. Thank you all for your cooperation and teamwork — excellent work</span><button class="copy-btn" onclick="copyCmd(this,'FIB to LAST : Operation concluded. Thank you all for your cooperation and teamwork — excellent work')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label">Cross-Dept</div>
+      <div class="msg-row"><span class="msg-from">FIB to LSPD</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to LSPD : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">FIB to SAHP</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to SAHP : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">FIB to NG</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to NG : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">FIB to GOV</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to GOV : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label doj-label">DOJ Related</div>
+      <div class="msg-row doj-msg"><span class="msg-from">FIB to DOJ</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">FIB to DOJ</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">FIB to DOJ</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">FIB to DOJ</span><span class="msg-text">Bad copy, we're currently in a situation!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : Bad copy, we\'re currently in a situation!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">FIB to DOJ</span><span class="msg-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">FIB to DOJ</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label gov-label">GOV Related</div>
+      <div class="msg-row gov-msg"><span class="msg-from">FIB to GOV</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'FIB to GOV : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">FIB to GOV</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to GOV : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">FIB to GOV</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to GOV : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">FIB to GOV</span><span class="msg-text">Units enroute!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to GOV : Units enroute!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">FIB to GOV</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to GOV : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ SAHP / NG / GOV — same structure ════════ -->
+<!-- SAHP -->
+<div class="tab-panel" id="tab-sahp">
+  <div class="cmd-layout">
+    <div class="cmd-col cmd-col-left">
+      <div class="sec-label">Shift Start</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">turns on bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me turns on bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">makes sure its recording and uploading to SAHP cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/me makes sure its recording and uploading to SAHP cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">connects the PDA from SAHP cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do connects the PDA from SAHP cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">takesout drone from Locker and put it in the backpack</span><button class="copy-btn" onclick="copyCmd(this,'/me takesout drone from Locker and put it in the backpack')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs the SAHP standard employment Contract understanding the terms and conditions.</span><button class="copy-btn" onclick="copyCmd(this,'/me signs the SAHP standard employment Contract understanding the terms and conditions.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs Charter of SAHP after understanding the terms and conditions</span><button class="copy-btn" onclick="copyCmd(this,'/me signs Charter of SAHP after understanding the terms and conditions')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-try">/try</span><span class="cmd-text">breaks opens trunk of the car</span><button class="copy-btn" onclick="copyCmd(this,'/try breaks opens trunk of the car')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label">Shift End</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">turns off bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me turns off bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">makes sure its recording and uploading to SAHP cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do makes sure its recording and uploading to SAHP cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">makes sure it has been successfully recorded and uploaded to SAHP cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do makes sure it has been successfully recorded and uploaded to SAHP cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+    <div class="cmd-col cmd-col-right">
+      <div class="sec-label radio-label">Radio — ALL / LAST</div>
+      <div class="msg-row all-msg"><span class="msg-from">SAHP to ALL</span><span class="msg-text">Global is for heavy 10-10, Need Max 10-32 ASAP !!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to ALL : Global is for heavy 10-10, Need Max 10-32 ASAP !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row all-msg"><span class="msg-from">SAHP to ALL</span><span class="msg-text">Do not engage targets or exit the secured area unless authorized. All personnel must stay within the operational perimeter.</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to ALL : Do not engage targets or exit the secured area unless authorized. All personnel must stay within the operational perimeter and are strictly prohibited from firing beyond it.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row last-msg"><span class="msg-from">SAHP to LAST</span><span class="msg-text">Copy that. Appreciate the opportunity to assist — mission concluded</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to LAST : Copy that. Appreciate the opportunity to assist — mission concluded')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row last-msg"><span class="msg-from">SAHP to LAST</span><span class="msg-text">Operation concluded. Thank you all for your cooperation and teamwork — excellent work</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to LAST : Operation concluded. Thank you all for your cooperation and teamwork — excellent work')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label">Cross-Dept</div>
+      <div class="msg-row"><span class="msg-from">SAHP to LSPD</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to LSPD : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">SAHP to LSPD</span><span class="msg-text">I hereby request authorization to enter your jurisdiction</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to LSPD : I hereby request authorization to enter your jurisdiction')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">SAHP to LSPD</span><span class="msg-text">Be advised, a stolen car just crossed into your jurisdiction. We are in pursuit</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to LSPD : Be advised, a stolen car just crossed into your jurisdiction. We are in pursuit')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">SAHP to LSPD</span><span class="msg-text">Kindly grant entry authorization to address active ATM robbery.</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to LSPD : Kindly grant entry authorization to address active ATM robbery.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">SAHP to FIB</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to FIB : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">SAHP to NG</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to NG : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">SAHP to GOV</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to GOV : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label doj-label">DOJ Related</div>
+      <div class="msg-row doj-msg"><span class="msg-from">SAHP to DOJ</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to DOJ : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">SAHP to DOJ</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to DOJ : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">SAHP to DOJ</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to DOJ : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">SAHP to DOJ</span><span class="msg-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">SAHP to DOJ</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to DOJ : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label gov-label">GOV Related</div>
+      <div class="msg-row gov-msg"><span class="msg-from">SAHP to GOV</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to GOV : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">SAHP to GOV</span><span class="msg-text">Units enroute!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to GOV : Units enroute!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">SAHP to GOV</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to GOV : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- NG -->
+<div class="tab-panel" id="tab-ng">
+  <div class="cmd-layout">
+    <div class="cmd-col cmd-col-left">
+      <div class="sec-label">Shift Start</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">turns on bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me turns on bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">makes sure its recording and uploading to NG cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/me makes sure its recording and uploading to NG cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">connects the PDA from NG cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do connects the PDA from NG cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">takesout drone from Locker and put it in the backpack</span><button class="copy-btn" onclick="copyCmd(this,'/me takesout drone from Locker and put it in the backpack')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs the NG standard employment Contract understanding the terms and conditions.</span><button class="copy-btn" onclick="copyCmd(this,'/me signs the NG standard employment Contract understanding the terms and conditions.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs Charter of NG after understanding the terms and conditions</span><button class="copy-btn" onclick="copyCmd(this,'/me signs Charter of NG after understanding the terms and conditions')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-try">/try</span><span class="cmd-text">breaks opens trunk of the car</span><button class="copy-btn" onclick="copyCmd(this,'/try breaks opens trunk of the car')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label">Shift End</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">turns off bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me turns off bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">makes sure its recording and uploading to NG cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do makes sure its recording and uploading to NG cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">makes sure it has been successfully recorded and uploaded to NG cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do makes sure it has been successfully recorded and uploaded to NG cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+    <div class="cmd-col cmd-col-right">
+      <div class="sec-label radio-label">Radio — ALL / LAST</div>
+      <div class="msg-row all-msg"><span class="msg-from">NG to ALL</span><span class="msg-text">Global is for heavy 10-10, Need Max 10-32 ASAP !!</span><button class="copy-btn" onclick="copyCmd(this,'NG to ALL : Global is for heavy 10-10, Need Max 10-32 ASAP !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row all-msg"><span class="msg-from">NG to ALL</span><span class="msg-text">Do not engage targets or exit the secured area unless authorized. All personnel must stay within the operational perimeter.</span><button class="copy-btn" onclick="copyCmd(this,'NG to ALL : Do not engage targets or exit the secured area unless authorized. All personnel must stay within the operational perimeter and are strictly prohibited from firing beyond it.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row last-msg"><span class="msg-from">NG to LAST</span><span class="msg-text">Copy that. Appreciate the opportunity to assist — mission concluded</span><button class="copy-btn" onclick="copyCmd(this,'NG to LAST : Copy that. Appreciate the opportunity to assist — mission concluded')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row last-msg"><span class="msg-from">NG to LAST</span><span class="msg-text">Operation concluded. Thank you all for your cooperation and teamwork — excellent work</span><button class="copy-btn" onclick="copyCmd(this,'NG to LAST : Operation concluded. Thank you all for your cooperation and teamwork — excellent work')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label">Cross-Dept</div>
+      <div class="msg-row"><span class="msg-from">NG to LSPD</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'NG to LSPD : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">NG to FIB</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'NG to FIB : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">NG to SAHP</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'NG to SAHP : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">NG to GOV</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'NG to GOV : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label doj-label">DOJ Related</div>
+      <div class="msg-row doj-msg"><span class="msg-from">NG to DOJ</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'NG to DOJ : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">NG to DOJ</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'NG to DOJ : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">NG to DOJ</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'NG to DOJ : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">NG to DOJ</span><span class="msg-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><button class="copy-btn" onclick="copyCmd(this,'NG to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">NG to DOJ</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'NG to DOJ : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label gov-label">GOV Related</div>
+      <div class="msg-row gov-msg"><span class="msg-from">NG to GOV</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'NG to GOV : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">NG to GOV</span><span class="msg-text">Units enroute!</span><button class="copy-btn" onclick="copyCmd(this,'NG to GOV : Units enroute!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">NG to GOV</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'NG to GOV : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- GOV -->
+<div class="tab-panel" id="tab-gov">
+  <div class="cmd-layout">
+    <div class="cmd-col cmd-col-left">
+      <div class="sec-label">Shift Start</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">turns on bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me turns on bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">makes sure its recording and uploading to GOV cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/me makes sure its recording and uploading to GOV cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">connects the PDA from GOV cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do connects the PDA from GOV cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">takesout drone from Locker and put it in the backpack</span><button class="copy-btn" onclick="copyCmd(this,'/me takesout drone from Locker and put it in the backpack')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs the GOV standard employment Contract understanding the terms and conditions.</span><button class="copy-btn" onclick="copyCmd(this,'/me signs the GOV standard employment Contract understanding the terms and conditions.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs Charter of GOV after understanding the terms and conditions</span><button class="copy-btn" onclick="copyCmd(this,'/me signs Charter of GOV after understanding the terms and conditions')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-try">/try</span><span class="cmd-text">breaks opens trunk of the car</span><button class="copy-btn" onclick="copyCmd(this,'/try breaks opens trunk of the car')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label">Shift End</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">turns off bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me turns off bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">makes sure its recording and uploading to GOV cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do makes sure its recording and uploading to GOV cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-do">/do</span><span class="cmd-text">makes sure it has been successfully recorded and uploaded to GOV cloud server</span><button class="copy-btn" onclick="copyCmd(this,'/do makes sure it has been successfully recorded and uploaded to GOV cloud server')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+    <div class="cmd-col cmd-col-right">
+      <div class="sec-label radio-label">Radio — ALL / LAST</div>
+      <div class="msg-row all-msg"><span class="msg-from">GOV to ALL</span><span class="msg-text">Global is for heavy 10-10, Need Max 10-32 ASAP !!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to ALL : Global is for heavy 10-10, Need Max 10-32 ASAP !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row all-msg"><span class="msg-from">GOV to ALL</span><span class="msg-text">Do not engage targets or exit the secured area unless authorized. All personnel must stay within the operational perimeter.</span><button class="copy-btn" onclick="copyCmd(this,'GOV to ALL : Do not engage targets or exit the secured area unless authorized. All personnel must stay within the operational perimeter and are strictly prohibited from firing beyond it.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row last-msg"><span class="msg-from">GOV to LAST</span><span class="msg-text">Copy that. Appreciate the opportunity to assist — mission concluded</span><button class="copy-btn" onclick="copyCmd(this,'GOV to LAST : Copy that. Appreciate the opportunity to assist — mission concluded')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row last-msg"><span class="msg-from">GOV to LAST</span><span class="msg-text">Operation concluded. Thank you all for your cooperation and teamwork — excellent work</span><button class="copy-btn" onclick="copyCmd(this,'GOV to LAST : Operation concluded. Thank you all for your cooperation and teamwork — excellent work')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label">Cross-Dept</div>
+      <div class="msg-row"><span class="msg-from">GOV to LSPD</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to LSPD : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">GOV to FIB</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to FIB : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">GOV to SAHP</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to SAHP : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row"><span class="msg-from">GOV to NG</span><span class="msg-text">Be professional while doing the Department !!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to NG : Be professional while doing the Department !!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label doj-label">DOJ Related</div>
+      <div class="msg-row doj-msg"><span class="msg-from">GOV to DOJ</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'GOV to DOJ : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">GOV to DOJ</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to DOJ : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">GOV to DOJ</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to DOJ : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">GOV to DOJ</span><span class="msg-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><button class="copy-btn" onclick="copyCmd(this,'GOV to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row doj-msg"><span class="msg-from">GOV to DOJ</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to DOJ : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="sec-label gov-label">GOV Internal</div>
+      <div class="msg-row gov-msg"><span class="msg-from">GOV to GOV</span><span class="msg-text">Can we have a quick meeting at the Capitol?</span><button class="copy-btn" onclick="copyCmd(this,'GOV to GOV : Can we have a quick meeting at the Capitol?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="msg-row gov-msg"><span class="msg-from">GOV to LSPD</span><span class="msg-text">Requesting permission to land on your lawn.</span><button class="copy-btn" onclick="copyCmd(this,'GOV to LSPD : Requesting permission to land on your lawn.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- CORRUPT COP -->
+<div class="tab-panel corrupt-panel" id="tab-corrupt">
+  <div class="cmd-layout">
+    <div class="cmd-col cmd-col-left" style="grid-column:1/-1">
+      <div class="sec-label">Commands</div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">searches for bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/me searches for bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-try">/try</span><span class="cmd-text">breaks the bodycam</span><button class="copy-btn" onclick="copyCmd(this,'/try breaks the bodycam')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">plants illegal items in the back pocket the person infront</span><button class="copy-btn" onclick="copyCmd(this,'/me plants illegal items in the back pocket the person infront')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-try">/try</span><span class="cmd-text">grabs bodycam from the chest and breaks it</span><button class="copy-btn" onclick="copyCmd(this,'/try grabs bodycam from the chest and breaks it')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-try">/try</span><span class="cmd-text">Injects truth serum on suspect in cuffs</span><button class="copy-btn" onclick="copyCmd(this,'/try Injects truth serum on suspect in cuffs')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-try">/try</span><span class="cmd-text">breaks opens trunk of the car</span><button class="copy-btn" onclick="copyCmd(this,'/try breaks opens trunk of the car')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs the Corrupt Cop standard employment Contract understanding the terms and conditions.</span><button class="copy-btn" onclick="copyCmd(this,'/me signs the Corrupt Cop standard employment Contract understanding the terms and conditions.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+      <div class="cmd-row"><span class="cmd-type type-me">/me</span><span class="cmd-text">signs Charter of Corrupt Cop after understanding the terms and conditions</span><button class="copy-btn" onclick="copyCmd(this,'/me signs Charter of Corrupt Cop after understanding the terms and conditions')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end page-wrap -->
+
+<script>
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  // Reset search on tab switch
+  document.getElementById('searchInput').value='';
+  showAll();
+}
+
+function copyCmd(btn,text){
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.classList.add('copied');
+    btn.innerHTML='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,8 6,12 14,4"/></svg>DONE';
+    setTimeout(()=>{
+      btn.classList.remove('copied');
+      btn.innerHTML='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY';
+    },2000);
+  });
+}
+
+function showAll(){
+  document.querySelectorAll('.cmd-row,.msg-row').forEach(r=>r.classList.remove('hidden'));
+}
+
+document.getElementById('searchInput').addEventListener('input',function(){
+  const q=this.value.trim().toLowerCase();
+  if(!q){showAll();return;}
+  const activePanel=document.querySelector('.tab-panel.active');
+  if(!activePanel)return;
+  activePanel.querySelectorAll('.cmd-row,.msg-row').forEach(row=>{
+    const txt=row.textContent.toLowerCase();
+    row.classList.toggle('hidden',!txt.includes(q));
+  });
+});
+</script>
+
+</body>
+</html>

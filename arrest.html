@@ -1,0 +1,1558 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="auth.js"></script>
+<script>LC_Guard('arrest.html');</script>
+
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐍%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detaining a Suspect | The Viper</title>
+<script>
+  // Disable right click
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  // Disable common shortcuts
+  document.addEventListener('keydown', e => {
+    // F12
+    if (e.key === 'F12') e.preventDefault();
+    // Ctrl+Shift+I (Inspect)
+    if (e.ctrlKey && e.shiftKey && e.key === 'I') e.preventDefault();
+    // Ctrl+Shift+J (Console)
+    if (e.ctrlKey && e.shiftKey && e.key === 'J') e.preventDefault();
+    // Ctrl+U (View Source)
+    if (e.ctrlKey && e.key === 'u') e.preventDefault();
+    // Ctrl+S (Save)
+    if (e.ctrlKey && e.key === 's') e.preventDefault();
+    // Ctrl+A (Select All)
+    if (e.ctrlKey && e.key === 'a') e.preventDefault();
+    // Ctrl+C (Copy)
+    if (e.ctrlKey && e.key === 'c') e.preventDefault();
+    // Ctrl+p
+    if (e.ctrlKey && e.key === 'p') e.preventDefault();
+  });
+
+  // Disable text selection
+  document.addEventListener('selectstart', e => e.preventDefault());
+  document.addEventListener('dragstart', e => e.preventDefault());
+
+  // Detect DevTools open and blur the page
+  setInterval(() => {
+    const threshold = 300;
+    const open = window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold;
+    document.getElementById('_devblur') && (document.getElementById('_devblur').style.display = open ? 'block' : 'none');
+  }, 2000);
+</script>
+
+<style>
+  /* Disable text selection via CSS too */
+  * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:         #0d0d0d;
+  --bg2:        #141414;
+  --bg3:        #1a1a1a;
+  --border:     #2a2a2a;
+  --border2:    #333;
+  --text:       #c8c8c8;
+  --text-dim:   #888;
+  --text-bright:#e8e8e8;
+  --red:        #e8393a;
+  --red-dim:    rgba(232,57,58,0.15);
+  --yellow:     #f0c040;
+  --yellow-dim: rgba(240,192,64,0.15);
+  --green:      #4caf6e;
+  --green-dim:  rgba(76,175,110,0.15);
+  --accent:     #e8393a; 
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  background: #0a0a0a;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 0 24px;
+  min-height: 80px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 200px;
+}
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  background: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.logo-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  color: #fff;
+}
+.logo-name span { color: var(--red); }
+
+.page-title { text-align: center; flex: 1; }
+.page-title h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-bright);
+}
+.page-title h1 span { color: var(--red); }
+
+.clock-block {
+  font-family: 'Share Tech Mono', monospace;
+  background: #111;
+  border: 1px solid var(--border2);
+  border-top: none;
+  border-right: none;
+  border-radius: 0 0 0 4px;
+  padding: 10px 24px;
+  text-align: right;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 160px;
+}
+.clock-block .ck-label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.clock-block .ck-time {
+  font-size: 20px;
+  color: var(--text-bright);
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+/* ── SEARCH ── */
+.search-wrap {
+  padding: 20px 24px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+.search-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+.search-inner input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 16px 40px 16px 20px;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-inner input::placeholder { color: #555; }
+.search-inner input:focus { 
+  border-color: var(--red); 
+  box-shadow: 0 0 0 3px var(--red-dim);
+}
+.search-inner .si {
+  position: absolute; right: 16px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim); font-size: 18px; pointer-events: none;
+}
+
+/* ── MAIN LAYOUT ── */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 24px;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 30px;
+  align-items: start;
+}
+
+/* ── PANELS ── */
+.panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.panel-header {
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-bright);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.panel-header span {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* ── PENAL LIST ── */
+.penal-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: background 0.15s;
+}
+.penal-row:hover { background: rgba(255,255,255,0.02); }
+.penal-row:last-child { border-bottom: none; }
+
+.penal-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.penal-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.article {
+  color: var(--text-dim);
+  font-weight: 600;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  min-width: 60px;
+}
+.desc {
+  font-size: 15px;
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+.penal-desc-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  padding-left: 75px; 
+}
+
+/* Badges */
+.badges-wrap {
+  display: flex;
+  gap: 8px;
+}
+.badge {
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.stars { background: var(--yellow-dim); color: var(--yellow); }
+.amount { background: var(--green-dim); color: var(--green); }
+
+/* ── MODERN TOGGLE SWITCH ── */
+.switch {
+  width: 48px;
+  height: 24px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+  flex-shrink: 0;
+}
+.switch::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: var(--text-dim);
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), background 0.3s;
+}
+.switch.active {
+  background: var(--red-dim);
+  border-color: var(--red);
+}
+.switch.active::after {
+  background: var(--red);
+  transform: translateX(24px);
+}
+
+/* ── RIGHT SIDE: SUMMARY PANEL (STICKY) ── */
+.summary-panel {
+  position: sticky;
+  top: 110px;
+}
+.summary-content { padding: 24px; }
+
+/* Clear All Button */
+.btn-clear {
+  background: var(--red-dim);
+  color: var(--red);
+  border: 1px solid var(--red);
+  padding: 4px 12px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 3px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: 0.2s;
+}
+.btn-clear:hover {
+  background: var(--red);
+  color: #fff;
+}
+.btn-clear:active {
+  transform: scale(0.96);
+}
+
+/* Copy Box */
+.copy-box {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 16px;
+  min-height: 80px;
+  margin-bottom: 24px;
+  word-break: break-word;
+  font-size: 13px;
+  line-height: 1.6;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--text-dim);
+  position: relative;
+}
+.copy-box.has-content { color: var(--text-bright); border-color: var(--border); }
+
+.btn-copy {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  padding: 10px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+.btn-copy:hover { background: var(--border); color: #fff; }
+.btn-copy:active { transform: translateY(1px); }
+
+/* Progress / Limits */
+.limit-group { margin-bottom: 20px; }
+.limit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 8px;
+}
+.limit-label {
+  color: var(--text-dim);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.limit-value {
+  color: var(--text-bright);
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Share Tech Mono', monospace;
+}
+.limit-value.maxed { color: var(--red); }
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--border2);
+}
+.progress-fill {
+  height: 100%;
+  background: var(--text-dim);
+  width: 0%;
+  transition: width 0.4s ease, background-color 0.4s ease;
+}
+.progress-fill.fine-fill.maxed, .progress-fill.star-fill.maxed {
+  background: var(--red);
+}
+.progress-fill.fine-fill { background: var(--green); }
+.progress-fill.star-fill { background: var(--yellow); }
+
+.note {
+  color: #555;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 24px;
+  text-align: center;
+  font-style: italic;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width: 1024px) {
+  .container { grid-template-columns: 1fr; }
+  .summary-panel { position: static; }
+}
+@media(max-width: 600px) {
+  .penal-row-top { flex-wrap: wrap; }
+  .penal-desc-text { padding-left: 0; margin-top: 5px; }
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: #2e2e2e; border-radius: 3px; }
+
+/* ── COMMANDS BUTTON ── */
+.btn-commands {
+  background: var(--red-dim);
+  color: var(--red);
+  border: 1px solid var(--red);
+  padding: 10px 20px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+.btn-commands:hover { background: var(--red); color: #fff; }
+.btn-commands:active { transform: scale(0.97); }
+
+  /* ── SEARCH HIGHLIGHT ── */
+mark {
+  background: rgba(240,192,64,0.35);
+  color: var(--yellow);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: #141414;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 32px;
+  max-width: 560px;
+  width: 92vw;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.8);
+  animation: modalIn 0.18s ease;
+}
+@keyframes modalIn {
+  from { opacity:0; transform: scale(0.95) translateY(10px); }
+  to   { opacity:1; transform: scale(1) translateY(0); }
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: none; border: none; color: #666;
+  font-size: 22px; cursor: pointer; line-height: 1;
+  transition: color 0.15s;
+}
+.modal-close:hover { color: var(--red); }
+.modal-tag {
+  display: inline-block;
+  background: var(--red-dim);
+  color: var(--red);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 3px;
+  margin-bottom: 14px;
+  letter-spacing: 0.08em;
+}
+.modal-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 6px;
+}
+.modal-divider {
+  height: 1px;
+  background: #2a2a2a;
+  margin: 16px 0;
+}
+.modal-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+.modal-badges {
+  display: flex; gap: 10px; margin-top: 20px;
+}
+.penal-row { cursor: pointer; }
+
+/* ── PDA BOX ── */
+.pda-box-wrap {
+  margin-top: 16px;
+  border-top: 1px solid #2a2a2a;
+  padding-top: 14px;
+}
+.pda-box-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: #555; margin-bottom: 6px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pda-char-count {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 1px;
+}
+.pda-char-count.ok { color: #4caf6e; }
+.pda-char-count.warn { color: #e8393a; }
+.pda-textarea {
+  width: 100%;
+  background: #111;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  padding: 10px 12px;
+  color: #e8e8e8;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 64px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  user-select: text !important;
+}
+.pda-textarea.green {
+  border-color: #4caf6e;
+  box-shadow: 0 0 0 2px rgba(76,175,110,0.15);
+}
+.pda-textarea.red {
+  border-color: #e8393a;
+  box-shadow: 0 0 0 2px rgba(232,57,58,0.15);
+  animation: pdaShake 0.3s ease;
+}
+@keyframes pdaShake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 60%{transform:translateX(5px)}
+}
+.pda-error {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 1px;
+  color: #e8393a; margin-top: 5px; min-height: 14px;
+  text-align: center;
+}
+.btn-pda-copy {
+  width: 100%; margin-top: 8px; padding: 10px;
+  background: #1a1a1a; border: 1px solid #2a2a2a;
+  border-radius: 4px; color: #c8c8c8;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.btn-pda-copy:hover { background: #222; border-color: #4caf6e; color: #4caf6e; }
+.btn-pda-copy.copied { background: rgba(76,175,110,0.1); border-color: #4caf6e; color: #4caf6e; }
+
+/* ── FLOATING LEFT PANEL ── */
+.float-panel {
+  position: fixed;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.float-tab {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-left: 3px solid #e8393a;
+  color: #c8c8c8;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  padding: 14px 8px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  margin-bottom: 4px;
+  border-radius: 0 4px 4px 0;
+}
+.float-tab:hover, .float-tab.active {
+  background: #252525; border-left-color: #e8393a; color: #e8393a;
+}
+
+.float-drawer {
+  position: fixed;
+  left: -340px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 320px;
+  max-height: 80vh;
+  background: #111;
+  border: 1px solid #2a2a2a;
+  border-radius: 0 8px 8px 0;
+  z-index: 799;
+  transition: left 0.28s cubic-bezier(0.4,0,0.2,1);
+  overflow-y: auto;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.6);
+}
+.float-drawer.open { left: 30px; }
+
+.drawer-header {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid #222;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; background: #111; z-index: 1;
+}
+.drawer-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 3px; color: #e8393a;
+}
+.drawer-close {
+  background: none; border: none; color: #555;
+  font-size: 18px; cursor: pointer; transition: color 0.2s; line-height: 1;
+}
+.drawer-close:hover { color: #e8393a; }
+
+.drawer-section-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: #444; padding: 10px 16px 4px;
+  display: flex; align-items: center; gap: 8px;
+}
+.drawer-section-label::after { content:''; flex:1; height:1px; background:#222; }
+.drawer-section-label.doj { color: #f0c040; }
+.drawer-section-label.ems { color: #4caf6e; }
+
+.drawer-cmd {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.drawer-cmd:hover { background: rgba(255,255,255,0.04); }
+.drawer-cmd.copied { background: rgba(76,175,110,0.07); }
+
+.dc-type {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; padding: 2px 6px; border-radius: 2px;
+  flex-shrink: 0; min-width: 30px; text-align: center;
+}
+.dc-me { background: rgba(232,57,58,0.15); color: #e8393a; border: 1px solid rgba(232,57,58,0.2); }
+.dc-do { background: rgba(240,192,64,0.12); color: #f0c040; border: 1px solid rgba(240,192,64,0.2); }
+.dc-try { background: rgba(76,175,110,0.12); color: #4caf6e; border: 1px solid rgba(76,175,110,0.2); }
+.dc-msg { background: rgba(88,101,242,0.1); color: #8899ff; border: 1px solid rgba(88,101,242,0.2); }
+.dc-doj { background: rgba(240,192,64,0.1); color: #f0c040; border: 1px solid rgba(240,192,64,0.2); }
+.dc-ems { background: rgba(76,175,110,0.1); color: #4caf6e; border: 1px solid rgba(76,175,110,0.2); }
+
+.dc-from {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; color: #8899ff; flex-shrink: 0;
+  min-width: 80px; font-weight: bold;
+}
+.dc-text {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; color: #aaa; flex: 1; line-height: 1.4;
+}
+.dc-copy {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; color: #444; flex-shrink: 0;
+  border: 1px solid #2a2a2a; padding: 3px 7px; border-radius: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.drawer-cmd:hover .dc-copy { color: #4caf6e; border-color: #4caf6e; }
+.drawer-cmd.copied .dc-copy { color: #4caf6e; border-color: #4caf6e; }
+
+/* dept selector tabs inside drawer */
+.dept-tabs {
+  display: flex; gap: 4px; padding: 10px 16px 0; flex-wrap: wrap;
+}
+.dept-tab {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px; letter-spacing: 2px;
+  padding: 4px 12px; border-radius: 3px;
+  border: 1px solid #2a2a2a; background: #1a1a1a;
+  color: #666; cursor: pointer; transition: all 0.15s;
+}
+.dept-tab:hover { color: #ccc; border-color: #444; }
+.dept-tab.active { background: #e8393a; border-color: #e8393a; color: #fff; }
+
+.dept-panel { display: none; }
+.dept-panel.active { display: block; }
+
+/* Home button on arrest page */
+.arrest-home-btn {
+  position: fixed; bottom: 44px; right: 16px; z-index: 600;
+  background: #e8393a; color: #fff;
+  font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700;
+  letter-spacing: 2px; text-decoration: none; text-transform: uppercase;
+  padding: 8px 16px; border-radius: 3px;
+  transition: background 0.2s; box-shadow: 0 4px 16px rgba(232,57,58,0.3);
+}
+.arrest-home-btn:hover { background: #c0222e; }
+
+@media(max-width:768px){
+  .float-panel { display: none; }
+}
+
+
+@media(max-width: 768px) {
+  .container { grid-template-columns: 1fr !important; padding: 16px !important; gap: 16px !important; }
+  .summary-panel { position: static !important; }
+  .topbar { flex-direction: column; height: auto !important; padding: 12px 16px; gap: 8px; }
+  .page-title h1 { font-size: 22px !important; }
+  .search-wrap { padding: 12px 16px !important; }
+  .penal-row { padding: 12px 14px !important; }
+  .float-panel { display: none !important; }
+  .float-drawer { display: none !important; }
+  .arrest-home-btn { bottom: 44px; right: 8px; padding: 6px 12px; font-size: 11px; }
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- GUARD START -->
+
+<div class="topbar">
+  <div class="logo-wrap">
+    <div class="logo-icon">KA</div>
+    <div class="logo-name">KING <span>AMXN</span></div>
+  </div>
+
+  <div class="page-title">
+    <h1>DETAINING A <span>SUSPECT</span></h1>
+  </div>
+
+  <div class="clock-block">
+    <div class="ck-label">SERVER TIME</div>
+    <div class="ck-time" id="clock">00:00:00</div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <div style="max-width:800px;margin:0 auto;display:flex;align-items:center;gap:12px;">
+    <div class="search-inner" style="flex:1;margin:0;">
+      <input type="text" id="searchInput" placeholder="Search Penal Code Number, Title, or Full Description... Example: 'weapon', 'robbery', '2.1.1'">
+      <span class="si">&#8981;</span>
+    </div>
+    <a href="commands.html" class="btn-commands">&#9889; Commands</a>
+  </div>
+</div>
+
+
+<div class="container">
+
+  <div class="panel">
+    <div class="panel-header">
+      <div>Penal Codes Database</div>
+      <span id="code-count">0 Loaded</span>
+    </div>
+    <div id="penalList"></div>
+  </div>
+
+  <div class="panel summary-panel">
+    <div class="panel-header">
+      <div>Arrest Summary</div>
+      <button class="btn-clear" id="btnClearAll" onclick="clearAllSelections()">Clear All</button>
+    </div>
+    <div class="summary-content">
+
+      <div class="copy-box" id="copyBox">No Penal Codes Selected</div>
+      <button class="btn-copy" id="btnCopy" onclick="copyToClipboard()">Copy to Clipboard</button>
+
+      <div class="limit-group">
+        <div class="limit-header">
+          <div class="limit-label">Total Fine (Max $50k)</div>
+          <div class="limit-value" id="totalFine">$0</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill fine-fill" id="fineFill"></div>
+        </div>
+      </div>
+
+      <div class="limit-group">
+        <div class="limit-header">
+          <div class="limit-label">Total Stars (Max 5)</div>
+          <div class="limit-value" id="totalStars">0 ★</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill star-fill" id="starFill"></div>
+        </div>
+      </div>
+
+      <div class="note">
+        System automatically caps fines at $50,000 and stars at 5 per state limits.
+      </div>
+      <!-- PDA BOX -->
+      <div class="pda-box-wrap">
+        <div class="pda-box-label">
+          <span>📱 PDA QUICK COPY</span>
+          <span class="pda-char-count ok" id="pdaCharCount">0 / 100</span>
+        </div>
+        <textarea class="pda-textarea green" id="pdaTextarea" placeholder="Select penal codes above to auto-fill..." maxlength="300"></textarea>
+        <div class="pda-error" id="pdaError"></div>
+        <button class="btn-pda-copy" id="btnPdaCopy" onclick="pdaCopy()">📋 COPY FOR PDA</button>
+      </div>
+
+    </div>
+  </div>
+
+
+<!-- EMS & DOC Commands -->
+<div style="max-width:1400px;margin:0 auto;padding:0 24px 40px;">
+  <div class="panel">
+    <div class="panel-header">
+      <div>DOC / EMS Radio &amp; Commands</div>
+      <span>Copy &amp; Use In-Game</span>
+    </div>
+    <div style="padding:20px;display:flex;flex-direction:column;gap:8px;">
+
+      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:4px;padding-bottom:8px;border-bottom:1px solid #1a1a1a;">Radio — EMS Requests</div>
+
+      <div class="doc-cmd-row" onclick="docCopy(this,'to EMS : Requesting EMS to DOC urgently — a detainee requires immediate medical attention')">
+        <span class="doc-prefix msg">MSG</span>
+        <span class="doc-text">to EMS : Requesting EMS to DOC urgently — a detainee requires immediate medical attention</span>
+        <span class="doc-copy-btn">COPY</span>
+      </div>
+      <div class="doc-cmd-row" onclick="docCopy(this,'to EMS : Any EMS available to respond at DOC? A detainee requires medical assistance')">
+        <span class="doc-prefix msg">MSG</span>
+        <span class="doc-text">to EMS : Any EMS available to respond at DOC? A detainee requires medical assistance</span>
+        <span class="doc-copy-btn">COPY</span>
+      </div>
+
+      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-top:12px;margin-bottom:4px;padding-bottom:8px;border-bottom:1px solid #1a1a1a;">Inmate Processing</div>
+
+      <div class="doc-cmd-row" onclick="docCopy(this,'/me grabs free size jumpsuit')">
+        <span class="doc-prefix me">/me</span>
+        <span class="doc-text">grabs free size jumpsuit</span>
+        <span class="doc-copy-btn">COPY</span>
+      </div>
+      <div class="doc-cmd-row" onclick="docCopy(this,'/me puts jumpsuit on the bed')">
+        <span class="doc-prefix me">/me</span>
+        <span class="doc-text">puts jumpsuit on the bed</span>
+        <span class="doc-copy-btn">COPY</span>
+      </div>
+      <div class="doc-cmd-row" onclick="docCopy(this,'/try takesout cellphone and radio')">
+        <span class="doc-prefix try">/try</span>
+        <span class="doc-text">takesout cellphone and radio</span>
+        <span class="doc-copy-btn">COPY</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+.doc-cmd-row {
+  display:flex; align-items:center; gap:12px;
+  background:#141414; border:1px solid #2a2a2a; border-radius:4px;
+  padding:11px 14px; cursor:pointer;
+  transition:border-color 0.15s, background 0.15s;
+}
+.doc-cmd-row:hover { border-color:#3a3a3a; background:#1a1a1a; }
+.doc-cmd-row.copied { border-color:#3ddc84; background:rgba(61,220,132,0.05); }
+.doc-prefix {
+  font-family:'Share Tech Mono',monospace; font-size:10px;
+  letter-spacing:1px; padding:3px 8px; border-radius:2px;
+  flex-shrink:0; min-width:36px; text-align:center;
+}
+.doc-prefix.me   { background:rgba(230,57,70,0.12);  color:#e63946; border:1px solid rgba(230,57,70,0.2); }
+.doc-prefix.try  { background:rgba(61,220,132,0.1);  color:#3ddc84; border:1px solid rgba(61,220,132,0.2); }
+.doc-prefix.msg  { background:rgba(88,101,242,0.1);  color:#8899ff; border:1px solid rgba(88,101,242,0.2); }
+.doc-text { font-family:'Share Tech Mono',monospace; font-size:12px; color:#c8c8c8; flex:1; }
+.doc-copy-btn {
+  font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:1px;
+  color:#555; border:1px solid #2a2a2a; border-radius:2px;
+  padding:4px 10px; flex-shrink:0; transition:color 0.15s, border-color 0.15s;
+}
+.doc-cmd-row:hover .doc-copy-btn { color:#3ddc84; border-color:#3ddc84; }
+.doc-cmd-row.copied .doc-copy-btn { color:#3ddc84; border-color:#3ddc84; content:'✓ COPIED'; }
+</style>
+<script>
+function docCopy(row, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    row.classList.add('copied');
+    row.querySelector('.doc-copy-btn').textContent = '✓ COPIED';
+    setTimeout(() => {
+      row.classList.remove('copied');
+      row.querySelector('.doc-copy-btn').textContent = 'COPY';
+    }, 2000);
+  });
+}
+</script>
+</div>
+
+<script>
+/* CLOCK */
+function updateClock(){
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById("clock").textContent = `${h}:${m}:${s}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* FULL PENAL CODE DATA */
+const penalCodes = [
+  { article: "2.1.1", title: "Possession of Narcotics (First)", stars: 0, amount: 15000, desc: "The possession of Narcotics to a total less than (5) items shall result in a seizure of all substances and the issue of a Fine." },
+  { article: "2.1.1", title: "Possession of Narcotics (Repeat)", stars: 1, amount: 10000, desc: "Repeat offences. The Prison Term can be substituted for an increased Fine at the arresting officer’s discretion." },
+  { article: "2.1.2", title: "Possession of Narcotics in Large Quantities", stars: 2, amount: 20000, desc: "The possession of Narcotics of five (5) or more units but less than ten (10) shall result in a seizure of all substances. Bail shall only be granted if the suspect cooperates with law enforcement." },
+  { article: "2.1.3", title: "Possession of Narcotics with the Intent to Distribute", stars: 3, amount: 30000, desc: "The sale or attempted distribution of Narcotics in excess of ten (10) items shall result in a seizure of all substances. Bail shall only be granted if the suspect cooperates." },
+  { article: "2.1.6", title: "Possession of Prohibited Items", stars: 2, amount: 20000, desc: "The possession of two (2) or less prohibited items as defined in the Appendix." },
+  { article: "2.1.7", title: "Possession of Prohibited Items with the Intent to Distribute", stars: 3, amount: 30000, desc: "The possession of three (3) or more prohibited items as defined in the Appendix. Bail shall only be granted if the suspect cooperates." },
+  { article: "2.2.1", title: "Culpable Homicide / Manslaughter", stars: 2, amount: 20000, desc: "An action that results in the death of another citizen through an act of negligence or carelessness (eg: striking a pedestrian with a car due to excessive speed, and not rendering aid)." },
+  { article: "2.2.2", title: "Murder or Attempted Murder", stars: 4, amount: 40000, desc: "Murder or attempted murder is intentionally and unlawfully causing the death of another citizen through unlawful actions, or the attempt to do so." },
+  { article: "2.2.3", title: "Premeditated Murder or Attempted Premeditated Murder", stars: 5, amount: 50000, desc: "Intentionally and unlawfully causing the death of another citizen through a pre-planned course of action, or the attempt to do so. No Bail." },
+  { article: "2.3.1", title: "Assault by Threat", stars: 2, amount: 20000, desc: "Threatening to unlawfully attack another person, If there is a sufficient reason or reasons to believe that any threat made has the likelihood of being followed through and the threat would include bodily harm." },
+  { article: "2.3.2", title: "Attempted Suicide", stars: 0, amount: 0, desc: "Any attempt at self-harm that is non-fatal or any other self-directed potentially injurious behaviour. Officers should restrain and call EMS. Unclassified Misdemeanour." },
+  { article: "2.4.1", title: "Abandonment", stars: 1, amount: 10000, desc: "Deliberate abandonment by a citizen of a person who is in a life threatening condition and is deprived of the opportunity to take measures for self-preservation." },
+  { article: "2.4.2", title: "Abandonment by a Law Enforcement Officer or Civil Servant", stars: 2, amount: 20000, desc: "Deliberate abandonment by a civil servant of the state of a person who is in a life threatening condition. This shall not apply if there is unreasonable risk in providing assistance (active gunfight)." },
+  { article: "2.5.1", title: "Kidnapping or Attempted Kidnapping", stars: 3, amount: 30000, desc: "The kidnapping or abduction, or any attempt at kidnapping or abduction, of a person who is a civilian." },
+  { article: "2.5.2", title: "Kidnapping or Attempted Kidnapping of a Civil Servant", stars: 4, amount: 40000, desc: "The kidnapping or abduction, or any attempt at kidnapping or abduction, of a person who is a law enforcement officer or a civil servant of the state." },
+  { article: "2.5.3", title: "Kidnapping or Attempted Kidnapping of a State Official", stars: 5, amount: 50000, desc: "The kidnapping or abduction, or any attempt at kidnapping or abduction, of a person who is a leader or deputy leader of a state organisation, or a government official. No Bail." },
+  { article: "2.6.1", title: "Taking of a Hostage", stars: 5, amount: 50000, desc: "Taking or holding a person hostage in order to force that person’s relatives, the state, or other institution to commit any crime, or pay for the hostages release. No Bail." },
+  { article: "2.7.1", title: "Sexual Harassment", stars: 3, amount: 30000, desc: "Unwanted and deliberate verbal harassment and advances of a sexual nature when the victim has clearly refused or expressed their wish to be left alone." },
+  { article: "2.7.2", title: "Sexual Assault", stars: 4, amount: 40000, desc: "Unwanted and deliberate touching, pinching, hugging, kissing or any other form of unwanted physical contact or repeated attempts when the victim has clearly refused." },
+  { article: "2.7.3", title: "Rape", stars: 5, amount: 50000, desc: "Forced sexual acts of any nature with the use of or threat of physical violence or the helpless state of the victim. No Bail." },
+  { article: "2.8.1", title: "Forgery", stars: 2, amount: 30000, desc: "The illegal production or storage of any licences, permits, certificates, or health insurance." },
+  { article: "2.8.2", title: "Dealing in Forged Documents", stars: 3, amount: 30000, desc: "The attempt to purchase or sell or purchase or offer to purchase any licences, permits, certificates, or health insurance." },
+  { article: "2.9.1", title: "Petty Larceny or Theft (First)", stars: 1, amount: 10000, desc: "Petty Larceny is the theft, or the attempted theft of goods or money with a value less than $25,000. This includes the robbery or attempted robbery of an ATM." },
+  { article: "2.9.1", title: "Petty Larceny or Theft (Repeat)", stars: 2, amount: 20000, desc: "Repeat offences of Petty Larceny." },
+  { article: "2.9.2", title: "Grand Larceny or Theft", stars: 2, amount: 20000, desc: "Grand Larceny is the theft, or the attempted theft of goods or money with a combined value greater than $25,000 but not more than $100,000. Reimbursement required." },
+  { article: "2.9.3", title: "Felony Larceny or Theft", stars: 3, amount: 30000, desc: "The theft, or the attempted theft of goods or money with a combined value more than $100,000. Reimbursement required." },
+  { article: "2.9.4", title: "Grand Theft Auto", stars: 4, amount: 40000, desc: "The theft, or attempted theft, of a vehicle that does not belong to the suspect. Revocation of Driving Licence." },
+  { article: "2.10.1", title: "Armed Robbery", stars: 4, amount: 40000, desc: "Open theft of someone’s property or the attempt to do so, with the threat of or use of violence. No Bail." },
+  { article: "2.11.1", title: "Heist", stars: 4, amount: 40000, desc: "An attack with the intent of taking possession of someone else’s property, combined with violence dangerous to the life or health of the person who was attacked, full cost must be restituted." },
+  { article: "2.12.1", title: "Extortion", stars: 4, amount: 40000, desc: "Taking the possession of someone else’s property or acquiring the right to someone else’s property by any measures of non-violent coercion." },
+  { article: "2.13.1", title: "Fraud", stars: 2, amount: 20000, desc: "Taking the possession of someone else’s property or acquiring the right to someone else’s property by deception or abuse of trust." },
+  { article: "2.14.1", title: "Creation of a Criminal Community", stars: 4, amount: 40000, desc: "The creation or organisation of any group with the intention of committing criminal activity." },
+  { article: "2.15.1", title: "Participation in Banditry", stars: 4, amount: 40000, desc: "Participation in, or assisting in the creation of a stable armed group in order to attack citizens or organisations. Revocation of Gun Licence." },
+  { article: "2.15.2", title: "Leading of Banditry", stars: 5, amount: 50000, desc: "Leadership of a stable armed group. This also applies to the person who is actively robbing a victim. No Bail. Revocation of Gun Licence." },
+  { article: "2.16.1", title: "Assault", stars: 0, amount: 10000, desc: "Intentionally repeatedly pushing, pulling or similar assault that does not cause significant physical injuries to the victim. 2-Point Misdemeanour." },
+  { article: "2.16.2", title: "Assault with Intent to Harm", stars: 1, amount: 10000, desc: "The intentional infliction of bodily harm of a medium gravity that is not life-threatening at the time of infliction." },
+  { article: "2.16.3", title: "Assault GBH", stars: 2, amount: 20000, desc: "The intentional infliction of bodily harm of a serious gravity (using either a close-combat weapon or unarmed) that is not life-threatening at the time of infliction." },
+  { article: "2.17.1", title: "Unlicensed Firearms Carry", stars: 0, amount: 10000, desc: "Possession and or carrying of any firearm without a Firearms Licence from the authorities. 2-Point Misdemeanour." },
+  { article: "2.17.2", title: "Excessive Firearms Carry (Overcarrying)", stars: 4, amount: 40000, desc: "Possession of weapons and or ammunition on one person more than allowed by the current gun legislation in backpack or in a personal vehicle. Revocation of Gun Licence." },
+  { article: "2.17.3", title: "Possession of Illegal Firearms", stars: 2, amount: 20000, desc: "Possession any firearms without an AMMO serial number. Confiscation. Revocation of Gun Licence." },
+  { article: "2.17.4", title: "Dealing in Illegal Firearms", stars: 4, amount: 40000, desc: "The sale or purchase of prohibited weapons in any form, or the possession of three (3) or more illegal firearms. Revocation of Gun Licence." },
+  { article: "2.17.5", title: "Possession of State Issued Items", stars: 4, amount: 40000, desc: "Possessing or wearing a taser, or a bullet proof vest with the marking of any state organisation, baton, or balaclavas without being an employee. Revocation of Gun Licence." },
+  { article: "2.17.6", title: "Possession of Illegal Body Armour", stars: 2, amount: 20000, desc: "Possession of any bullet proof vest that is dyed or colored." },
+  { article: "2.17.7", title: "Brandishing a Firearm", stars: 3, amount: 30000, desc: "The brandishing of a firearm with the intent to intimidate or otherwise frighten someone. Revocation of Gun Licence." },
+  { article: "2.17.8", title: "Discharging a Firearm (First)", stars: 0, amount: 10000, desc: "The discharge of a weapon without a legal reason anywhere in the state. 2-Point Misdemeanour." },
+  { article: "2.17.8", title: "Discharging a Firearm (Repeat)", stars: 2, amount: 20000, desc: "Repeat Offence. The discharge of a weapon without a legal reason. Revocation of Gun Licence." },
+  { article: "2.17.9", title: "Public Carry of a Firearm (First)", stars: 0, amount: 10000, desc: "The open carry of a firearm in the hand in a public area and without a lawful reason, after having been warned once. 2-Point Misdemeanour." },
+  { article: "2.17.9", title: "Public Carry of a Firearm (Repeat)", stars: 1, amount: 10000, desc: "Repeat Offence. Confiscation. Revocation of Gun Licence." },
+  { article: "2.18.1", title: "Misappropriation of a Vehicle (Reckless)", stars: 2, amount: 20000, desc: "Reckless driving or endangerment or otherwise hazardous operation of a vehicle that places life or health at risk. Revocation of Drivers Licence." },
+  { article: "2.18.2", title: "Misappropriation of an Official Vehicle", stars: 3, amount: 30000, desc: "Reckless driving or endangerment of an official/state vehicle that places life or health at risk. No Bail. Revocation of Drivers Licence." },
+  { article: "2.18.3", title: "Misuse of a Vehicle", stars: 1, amount: 10000, desc: "A Person commits the offence of Misuse of a Vehicle when he or she operates any motor vehicle with the intent to annoy, harass, intimidate or obstruct another person. Revocation of Drivers Licence." },
+  { article: "2.18.4", title: "Vehicle Used in Criminal Activity", stars: 0, amount: 10000, desc: "Misuse of a vehicle when used in the commission of any criminal activity (e.g. escape vehicle). Owner fined. Revocation of Drivers Licence." },
+  { article: "2.19.1", title: "Pimping", stars: 2, amount: 20000, desc: "Forcing or controlling a person into the position of prostitution by any means, deception, blackmail, or violence." },
+  { article: "2.20.1", title: "Prostitution (First)", stars: 0, amount: 10000, desc: "An attempt, offer, or completed act of any sexual act for any form of payment whether material, monetary, or favors. 2-Point Misdemeanour." },
+  { article: "2.20.1", title: "Prostitution (Repeat)", stars: 1, amount: 10000, desc: "Repeat Offence. An attempt, offer, or completed act of any sexual act for any form of payment." },
+  { article: "2.21.1", title: "Hooliganism", stars: 4, amount: 40000, desc: "A gross violation of public order, expressing clear disrespect for society. Includes false calls for law enforcement, obscene gestures, repeated participation in races." },
+  { article: "2.22.1", title: "Bribery Of An Official", stars: 3, amount: 30000, desc: "Offering, giving, transferring a bribe for any reason to any civil servant or public official." },
+  { article: "2.23.1", title: "Failure To Pay Fines", stars: 4, amount: 50000, desc: "Accumulated fines in the amount of ($50,000) unpaid when asked, or attempting to evade a ticket. No Bail. Revocation of All Licences." },
+  { article: "2.24.1", title: "Leaving the Scene", stars: 2, amount: 20000, desc: "Leaving the scene where a crime was committed when ordered by a law enforcement officer to remain at the scene for investigation." },
+  { article: "2.24.2", title: "Evading Arrest", stars: 4, amount: 40000, desc: "Any attempt to evade arrest by Law Enforcement Officers or leading law enforcement on any form of foot or vehicular chase." },
+  { article: "2.25.1", title: "Attempted or Actual Escape", stars: 5, amount: 50000, desc: "Attempting to or succeeding in the escape from custody. No Bail." },
+  { article: "2.26.1", title: "Insubordination / Failure to Comply", stars: 3, amount: 30000, desc: "Disobeying the legal requirements or otherwise lawful order from a law enforcement officer, or other civil servant." },
+  { article: "2.27.1", title: "Violation of Privacy", stars: 2, amount: 20000, desc: "Illegal collection, storage, use, and or dissemination of confidential information about any person without that person’s consent or a valid warrant." },
+  { article: "2.28.1", title: "Intentional Spreading of Disease", stars: 2, amount: 20000, desc: "The infection of another person with any disease by a person who knew of the presence of a disease." },
+  { article: "2.29.1", title: "Breaking and Entering", stars: 3, amount: 30000, desc: "Unlawfully or forcefully entering a house belonging to another person without their permission." },
+  { article: "2.30.1", title: "Animal Cruelty", stars: 2, amount: 20000, desc: "The deliberate mistreatment, injury or abuse of an animal or pet. This does not include wildlife." },
+  { article: "2.30.2", title: "Killing an Animal or Pet", stars: 3, amount: 30000, desc: "Unlawfully killing an animal or pet. This does not include wildlife." },
+
+  { article: "3.1.1", title: "Terrorism as a Participant", stars: 4, amount: 40000, desc: "Actively participating in any type of violence with the purpose of frightening the population, causing death, destabilising the state. No Bail. Revocation of Gun Licence." },
+  { article: "3.1.2", title: "Leading of Terrorism", stars: 5, amount: 50000, desc: "Actively recruiting, leading or organising any type of violence with the purpose of frightening the population or destabilising the state. No Bail. Revocation of Gun Licence." },
+  { article: "3.2.1", title: "Participating in a Riot", stars: 2, amount: 20000, desc: "Actively participating in a mass gathering where daily life, traffic, or duties of an officer are disrupted." },
+  { article: "3.2.2", title: "Leading of a Riot", stars: 3, amount: 30000, desc: "Actively inciting, leading or organising a mass gathering where daily life, traffic, or duties of an officer are disrupted." },
+  { article: "3.3.1", title: "Sedition as a Participant", stars: 3, amount: 30000, desc: "Actively participating in acts of rebellion, mass riots or actions to prevent orderly conduct of the state or government." },
+  { article: "3.3.2", title: "Leading of Sedition", stars: 4, amount: 40000, desc: "Actively planning, inciting, leading or organising acts of rebellion, mass riots against the state. 7-day Blacklist." },
+  { article: "3.4.1", title: "Treason as a Participant", stars: 5, amount: 50000, desc: "Actively participating in an attempt to seize political power, or mass riots leading to the destabilisation of the state system. No Bail." },
+  { article: "3.4.2", title: "Leading of Treason (High Treason)", stars: 5, amount: 50000, desc: "Actively leading or organising any attempt to seize political power or destabilise the state system. No Bail. 28-day Blacklist." },
+  { article: "3.5.1", title: "Obstruction of an Investigation", stars: 2, amount: 30000, desc: "Actively lying to, or otherwise attempting to deceive a law enforcement officer or civil servant during an investigation, detention or traffic stop." },
+  { article: "3.5.2", title: "Obstruction of an Officer", stars: 3, amount: 30000, desc: "Actively interfering, harassing or otherwise hindering a law enforcement officer or civil servant while they are performing their official duties." },
+  { article: "3.5.3", title: "Obstruction of an Arrest or Detention", stars: 4, amount: 40000, desc: "Actively interfering, harassing or otherwise hindering a law enforcement officer or civil servant while they are lawfully arresting or detaining a suspect." },
+  { article: "3.6.1", title: "Murder in the Line of Duty", stars: 4, amount: 40000, desc: "Murder or attempted murder of a state employee during specific activity (NG Raid, AMMO store or 24/7 Robbery). Revocation of Gun Licence." },
+  { article: "3.6.2", title: "Murder of a Civil Servant", stars: 5, amount: 50000, desc: "Murder or attempted murder of a law enforcement officer or civil servant at any time other than defined as a specific activity. No Bail. Revocation of Gun Licence." },
+  { article: "3.7.1", title: "False Reporting", stars: 4, amount: 40000, desc: "Knowingly giving false information about a crime or about the preparation or commission of any criminal activity." },
+  { article: "3.8.1", title: "Trespassing", stars: 2, amount: 20000, desc: "Remaining in any communal property or privately owned property after being ordered to leave at least two (2) times by the owner or officer." },
+  { article: "3.8.2", title: "Trespassing in a Secure Facility", stars: 3, amount: 30000, desc: "Remaining in any secure facility or state owned property after being ordered to leave. In Red Zones, no warning is required." },
+  { article: "3.9.1", title: "Collusion with Criminal Elements", stars: 3, amount: 30000, desc: "Intentional cooperation with a known criminal organisation or a known criminal by a law enforcement officer or civil servant for any unlawful purpose. Dismissal. 7-day Blacklist." },
+  { article: "3.11.1", title: "Failure to Submit Documents", stars: 1, amount: 10000, desc: "Refusal to provide documents such as a licence when required to do so or when asked by a law enforcement officer or civil servant." },
+  { article: "3.11.2", title: "Failure to Identify", stars: 2, amount: 20000, desc: "Refusal to identify (Passport and/or ID Document) when required. Undercover operations may reasonably refuse unless proof is needed." },
+  { article: "3.12.1", title: "Disclosure of State Secrets", stars: 4, amount: 40000, desc: "The disclosure of any information constituting a state secret (military, foreign policy, intelligence) by a person whom it was entrusted. Dismissal. 7-day Blacklist." },
+  { article: "3.12.2", title: "Disclosure of Classified Information", stars: 5, amount: 50000, desc: "Disclosure of any classified information is strictly prohibited to maintain State security and/or personnel safety. Dismissal. 14-day Blacklist." },
+  { article: "3.13.1", title: "Posing as a Civil Servant", stars: 3, amount: 30000, desc: "Unauthorised appropriation of the powers and authority of a civil servant, or any attempt to do so. Wearing medical masks or presenting as a lawyer." },
+  { article: "3.13.2", title: "Posing as a Law Enforcement Officer", stars: 4, amount: 40000, desc: "Unauthorised appropriation of the powers and authority of a law enforcement officer. Wearing armoured vests from a state organisation." },
+  { article: "3.14.1", title: "Corruption by a State Employee", stars: 4, amount: 40000, desc: "Intentional cooperation with criminals by a state employee for any unlawful purpose where there is clear evidence of personal or financial reward. Dismissal. 14-day Blacklist." },
+
+  { article: "4.1.1", title: "Disobeying an Order of a Superior", stars: 4, amount: 40000, desc: "The failure or refusal by an employee to comply with a direct lawful order of a superior within their organisation. Dismissal. 7-day Blacklist." },
+  { article: "4.1.2", title: "Disobeying an Order of a State Leader", stars: 4, amount: 40000, desc: "The failure or refusal by an employee or leader to comply with a direct lawful order from the Governor or Deputy Governor(s). Dismissal. 14-day Blacklist." },
+  { article: "4.1.3", title: "Disobeying an Order of a Judicial Authority", stars: 4, amount: 40000, desc: "The failure or refusal by an employee or leader to comply with a direct lawful order from the Attorney General or Supreme Court Judge. Dismissal. 7-day Blacklist." },
+  { article: "4.2.1", title: "Negligence by a Civil Servant", stars: 4, amount: 40000, desc: "Willful negligence in the performance of official duties, which entailed or has the potential of serious consequences. Dismissal." },
+  { article: "4.2.2", title: "Negligence by a LEO", stars: 3, amount: 30000, desc: "Willful negligence in the performance of official duties as a law enforcement officer, which entailed or has the potential of serious consequences. Dismissal." },
+  { article: "4.3.1", title: "Sabotage", stars: 5, amount: 50000, desc: "The deliberate destruction or damage of weapons, ammunition or military equipment. No Bail. 28-day Blacklist." },
+  { article: "4.4.1", title: "Disclosure of Police Information", stars: 3, amount: 30000, desc: "Disclosure of the data of operational-search activity or investigation without permission. Dismissal. 7-day Blacklist." },
+  { article: "4.4.1", title: "Disclosure of Federal Information", stars: 4, amount: 40000, desc: "Disclosure of any FIB or Federal Law Enforcement data of operational-search activity or investigation without permission. Dismissal. 14-day Blacklist." },
+  { article: "4.4.2", title: "Disclosure of State Information", stars: 5, amount: 50000, desc: "The disclosure of any State Government or Classified information to any target or warning of a warrant/raid. Dismissal. 28-day Blacklist." },
+  { article: "4.5.1", title: "Arbitrariness", stars: 2, amount: 20000, desc: "Any unauthorised, contrary to procedure actions by an employee of a state organisation or a civilian, the legality of which is disputed." },
+  { article: "4.6.1", title: "Receiving a Bribe", stars: 4, amount: 40000, desc: "Receipt by an official of any form of payment or material reward in exchange for the performance or non-performance of an action. Dismissal. 14-day Blacklist." },
+  { article: "4.7.1", title: "Conduct Unbecoming", stars: 2, amount: 20000, desc: "Multiple violations (more than 5) of the ethics code when interacting with members of the public, coworkers, or another state organisation. Dismissal." },
+  { article: "4.7.2", title: "Gross Ethics Violations", stars: 3, amount: 30000, desc: "A gross ethics violation is defined as ten (10) or more ethics code violations in a single interaction. Dismissal. 7-day Blacklist." },
+
+  { article: "5.1.1", title: "Speeding up to 30km", stars: 0, amount: 5000, desc: "Speeding up to 30km over the Speed Limit. 1-Point Misdemeanour." },
+  { article: "5.1.2", title: "Speeding up to 60km", stars: 0, amount: 10000, desc: "Speeding up to 60km over the Speed Limit. 2-Point Misdemeanour." },
+  { article: "5.1.3", title: "Speeding up to 90km", stars: 0, amount: 15000, desc: "Speeding up to 90km over the Speed Limit. 3-Point Misdemeanour." },
+  { article: "5.1.4", title: "Speeding in Excess of 90km", stars: 2, amount: 20000, desc: "Speeding in Excess of 90km over the Speed Limit. Revocation of Driver’s Licence." },
+  { article: "5.5.1", title: "Abandoning a Vehicle", stars: 0, amount: 5000, desc: "Abandoning or otherwise leaving a vehicle in places not established by the Traffic Code. Vehicle will be impounded. 1-Point Misdemeanour." },
+  { article: "5.6.1", title: "Unsafe Transporting of a Passenger", stars: 0, amount: 10000, desc: "Transporting people in the trunk of a vehicle. 2-Point Misdemeanour." },
+
+  { article: "6.1.1", title: "Contempt of Court", stars: 3, amount: 30000, desc: "Defying a court order, warrant or subpoena or disrespecting the judicial process." },
+  { article: "6.1.1", title: "Contempt of Court by a State Employee", stars: 4, amount: 40000, desc: "Defying a court order, warrant or subpoena or disrespecting the judicial process by a state employee. Dismissal. 7-day Blacklist." },
+  { article: "6.2.1", title: "Disruption of the Trial", stars: 3, amount: 30000, desc: "Interfering in a judicial process with the aim of disrupting it, or obstructing official duties by members of the judicial process." },
+  { article: "6.2.2", title: "Disruption of the Trial by State Employee", stars: 4, amount: 40000, desc: "Interference by a state employee in any judicial process with the aim of disrupting it. Dismissal. 7-day Blacklist." },
+  { article: "6.3.1", title: "Threats to Litigants", stars: 4, amount: 40000, desc: "Harassment, or threats of violence to any member of the judicial chamber or any participant of a trial. No Bail." },
+  { article: "6.4.1", title: "Falsification of Evidence", stars: 4, amount: 40000, desc: "Tampering with, or the misuse of evidence in a pending case, as well as the concealment or destruction of evidence of primary importance." },
+  { article: "6.5.1", title: "Perjury", stars: 4, amount: 40000, desc: "The giving of false testimony by a citizen during a trial or investigation by law enforcement agencies." },
+
+  { article: "8.1.1", title: "Selling of Prohibited Items", stars: 1, amount: 20000, desc: "The sell or resell of less than five (5) items listed in the prohibited items addendum in any shop accessible to the public. Confiscation." },
+  { article: "8.1.2", title: "Distribution of Prohibited Items", stars: 2, amount: 20000, desc: "The sell or resell of five (5) to ten (10) or more items listed in the prohibited items addendum in any public shop. Confiscation." },
+  { article: "8.1.3", title: "Dealing in Prohibited Items", stars: 3, amount: 30000, desc: "The sell or resell of more than ten (10) items listed in the prohibited items addendum in any shop accessible to the public. Confiscation." },
+  { article: "8.2.1", title: "False Advertising", stars: 0, amount: 15000, desc: "Publicly circulating an advertisement containing a false, misleading, or deceptive statement. 3-Point Misdemeanour." },
+  { article: "8.3.1", title: "Tax Evasion", stars: 3, amount: 30000, desc: "Any intentional attempt to avoid paying taxes on a business when required to. Tax Penalty: $50,000." },
+  { article: "8.3.2", title: "Felony Tax Evasion", stars: 4, amount: 40000, desc: "Any intentional attempt to avoid paying taxes on a business through fraud or deceit. Tax Penalty: $100,000." },
+
+  { article: "9.1.9", title: "Assaulting an Officer", stars: 0, amount: 0, desc: "Any attack, or attempted attack, on a law enforcement officer or prison officer by a prisoner, while serving time at the prison. [+10-Months; Isolation]." },
+  { article: "9.2.1", title: "Smuggling of Contraband", stars: 3, amount: 20000, desc: "The handing over of any prohibited items to prisoners by a civilian." },
+  { article: "9.2.2", title: "Smuggling of Contraband by State Employee", stars: 4, amount: 30000, desc: "The handing over of any prohibited items to prisoners by an employee of a government organisation. Dismissal. 7-day Blacklist." },
+  { article: "9.3.1", title: "Aiding an Escape", stars: 5, amount: 50000, desc: "Contributing to the escape of less than 3 prisoners by a citizen of the state. No Bail." },
+  { article: "9.3.2", title: "Aiding an Escape by State Employee", stars: 5, amount: 30000, desc: "Contributing to a mass escape (three or more prisoners) by a law enforcement officer or civil servant. No Bail. Dismissal. 14-day Blacklist." },
+  { article: "9.4.1", title: "Aiding a Mass Escape", stars: 5, amount: 50000, desc: "Contributing to the escape of less than 3 prisoners by a citizen of the state. No Bail." },
+  { article: "9.4.1", title: "Aiding a Mass Escape (State Employee)", stars: 5, amount: 50000, desc: "Contributing to a mass escape (three or more prisoners) by a law enforcement officer or civil servant. No Bail. Dismissal. 28-day Blacklist." },
+  { article: "9.5.1", title: "Sexual Acts with Inmates", stars: 2, amount: 20000, desc: "Any sexual acts committed with prisoners by a civilian." },
+  { article: "9.5.2", title: "Sexual Acts with Inmates by State Employee", stars: 2, amount: 20000, desc: "Any sexual acts committed with prisoners by a law enforcement officer or civil servant of the state. Dismissal." },
+
+  { article: "10.1.1", title: "Public Obscenity", stars: 0, amount: 5000, desc: "Excessive verbal vulgarity, swearing or offensive language in a public space, after having been warned once. 1-Point Misdemeanour." },
+  { article: "10.1.2", title: "Public Nudity", stars: 0, amount: 5000, desc: "Showing underwear or walking naked in a public space, after having been warned once. 1-Point Misdemeanour." },
+  { article: "10.1.3", title: "Public Nuisance", stars: 0, amount: 10000, desc: "Screaming or making any overly loud noises in a public space, after having been warned once. 2-Point Misdemeanour." },
+  { article: "10.1.4", title: "Public Drunkenness", stars: 0, amount: 10000, desc: "Any alcohol induced state outside of a residence or bar, after having been warned once. Confiscation. 2-Point Misdemeanour." },
+  { article: "10.1.5", title: "Public Intoxication (Drug Use)", stars: 0, amount: 15000, desc: "The use of any narcotics in a public space. No warning is required. Confiscation. 3-Point Misdemeanour." },
+  { article: "10.1.6", title: "Public Harassment (First)", stars: 0, amount: 10000, desc: "Any unwanted verbal and non-verbal form of repeated harassment of another citizen in a public area, after having been asked to stop. 2-Point Misdemeanour." },
+  { article: "10.1.6", title: "Public Harassment (Repeat)", stars: 1, amount: 10000, desc: "Repeat Offence. Any unwanted verbal and non-verbal form of repeated harassment of another citizen in a public area." }
+];
+
+const penalList = document.getElementById("penalList");
+const copyBox = document.getElementById("copyBox");
+const totalFine = document.getElementById("totalFine");
+const totalStars = document.getElementById("totalStars");
+const fineFill = document.getElementById("fineFill");
+const starFill = document.getElementById("starFill");
+const btnCopy = document.getElementById("btnCopy");
+
+let selected = [];
+/* HIGHLIGHT helper */
+function highlight(text, query) {
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+}
+
+/* MODAL */
+function openModal(code) {
+  const starBadge = code.stars > 0 ? `<div class="badge stars">${code.stars} ★</div>` : '';
+  const amountBadge = code.amount > 0 ? `<div class="badge amount">$${code.amount.toLocaleString()}</div>` : '';
+  document.getElementById('modalArticle').textContent = `P.C ${code.article}`;
+  document.getElementById('modalTitle').textContent = code.title;
+  document.getElementById('modalDesc').textContent = code.desc;
+  document.getElementById('modalBadges').innerHTML = starBadge + amountBadge;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+/* RENDER */
+function renderCodes(filter = ""){
+  penalList.innerHTML = "";
+  
+  const filtered = penalCodes.filter(code =>
+    code.title.toLowerCase().includes(filter.toLowerCase()) ||
+    code.article.includes(filter) ||
+    code.desc.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  document.getElementById("code-count").textContent = `${filtered.length} Loaded`;
+
+  filtered.forEach((code, index) => {
+    const uniqueId = `${code.article}-${index}`;
+    const row = document.createElement("div");
+    row.className = "penal-row";
+    
+    const isSelected = selected.some(item => item.uniqueId === uniqueId);
+
+    // Conditionally render the stars badge if stars > 0
+    const starBadge = code.stars > 0 ? `<div class="badge stars">${code.stars} ★</div>` : '';
+    // Conditionally render the amount badge if amount > 0
+    const amountBadge = code.amount > 0 ? `<div class="badge amount">$${code.amount.toLocaleString()}</div>` : '';
+
+    row.innerHTML = `
+      <div class="penal-row-top">
+        <div class="penal-info">
+          <div class="article">P.C ${highlight(code.article, filter)}</div>
+          <div class="desc">${highlight(code.title, filter)}</div>
+          <div class="badges-wrap">
+            ${starBadge}
+            ${amountBadge}
+          </div>
+        </div>
+        <div class="switch ${isSelected ? 'active' : ''}"></div>
+      </div>
+      <div class="penal-desc-text">${highlight(code.desc, filter)}</div>
+    `;
+
+    const switchBtn = row.querySelector(".switch");
+
+    switchBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      switchBtn.classList.toggle("active");
+      if(switchBtn.classList.contains("active")){
+        selected.push({ ...code, uniqueId });
+      } else {
+        selected = selected.filter(item => item.uniqueId !== uniqueId);
+      }
+      updateSummary();
+    });
+
+    row.addEventListener("click", (e) => {
+      if (e.target.closest('.switch')) return;
+      openModal(code);
+    });
+
+    penalList.appendChild(row);
+  });
+}
+
+/* CLEAR ALL FUNCTION */
+function clearAllSelections() {
+  selected = [];
+  renderCodes(document.getElementById("searchInput").value);
+  updateSummary();
+}
+
+/* SUMMARY & PROGRESS BARS */
+function updateSummary(){
+  if(selected.length === 0){
+    copyBox.innerHTML = "No Penal Codes Selected";
+    copyBox.classList.remove("has-content");
+    totalFine.textContent = "$0";
+    totalStars.textContent = "0 ★";
+    totalFine.classList.remove("maxed");
+    totalStars.classList.remove("maxed");
+    fineFill.style.width = "0%";
+    starFill.style.width = "0%";
+    fineFill.classList.remove("maxed");
+    starFill.classList.remove("maxed");
+    btnCopy.textContent = "Copy to Clipboard";
+    return;
+  }
+
+  // Formatting strings
+  const pcText = selected.map(code => `P.C ${code.article}`).join(" + ");
+  copyBox.innerHTML = pcText;
+  copyBox.classList.add("has-content");
+
+  let totalAmountCalc = selected.reduce((sum, item) => sum + item.amount, 0);
+  let totalStarsCalc = selected.reduce((sum, item) => sum + item.stars, 0);
+
+  /* UI Updates */
+  let finePercentage = (totalAmountCalc / 50000) * 100;
+  let starPercentage = (totalStarsCalc / 5) * 100;
+
+  if(totalAmountCalc >= 50000){
+    totalAmountCalc = 50000;
+    finePercentage = 100;
+    totalFine.classList.add("maxed");
+    fineFill.classList.add("maxed");
+  } else {
+    totalFine.classList.remove("maxed");
+    fineFill.classList.remove("maxed");
+  }
+
+  if(totalStarsCalc >= 5){
+    totalStarsCalc = 5;
+    starPercentage = 100;
+    totalStars.classList.add("maxed");
+    starFill.classList.add("maxed");
+  } else {
+    totalStars.classList.remove("maxed");
+    starFill.classList.remove("maxed");
+  }
+
+  totalFine.textContent = "$" + totalAmountCalc.toLocaleString();
+  totalStars.textContent = totalStarsCalc + " ★";
+  fineFill.style.width = `${finePercentage}%`;
+  starFill.style.width = `${starPercentage}%`;
+  
+  btnCopy.textContent = "Copy to Clipboard";
+  if(typeof updatePdaBox === "function") updatePdaBox();
+}
+
+/* COPY TO CLIPBOARD */
+function copyToClipboard() {
+  if (selected.length === 0) return;
+  const textToCopy = copyBox.innerText;
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    btnCopy.textContent = "Copied ✓";
+    setTimeout(() => {
+      if (selected.length > 0) btnCopy.textContent = "Copy to Clipboard";
+    }, 2000);
+  });
+}
+
+const SHORT_FORMS = {"2.1.1": "NarcoPoss", "2.1.2": "NarcoLarge", "2.1.3": "NarcoDist", "2.1.6": "ProhibPoss", "2.1.7": "ProhibDist", "2.2.1": "Manslaughter", "2.2.2": "Murder", "2.2.3": "PreMurder", "2.3.1": "AsltThreat", "2.3.2": "AttSuicide", "2.4.1": "Abandonment", "2.4.2": "AbandonLEO", "2.5.1": "Kidnap", "2.5.2": "KidnapCS", "2.5.3": "KidnapSO", "2.6.1": "Hostage", "2.7.1": "SexHarass", "2.7.2": "SexAssault", "2.7.3": "Rape", "2.8.1": "Forgery", "2.8.2": "ForgedDocs", "2.9.1": "PettyTheft", "2.9.2": "GrandTheft", "2.9.3": "FelTheft", "2.9.4": "GTA", "2.10.1": "ArmedRob", "2.11.1": "Heist", "2.12.1": "Extortion", "2.13.1": "Fraud", "2.14.1": "CrimComm", "2.15.1": "Banditry", "2.15.2": "LeadBanditry", "2.16.1": "Assault", "2.16.2": "AsltIntent", "2.16.3": "AsltGBH", "2.17.1": "UnlicFA", "2.17.2": "OvercarryFA", "2.17.3": "IllegalFA", "2.17.4": "DealIllFA", "2.17.5": "StateItems", "2.17.6": "IllegalArmour", "2.17.7": "BrandishFA", "2.17.8": "DischargeFA", "2.17.9": "PublicFA", "2.18.1": "VehReckless", "2.18.2": "OfficialVeh", "2.18.3": "VehMisuse", "2.18.4": "VehCriminal", "2.19.1": "Pimping", "2.20.1": "Prostit", "2.21.1": "Hooliganism", "2.22.1": "Bribery", "2.23.1": "UnpaidFines", "2.24.1": "LeaveScene", "2.24.2": "EvadeArrest", "2.25.1": "Escape", "2.26.1": "Insubord", "2.27.1": "PrivacyViol", "2.28.1": "DiseaseSprd", "2.29.1": "B&E", "2.30.1": "AnimalCruelty", "2.30.2": "KillAnimal", "3.1.1": "Terrorism", "3.1.2": "LeadTerror", "3.2.1": "Riot", "3.2.2": "LeadRiot", "3.3.1": "Sedition", "3.3.2": "LeadSedition", "3.4.1": "Treason", "3.4.2": "HighTreason", "3.5.1": "ObstrInvest", "3.5.2": "ObstrOfficer", "3.5.3": "ObstrArrest", "3.6.1": "MurderLOD", "3.6.2": "MurderCS", "3.7.1": "FalseReport", "3.8.1": "Trespass", "3.8.2": "TrespassSF", "3.9.1": "Collusion", "3.11.1": "FailDocs", "3.11.2": "FailID", "3.12.1": "StateSecrets", "3.12.2": "ClassifiedInfo", "3.13.1": "PoseCS", "3.13.2": "PoseLEO", "3.14.1": "Corruption", "4.1.1": "DisobSuperior", "4.1.2": "DisobLeader", "4.1.3": "DisobJudicial", "4.2.1": "NegCS", "4.2.2": "NegLEO", "4.3.1": "Sabotage", "4.4.1": "InfoLeak", "4.4.2": "StateInfoLeak", "4.5.1": "Arbitrary", "4.6.1": "RecvBribe", "4.7.1": "ConductUnbec", "4.7.2": "EthicsViol", "5.1.1": "Speed30", "5.1.2": "Speed60", "5.1.3": "Speed90", "5.1.4": "Speed90+", "5.5.1": "AbandonVeh", "5.6.1": "UnsafeTransp", "6.1.1": "Contempt", "6.2.1": "DisruptTrial", "6.2.2": "DisruptTrialSE", "6.3.1": "ThreatLitigant", "6.4.1": "FalseEvidence", "6.5.1": "Perjury", "8.1.1": "SellProhib", "8.1.2": "DistProhib", "8.1.3": "DealProhib", "8.2.1": "FalseAdvert", "8.3.1": "TaxEvasion", "8.3.2": "FelTaxEvasion", "9.1.9": "AsltOfficer", "9.2.1": "Smuggling", "9.2.2": "SmuggSE", "9.3.1": "AidEscape", "9.3.2": "AidEscapeSE", "9.4.1": "AidMassEsc", "9.5.1": "SexInmate", "9.5.2": "SexInmateSE", "10.1.1": "PubObscenity", "10.1.2": "PubNudity", "10.1.3": "PubNuisance", "10.1.4": "PubDrunk", "10.1.5": "PubIntox", "10.1.6": "PubHarass"};
+
+// ── PDA BOX ──
+function updatePdaBox() {
+  if(selected.length === 0){
+    const ta = document.getElementById('pdaTextarea');
+    ta.value = '';
+    ta.className = 'pda-textarea';
+    document.getElementById('pdaCharCount').textContent = '0 / 100';
+    document.getElementById('pdaCharCount').className = 'pda-char-count ok';
+    document.getElementById('pdaError').textContent = '';
+    return;
+  }
+  const text = selected.map(code => {
+    const short = SHORT_FORMS[code.article] || code.article.replace(/\./g,'');
+    return 'P.C ' + code.article + '(' + short + ')';
+  }).join('+');
+  const ta = document.getElementById('pdaTextarea');
+  ta.value = text;
+  updatePdaCount();
+}
+
+function updatePdaCount() {
+  const ta = document.getElementById('pdaTextarea');
+  const len = ta.value.length;
+  const counter = document.getElementById('pdaCharCount');
+  counter.textContent = len + ' / 100';
+  if(len <= 100){
+    ta.classList.remove('red');
+    ta.classList.add('green');
+    counter.className = 'pda-char-count ok';
+    document.getElementById('pdaError').textContent = '';
+  } else {
+    ta.classList.remove('green');
+    counter.className = 'pda-char-count warn';
+  }
+}
+
+document.getElementById('pdaTextarea').addEventListener('input', updatePdaCount);
+
+function pdaCopy() {
+  const ta = document.getElementById('pdaTextarea');
+  const text = ta.value;
+  if(!text){ return; }
+  if(text.length > 100){
+    ta.classList.add('red');
+    ta.classList.remove('green');
+    document.getElementById('pdaError').textContent = '⚠ PENAL CODES CANT BE PASTED IN PDA — EXCEEDS 100 CHARS';
+    setTimeout(() => ta.classList.remove('red'), 500);
+    return;
+  }
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('btnPdaCopy');
+    btn.textContent = '✓ COPIED FOR PDA';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 COPY FOR PDA';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// ── FLOATING DRAWER ──
+let activeDrawerDept = 'lspd';
+
+function openDrawer(dept) {
+  document.querySelectorAll('.float-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('ftab-' + dept).classList.add('active');
+  document.getElementById('drawerTitle').textContent = dept.toUpperCase();
+  switchDept(dept, document.getElementById('dtab-' + dept));
+  document.getElementById('floatDrawer').classList.add('open');
+  activeDrawerDept = dept;
+}
+
+function closeDrawer() {
+  document.getElementById('floatDrawer').classList.remove('open');
+  document.querySelectorAll('.float-tab').forEach(t => t.classList.remove('active'));
+}
+
+function switchDept(dept, btn) {
+  document.querySelectorAll('.dept-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.dept-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('dp-' + dept).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('drawerTitle').textContent = dept.toUpperCase();
+  activeDrawerDept = dept;
+}
+
+function drawerCopy(el, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    el.classList.add('copied');
+    el.querySelector('.dc-copy').textContent = '✓';
+    setTimeout(() => {
+      el.classList.remove('copied');
+      el.querySelector('.dc-copy').textContent = 'COPY';
+    }, 2000);
+  });
+}
+
+
+(function(){
+  let timer;
+  const TIMEOUT = 30*60*1000;
+  function reset(){ clearTimeout(timer); timer = setTimeout(expire, TIMEOUT); }
+  function expire(){
+    sessionStorage.removeItem('_lc_auth');
+    const ov=document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;background:rgba(6,6,10,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;';
+    ov.innerHTML='<div style="font-family:Bebas Neue,sans-serif;font-size:28px;letter-spacing:4px;color:#e8393a;">SESSION EXPIRED</div><div style="font-family:Share Tech Mono,monospace;font-size:12px;color:#555;letter-spacing:2px;">30 minutes of inactivity</div><button onclick="location.reload()" style="background:#e8393a;border:none;color:#fff;font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:3px;padding:10px 24px;border-radius:3px;cursor:pointer;">RELOAD</button>';
+    document.body.appendChild(ov);
+  }
+  ['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.addEventListener(e,reset,{passive:true}));
+  reset();
+})();
+
+/* SEARCH EVENT */
+document.getElementById("searchInput").addEventListener("input", e => {
+  renderCodes(e.target.value);
+});
+
+/* INIT */
+renderCodes();
+
+</script>
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-tag" id="modalArticle"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-divider"></div>
+    <div class="modal-desc" id="modalDesc"></div>
+    <div class="modal-badges" id="modalBadges"></div>
+  </div>
+</div>
+
+<!-- FLOATING LEFT PANEL -->
+<div class="float-panel" id="floatPanel">
+  <div class="float-tab" onclick="openDrawer('lspd')" id="ftab-lspd">LSPD</div>
+  <div class="float-tab" onclick="openDrawer('sahp')" id="ftab-sahp">SAHP</div>
+  <div class="float-tab" onclick="openDrawer('ng')" id="ftab-ng">NG</div>
+  <div class="float-tab" onclick="openDrawer('gov')" id="ftab-gov">GOV</div>
+  <div class="float-tab" onclick="openDrawer('fib')" id="ftab-fib">FIB</div>
+</div>
+
+<div class="float-drawer" id="floatDrawer">
+  <div class="drawer-header">
+    <div class="drawer-title" id="drawerTitle">LSPD</div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+
+  <!-- DEPT TABS -->
+  <div class="dept-tabs">
+    <div class="dept-tab active" onclick="switchDept('lspd',this)" id="dtab-lspd">LSPD</div>
+    <div class="dept-tab" onclick="switchDept('sahp',this)" id="dtab-sahp">SAHP</div>
+    <div class="dept-tab" onclick="switchDept('ng',this)" id="dtab-ng">NG</div>
+    <div class="dept-tab" onclick="switchDept('gov',this)" id="dtab-gov">GOV</div>
+    <div class="dept-tab" onclick="switchDept('fib',this)" id="dtab-fib">FIB</div>
+  </div>
+
+  <!-- LSPD PANEL -->
+  <div class="dept-panel active" id="dp-lspd">
+    <div class="drawer-section-label">Processing Commands</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/me grabs freesize Jumpsuit')"><span class="dc-type dc-me">/me</span><span class="dc-text">grabs freesize Jumpsuit</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/me places the jumpsuit on the bed')"><span class="dc-type dc-me">/me</span><span class="dc-text">places the jumpsuit on the bed</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/try takesout cellphone and radio')"><span class="dc-type dc-try">/try</span><span class="dc-text">takesout cellphone and radio</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-section-label doj">DOJ</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'LSPD to DOJ : How copy?')"><span class="dc-from">LSPD to DOJ</span><span class="dc-text">How copy?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'LSPD to DOJ : Good copy, send traffic!')"><span class="dc-from">LSPD to DOJ</span><span class="dc-text">Good copy, send traffic!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'LSPD to DOJ : Bad copy!')"><span class="dc-from">LSPD to DOJ</span><span class="dc-text">Bad copy!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'LSPD to DOJ : Bad copy, we\'re currently in a situation!')"><span class="dc-from">LSPD to DOJ</span><span class="dc-text">Bad copy, we're currently in a situation!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'LSPD to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><span class="dc-from">LSPD to DOJ</span><span class="dc-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'LSPD to DOJ : 10-4, much appreciated!')"><span class="dc-from">LSPD to DOJ</span><span class="dc-text">10-4, much appreciated!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-section-label ems">EMS</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'LSPD to EMS : How copy?')"><span class="dc-from">LSPD to EMS</span><span class="dc-text">How copy?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'LSPD to EMS : One of Our 10-15 is requesting for a Doctor at DOC, are there any available?')"><span class="dc-from">LSPD to EMS</span><span class="dc-text">One of Our 10-15 is requesting for a Doctor at DOC, are there any available?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'LSPD to EMS : Requesting EMS to DOC urgently — a detainee requires immediate medical attention')"><span class="dc-from">LSPD to EMS</span><span class="dc-text">Requesting EMS to DOC urgently — a detainee requires immediate medical attention</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'LSPD to EMS : Any EMS available to respond at DOC? A detainee requires medical assistance')"><span class="dc-from">LSPD to EMS</span><span class="dc-text">Any EMS available to respond at DOC? A detainee requires medical assistance</span><span class="dc-copy">COPY</span></div>
+  </div>
+
+  <!-- SAHP PANEL -->
+  <div class="dept-panel" id="dp-sahp">
+    <div class="drawer-section-label">Processing Commands</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/me grabs freesize Jumpsuit')"><span class="dc-type dc-me">/me</span><span class="dc-text">grabs freesize Jumpsuit</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/me places the jumpsuit on the bed')"><span class="dc-type dc-me">/me</span><span class="dc-text">places the jumpsuit on the bed</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/try takesout cellphone and radio')"><span class="dc-type dc-try">/try</span><span class="dc-text">takesout cellphone and radio</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-section-label doj">DOJ</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'SAHP to DOJ : How copy?')"><span class="dc-from">SAHP to DOJ</span><span class="dc-text">How copy?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'SAHP to DOJ : Good copy, send traffic!')"><span class="dc-from">SAHP to DOJ</span><span class="dc-text">Good copy, send traffic!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'SAHP to DOJ : Bad copy!')"><span class="dc-from">SAHP to DOJ</span><span class="dc-text">Bad copy!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'SAHP to DOJ : Bad copy, we\'re currently in a situation!')"><span class="dc-from">SAHP to DOJ</span><span class="dc-text">Bad copy, we're currently in a situation!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'SAHP to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><span class="dc-from">SAHP to DOJ</span><span class="dc-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'SAHP to DOJ : 10-4, much appreciated!')"><span class="dc-from">SAHP to DOJ</span><span class="dc-text">10-4, much appreciated!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-section-label ems">EMS</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'SAHP to EMS : How copy?')"><span class="dc-from">SAHP to EMS</span><span class="dc-text">How copy?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'SAHP to EMS : One of Our 10-15 is requesting for a Doctor at DOC, are there any available?')"><span class="dc-from">SAHP to EMS</span><span class="dc-text">One of Our 10-15 is requesting for a Doctor at DOC, are there any available?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'SAHP to EMS : Requesting EMS to DOC urgently — a detainee requires immediate medical attention')"><span class="dc-from">SAHP to EMS</span><span class="dc-text">Requesting EMS to DOC urgently — a detainee requires immediate medical attention</span><span class="dc-copy">COPY</span></div>
+  </div>
+
+  <!-- NG PANEL -->
+  <div class="dept-panel" id="dp-ng">
+    <div class="drawer-section-label">Processing Commands</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/me grabs freesize Jumpsuit')"><span class="dc-type dc-me">/me</span><span class="dc-text">grabs freesize Jumpsuit</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/me places the jumpsuit on the bed')"><span class="dc-type dc-me">/me</span><span class="dc-text">places the jumpsuit on the bed</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/try takesout cellphone and radio')"><span class="dc-type dc-try">/try</span><span class="dc-text">takesout cellphone and radio</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-section-label doj">DOJ</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'NG to DOJ : How copy?')"><span class="dc-from">NG to DOJ</span><span class="dc-text">How copy?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'NG to DOJ : Good copy, send traffic!')"><span class="dc-from">NG to DOJ</span><span class="dc-text">Good copy, send traffic!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'NG to DOJ : Bad copy!')"><span class="dc-from">NG to DOJ</span><span class="dc-text">Bad copy!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'NG to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><span class="dc-from">NG to DOJ</span><span class="dc-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'NG to DOJ : 10-4, much appreciated!')"><span class="dc-from">NG to DOJ</span><span class="dc-text">10-4, much appreciated!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-section-label ems">EMS</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'NG to EMS : How copy?')"><span class="dc-from">NG to EMS</span><span class="dc-text">How copy?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'NG to EMS : One of Our 10-15 is requesting for a Doctor at DOC, are there any available?')"><span class="dc-from">NG to EMS</span><span class="dc-text">One of Our 10-15 is requesting for a Doctor at DOC, are there any available?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'NG to EMS : Requesting EMS to DOC urgently — a detainee requires immediate medical attention')"><span class="dc-from">NG to EMS</span><span class="dc-text">Requesting EMS to DOC urgently — a detainee requires immediate medical attention</span><span class="dc-copy">COPY</span></div>
+  </div>
+
+  <!-- GOV PANEL -->
+  <div class="dept-panel" id="dp-gov">
+    <div class="drawer-section-label">Processing Commands</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/me grabs freesize Jumpsuit')"><span class="dc-type dc-me">/me</span><span class="dc-text">grabs freesize Jumpsuit</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/me places the jumpsuit on the bed')"><span class="dc-type dc-me">/me</span><span class="dc-text">places the jumpsuit on the bed</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/try takesout cellphone and radio')"><span class="dc-type dc-try">/try</span><span class="dc-text">takesout cellphone and radio</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-section-label doj">DOJ</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'GOV to DOJ : How copy?')"><span class="dc-from">GOV to DOJ</span><span class="dc-text">How copy?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'GOV to DOJ : Good copy, send traffic!')"><span class="dc-from">GOV to DOJ</span><span class="dc-text">Good copy, send traffic!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'GOV to DOJ : Bad copy!')"><span class="dc-from">GOV to DOJ</span><span class="dc-text">Bad copy!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'GOV to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><span class="dc-from">GOV to DOJ</span><span class="dc-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'GOV to DOJ : 10-4, much appreciated!')"><span class="dc-from">GOV to DOJ</span><span class="dc-text">10-4, much appreciated!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-section-label ems">EMS</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'GOV to EMS : How copy?')"><span class="dc-from">GOV to EMS</span><span class="dc-text">How copy?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'GOV to EMS : One of Our 10-15 is requesting for a Doctor at DOC, are there any available?')"><span class="dc-from">GOV to EMS</span><span class="dc-text">One of Our 10-15 is requesting for a Doctor at DOC, are there any available?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'GOV to EMS : Requesting EMS to DOC urgently — a detainee requires immediate medical attention')"><span class="dc-from">GOV to EMS</span><span class="dc-text">Requesting EMS to DOC urgently — a detainee requires immediate medical attention</span><span class="dc-copy">COPY</span></div>
+  </div>
+
+  <!-- FIB PANEL -->
+  <div class="dept-panel" id="dp-fib">
+    <div class="drawer-section-label">Processing Commands</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/me grabs freesize Jumpsuit')"><span class="dc-type dc-me">/me</span><span class="dc-text">grabs freesize Jumpsuit</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/me places the jumpsuit on the bed')"><span class="dc-type dc-me">/me</span><span class="dc-text">places the jumpsuit on the bed</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'/try takesout cellphone and radio')"><span class="dc-type dc-try">/try</span><span class="dc-text">takesout cellphone and radio</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-section-label doj">DOJ</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'FIB to DOJ : How copy?')"><span class="dc-from">FIB to DOJ</span><span class="dc-text">How copy?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'FIB to DOJ : Good copy, send traffic!')"><span class="dc-from">FIB to DOJ</span><span class="dc-text">Good copy, send traffic!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'FIB to DOJ : Bad copy!')"><span class="dc-from">FIB to DOJ</span><span class="dc-text">Bad copy!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'FIB to DOJ : Bad copy, we\'re currently in a situation!')"><span class="dc-from">FIB to DOJ</span><span class="dc-text">Bad copy, we're currently in a situation!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'FIB to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><span class="dc-from">FIB to DOJ</span><span class="dc-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'FIB to DOJ : 10-4, much appreciated!')"><span class="dc-from">FIB to DOJ</span><span class="dc-text">10-4, much appreciated!</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-section-label ems">EMS</div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'FIB to EMS : How copy?')"><span class="dc-from">FIB to EMS</span><span class="dc-text">How copy?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'FIB to EMS : One of Our 10-15 is requesting for a Doctor at DOC, are there any available?')"><span class="dc-from">FIB to EMS</span><span class="dc-text">One of Our 10-15 is requesting for a Doctor at DOC, are there any available?</span><span class="dc-copy">COPY</span></div>
+    <div class="drawer-cmd" onclick="drawerCopy(this,'FIB to EMS : Requesting EMS to DOC urgently — a detainee requires immediate medical attention')"><span class="dc-from">FIB to EMS</span><span class="dc-text">Requesting EMS to DOC urgently — a detainee requires immediate medical attention</span><span class="dc-copy">COPY</span></div>
+  </div>
+</div>
+
+<!-- HOME BUTTON -->
+<a class="arrest-home-btn" href="../index.html">🏠 HOME</a>
+
+</body>
+</html>

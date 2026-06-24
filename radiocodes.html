@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="auth.js"></script>
+<script>LC_Guard('radiocodes.html');</script>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐍%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radio Codes | The Viper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script>
+  document.addEventListener('contextmenu',e=>e.preventDefault());
+  document.addEventListener('keydown',e=>{if(e.key==='F12')e.preventDefault();if(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'))e.preventDefault();if(e.ctrlKey&&(e.key==='u'||e.key==='s'||e.key==='a'||e.key==='c'||e.key==='p'))e.preventDefault();});
+  document.addEventListener('selectstart',e=>e.preventDefault());
+  document.addEventListener('dragstart',e=>e.preventDefault());
+</script>
+<style>
+*{-webkit-user-select:none;-moz-user-select:none;user-select:none;margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#06060a;--bg2:#0b0b12;--card:#0f0f18;--border:#1e1e30;--red:#e63946;--gold:#f0c040;--green:#3ddc84;--blue:#5865F2;--cyan:#00d4ff;--text:#eaeaf2;--muted:#52526e;--dim:#8888a8;}
+body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.page-wrap{max-width:1000px;margin:0 auto;padding:32px 32px 60px;}
+.page-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:28px 32px;position:relative;overflow:hidden;margin-bottom:32px;}
+.page-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);}
+.page-hero h1{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:5px;color:var(--text);margin-bottom:4px;}
+.page-hero h1 span{color:var(--red);}
+.page-hero p{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--muted);}
+
+/* search */
+.search-bar{margin-bottom:24px;position:relative;}
+.search-bar input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:4px;padding:12px 16px 12px 40px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:13px;outline:none;transition:border-color .2s;}
+.search-bar input:focus{border-color:var(--red);}
+.search-bar input::placeholder{color:var(--muted);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;}
+
+/* section */
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;color:var(--text);margin:28px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.section-title span{color:var(--red);}
+
+/* code card */
+.code-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;margin-bottom:8px;}
+.code-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:12px 14px;display:flex;align-items:flex-start;gap:12px;transition:border-color .15s;cursor:pointer;}
+.code-card:hover{border-color:#2e2e48;}
+.code-card.copied{border-color:var(--green);background:rgba(61,220,132,0.05);}
+.code-num{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--red);flex-shrink:0;min-width:80px;line-height:1.2;}
+.code-num.tango{color:#ff9f43;}
+.code-num.status{color:var(--cyan);}
+.code-desc{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);line-height:1.5;flex:1;}
+.copy-indicator{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);flex-shrink:0;transition:color .15s;margin-top:2px;}
+.code-card:hover .copy-indicator{color:var(--green);}
+.code-card.copied .copy-indicator{color:var(--green);}
+
+/* priority badge */
+.priority{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;padding:2px 6px;border-radius:2px;margin-left:6px;vertical-align:middle;}
+.p-high{background:rgba(230,57,70,0.15);color:var(--red);border:1px solid rgba(230,57,70,0.2);}
+.p-med{background:rgba(240,192,64,0.12);color:var(--gold);border:1px solid rgba(240,192,64,0.2);}
+
+@media(max-width:768px){.code-grid{grid-template-columns:1fr;}.page-wrap{padding:20px 16px 60px;}}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="page-hero">
+    <h1>RADIO <span>CODES</span></h1>
+    <p>// GRAND RP · EN 02 — DISPATCH REFERENCE</p>
+  </div>
+
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search code or description... e.g. 10-10, shots fired, backup">
+  </div>
+
+  <div id="codesContainer"></div>
+</div>
+
+<script>
+const RADIO_CODES = [
+  {code:'10-1',desc:'Roll call/announcement (supervisors and above), all units return to headquarters',type:'radio'},
+  {code:'10-2',desc:'Negative',type:'radio'},
+  {code:'10-3',desc:'Stop transmitting',type:'radio'},
+  {code:'10-4',desc:'Acknowledged / Affirmative',type:'radio'},
+  {code:'10-5',desc:'Repeat last transmission',type:'radio'},
+  {code:'10-6',desc:'Disregard the last transmission',type:'radio'},
+  {code:'10-7',desc:'Break at headquarters (AFK)',type:'radio'},
+  {code:'10-8',desc:'In-service / Available',type:'radio'},
+  {code:'10-9',desc:'Out of service / Unavailable',type:'radio'},
+  {code:'TANGO 10-10',desc:'Training — Shots fired',type:'tango'},
+  {code:'10-10',desc:'Shots fired',type:'radio',priority:'high'},
+  {code:'10-11',desc:'Robbery in progress',type:'radio',priority:'high'},
+  {code:'10-12',desc:'Estimated Time of Arrival',type:'radio'},
+  {code:'10-13',desc:'Agent / Government employee down (Top Priority)',type:'radio',priority:'high'},
+  {code:'10-15',desc:'Suspect in custody',type:'radio'},
+  {code:'10-16',desc:'Injured civilian',type:'radio',priority:'med'},
+  {code:'10-17',desc:'Enroute',type:'radio'},
+  {code:'10-19',desc:'Return to Headquarters',type:'radio'},
+  {code:'10-20',desc:'Location',type:'radio'},
+  {code:'10-21',desc:'Status check — Specify your current status and location',type:'radio'},
+  {code:'10-22',desc:'Hostage situation',type:'radio',priority:'high'},
+  {code:'10-23',desc:'Arrived on scene',type:'radio'},
+  {code:'10-32',desc:'Backup needed — Specify the number of units and location',type:'radio',priority:'high'},
+  {code:'10-41',desc:'Start of watch',type:'radio'},
+  {code:'10-42',desc:'End of watch',type:'radio'},
+  {code:'10-51',desc:'Vehicle traffic stop',type:'radio'},
+  {code:'10-52',desc:'Felony traffic stop',type:'radio',priority:'med'},
+  {code:'10-70',desc:'Suspect has warrants',type:'radio'},
+  {code:'10-75',desc:'Vehicle Wanted / Stolen',type:'radio'},
+  {code:'10-80',desc:'Vehicle pursuit',type:'radio',priority:'med'},
+  {code:'10-80 FOXTROT',desc:'Foot pursuit',type:'radio',priority:'med'},
+  {code:'10-90',desc:'Crime in progress',type:'radio',priority:'high'},
+  {code:'10-92',desc:'Armed robbery in progress',type:'radio',priority:'high'},
+  {code:'10-99',desc:'Situation concluded',type:'radio'},
+];
+
+const STATUS_CODES = [
+  {code:'Code A',desc:'Game Crash',type:'status'},
+  {code:'Code B',desc:'Paused RP — Admin Situation',type:'status'},
+  {code:'Code 1',desc:'Life-Threatening Emergency. Drop what you are doing and respond ASAP (Lights & Siren)',type:'status',priority:'high'},
+  {code:'Code 2',desc:'Semi-Emergency (Lights Only)',type:'status',priority:'med'},
+  {code:'Code 3',desc:'Emergency (Lights & Siren)',type:'status',priority:'high'},
+  {code:'Code 4',desc:'Situation Under Control',type:'status'},
+  {code:'Code 5',desc:'Terrorist Attack',type:'status',priority:'high'},
+  {code:'Code 6',desc:'Out of Vehicle',type:'status'},
+  {code:'Code 7',desc:'Conducting an Investigation',type:'status'},
+];
+
+let allCodes = [...RADIO_CODES, ...STATUS_CODES];
+
+function copyCode(card, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    card.classList.add('copied');
+    card.querySelector('.copy-indicator').textContent = '✓ COPIED';
+    setTimeout(() => {
+      card.classList.remove('copied');
+      card.querySelector('.copy-indicator').textContent = 'COPY';
+    }, 2000);
+  });
+}
+
+function buildCard(item) {
+  const priority = item.priority === 'high' ? '<span class="priority p-high">PRIORITY</span>' : item.priority === 'med' ? '<span class="priority p-med">URGENT</span>' : '';
+  const numClass = item.type === 'tango' ? 'code-num tango' : item.type === 'status' ? 'code-num status' : 'code-num';
+  return `<div class="code-card" onclick="copyCode(this,'${item.code}')">
+    <div class="${numClass}">${item.code}${priority}</div>
+    <div class="code-desc">${item.desc}</div>
+    <div class="copy-indicator">COPY</div>
+  </div>`;
+}
+
+function render(query='') {
+  const q = query.toLowerCase().trim();
+  const radioFiltered = RADIO_CODES.filter(c => !q || c.code.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q));
+  const statusFiltered = STATUS_CODES.filter(c => !q || c.code.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q));
+  
+  let html = '';
+  if (radioFiltered.length) {
+    html += `<div class="section-title">📻 <span>10</span>-CODES — Radio Dispatch</div><div class="code-grid">`;
+    radioFiltered.forEach(c => html += buildCard(c));
+    html += '</div>';
+  }
+  if (statusFiltered.length) {
+    html += `<div class="section-title">🚨 <span>STATUS</span> Codes</div><div class="code-grid">`;
+    statusFiltered.forEach(c => html += buildCard(c));
+    html += '</div>';
+  }
+  if (!radioFiltered.length && !statusFiltered.length) {
+    html = '<div style="text-align:center;padding:60px 20px;font-family:\'Share Tech Mono\',monospace;font-size:12px;color:#52526e;">No codes found</div>';
+  }
+  document.getElementById('codesContainer').innerHTML = html;
+}
+
+document.getElementById('searchInput').addEventListener('input', e => render(e.target.value));
+render();
+</script>
+
+</body>
+</html>

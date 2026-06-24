@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="auth.js"></script>
+<script>LC_Guard('doj.html');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐍%3C/text%3E%3C/svg%3E">
+<title>DOJ | The Viper</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script>
+  document.addEventListener('contextmenu',e=>e.preventDefault());
+  document.addEventListener('keydown',e=>{if(e.key==='F12')e.preventDefault();if(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'))e.preventDefault();if(e.ctrlKey&&(e.key==='u'||e.key==='s'||e.key==='a'||e.key==='c'||e.key==='p'))e.preventDefault();});
+  document.addEventListener('selectstart',e=>e.preventDefault());
+  document.addEventListener('dragstart',e=>e.preventDefault());
+</script>
+<style>
+*{-webkit-user-select:none;-moz-user-select:none;user-select:none;margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#06060a;--bg2:#0b0b12;--card:#0f0f18;--border:#1e1e30;--red:#e63946;--gold:#f0c040;--green:#3ddc84;--blue:#5865F2;--text:#eaeaf2;--muted:#52526e;--dim:#8888a8;}
+body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+.page-wrap{max-width:1000px;margin:0 auto;padding:0 0 60px;}
+.page-hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:28px 32px;position:relative;overflow:hidden;margin-bottom:24px;}
+.page-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.page-hero h1{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:5px;color:var(--text);}
+.page-hero h1 span{color:var(--gold);}
+.page-hero p{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--muted);margin-top:4px;}
+
+.content{padding:0 32px;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--text);margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.section-title span{color:var(--gold);}
+
+.cmd-row{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:4px;padding:11px 14px;margin-bottom:7px;gap:10px;transition:border-color .15s;}
+.cmd-row:hover{border-color:#2a2a48;}
+.msg-from{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:var(--gold);flex-shrink:0;min-width:120px;}
+.msg-text{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);flex:1;line-height:1.4;}
+.copy-btn{background:none;border:1px solid var(--border);border-radius:3px;padding:4px 9px;cursor:pointer;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;display:flex;align-items:center;gap:4px;transition:all .15s;flex-shrink:0;}
+.copy-btn:hover{border-color:var(--green);color:var(--green);}
+.copy-btn.copied{border-color:var(--green);color:var(--green);background:rgba(61,220,132,0.08);}
+.copy-btn svg{width:11px;height:11px;}
+
+.info-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:4px;padding:16px 18px;margin-bottom:20px;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--dim);line-height:1.7;}
+.info-box strong{color:var(--gold);font-weight:normal;}
+
+@media(max-width:768px){.content{padding:0 16px;}.page-hero{padding:20px 16px;}}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="page-hero">
+    <h1>DEPARTMENT OF <span>JUSTICE</span></h1>
+    <p>// GRAND RP · EN 02 — DOJ COMMUNICATIONS REFERENCE</p>
+  </div>
+  <div class="content">
+
+    <div class="info-box">
+      The <strong>Department of Justice (DOJ)</strong> handles all legal proceedings, court cases, lawyer requests, and judicial oversight in Los Santos. Use these communications when interacting with DOJ in-game.
+    </div>
+
+    <div class="section-title"><span>LSPD</span> to DOJ</div>
+    <div class="cmd-row"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">Bad copy, we're currently in a situation!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : Bad copy, we're currently in a situation!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">LSPD to DOJ</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'LSPD to DOJ : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+
+    <div class="section-title"><span>FIB</span> to DOJ</div>
+    <div class="cmd-row"><span class="msg-from">FIB to DOJ</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">FIB to DOJ</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">FIB to DOJ</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">FIB to DOJ</span><span class="msg-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">FIB to DOJ</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'FIB to DOJ : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+
+    <div class="section-title"><span>SAHP</span> to DOJ</div>
+    <div class="cmd-row"><span class="msg-from">SAHP to DOJ</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to DOJ : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">SAHP to DOJ</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to DOJ : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">SAHP to DOJ</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to DOJ : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">SAHP to DOJ</span><span class="msg-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">SAHP to DOJ</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'SAHP to DOJ : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+
+    <div class="section-title"><span>NG</span> to DOJ</div>
+    <div class="cmd-row"><span class="msg-from">NG to DOJ</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'NG to DOJ : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">NG to DOJ</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'NG to DOJ : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">NG to DOJ</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'NG to DOJ : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">NG to DOJ</span><span class="msg-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><button class="copy-btn" onclick="copyCmd(this,'NG to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">NG to DOJ</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'NG to DOJ : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+
+    <div class="section-title"><span>GOV</span> to DOJ</div>
+    <div class="cmd-row"><span class="msg-from">GOV to DOJ</span><span class="msg-text">How copy?</span><button class="copy-btn" onclick="copyCmd(this,'GOV to DOJ : How copy?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">GOV to DOJ</span><span class="msg-text">Good copy, send traffic!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to DOJ : Good copy, send traffic!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">GOV to DOJ</span><span class="msg-text">Bad copy!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to DOJ : Bad copy!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">GOV to DOJ</span><span class="msg-text">We have a 10-15 at DOC requesting a lawyer, are there any available?</span><button class="copy-btn" onclick="copyCmd(this,'GOV to DOJ : We have a 10-15 at DOC requesting a lawyer, are there any available?')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+    <div class="cmd-row"><span class="msg-from">GOV to DOJ</span><span class="msg-text">10-4, much appreciated!</span><button class="copy-btn" onclick="copyCmd(this,'GOV to DOJ : 10-4, much appreciated!')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY</button></div>
+
+  </div>
+</div>
+<script>
+function copyCmd(btn,text){
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.classList.add('copied');
+    btn.innerHTML='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="2,8 6,12 14,4"/></svg>DONE';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="9" height="11" rx="1"/><path d="M3 12H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1"/></svg>COPY';},2000);
+  });
+}
+// Session timeout
+(function(){
+  if(!sessionStorage.getItem('_lc_auth'))return;
+  let timer;
+  const TIMEOUT=30*60*1000;
+  function reset(){clearTimeout(timer);timer=setTimeout(expire,TIMEOUT);}
+  function expire(){sessionStorage.removeItem('_lc_auth');const ov=document.createElement('div');ov.style.cssText='position:fixed;inset:0;background:rgba(6,6,10,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;';ov.innerHTML='<div style="font-family:Bebas Neue,sans-serif;font-size:28px;letter-spacing:4px;color:#e63946;">SESSION EXPIRED</div><div style="font-family:Share Tech Mono,monospace;font-size:12px;color:#555;letter-spacing:2px;">30 minutes of inactivity</div><a href="../index.html" style="background:#e63946;border:none;color:#fff;font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:3px;padding:10px 24px;border-radius:3px;cursor:pointer;text-decoration:none;">GO HOME</a>';document.body.appendChild(ov);}
+  ['mousemove','keydown','click','scroll','touchstart'].forEach(e=>document.addEventListener(e,reset,{passive:true}));
+  reset();
+})();
+</script>
+</body>
+</html>

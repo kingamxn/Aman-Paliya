@@ -1,0 +1,977 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="auth.js"></script>
+<script>LC_Guard('rules.html');</script>
+
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐍%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King Amxn | Server Rules</title>
+
+
+<style>
+  /* Disable text selection via CSS too */
+  * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+</style>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Inter:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #080b12;
+    --card: #0d1220;
+    --border: #1a2540;
+    --accent: #e63946;
+    --accent2: #457b9d;
+    --text: #e8eaf0;
+    --muted: #6b7a99;
+    --tag-gh: #f4a261;
+    --tag-sr: #2a9d8f;
+    --tag-gr: #457b9d;
+    --tag-er: #e76f51;
+    --tag-lr: #9b5de5;
+    --tag-gz: #06d6a0;
+    --tag-el: #ffd166;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(180deg, #0d1220 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .logo span { color: var(--text); }
+
+  .back-btn {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .back-btn:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 60px 40px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(230,57,70,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+  }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    max-width: 600px;
+    margin: 0 auto 50px;
+    position: relative;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 50px 14px 20px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-wrap input::placeholder { color: var(--muted); }
+
+  .search-wrap input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(230,57,70,0.12);
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  .search-hint {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .search-hint code {
+    background: var(--border);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--accent2);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    display: flex;
+    gap: 24px;
+    padding: 0 40px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 280px;
+    flex-shrink: 0;
+  }
+
+  .sidebar-section {
+    margin-bottom: 8px;
+  }
+
+  .sidebar-cat {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 8px 16px 6px;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border: 1px solid transparent;
+  }
+
+  .sidebar-item:hover { background: var(--card); }
+  .sidebar-item.active { background: var(--card); border-color: var(--border); }
+
+  .sidebar-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .sidebar-name {
+    font-size: 13px;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .sidebar-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── RULES CONTENT ── */
+  .content { flex: 1; min-width: 0; }
+
+  .results-info {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .results-info span { color: var(--accent); }
+
+  .section-block {
+    margin-bottom: 32px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 4px;
+  }
+
+  .section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .section-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  /* ── RULE CARD ── */
+  .rule-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 4px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.1s;
+    cursor: pointer;
+  }
+
+  .rule-card:hover {
+    border-color: #2a3555;
+    transform: translateX(2px);
+  }
+
+  .rule-card.highlighted {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  .rule-prefix {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 12px 10px;
+    min-width: 50px;
+    text-align: center;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .rule-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    padding: 12px 8px;
+    min-width: 44px;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .rule-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #c8cfe0;
+    padding: 12px 14px;
+    flex: 1;
+  }
+
+  .rule-text mark {
+    background: rgba(230,57,70,0.25);
+    color: #ff8a8a;
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+
+  .rule-penalty {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    padding: 12px 12px 12px 0;
+    align-self: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── SUBSECTION HEADER ── */
+  .subsection-header {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 16px 0 6px;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: 600px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 32px;
+    position: relative;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  .modal-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+
+  .modal-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .modal-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .modal-penalty {
+    background: rgba(230,57,70,0.1);
+    border: 1px solid rgba(230,57,70,0.3);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  /* ── NO RESULTS ── */
+  .no-results {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--muted);
+  }
+
+  .no-results h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  /* ── TAG COLORS ── */
+  .tag-gh { background: rgba(244,162,97,0.15); color: var(--tag-gh); }
+  .tag-sr { background: rgba(42,157,143,0.15); color: var(--tag-sr); }
+  .tag-gr { background: rgba(69,123,157,0.15); color: var(--tag-gr); }
+  .tag-er { background: rgba(231,111,81,0.15); color: var(--tag-er); }
+  .tag-lr { background: rgba(155,93,229,0.15); color: var(--tag-lr); }
+  .tag-gz { background: rgba(6,214,160,0.15); color: var(--tag-gz); }
+  .tag-el { background: rgba(255,209,102,0.15); color: var(--tag-el); }
+
+  .prefix-gh { background: rgba(244,162,97,0.1); color: var(--tag-gh); border-right: 2px solid var(--tag-gh); }
+  .prefix-sr { background: rgba(42,157,143,0.1); color: var(--tag-sr); border-right: 2px solid var(--tag-sr); }
+  .prefix-gr { background: rgba(69,123,157,0.1); color: var(--tag-gr); border-right: 2px solid var(--tag-gr); }
+  .prefix-er { background: rgba(231,111,81,0.1); color: var(--tag-er); border-right: 2px solid var(--tag-er); }
+  .prefix-lr { background: rgba(155,93,229,0.1); color: var(--tag-lr); border-right: 2px solid var(--tag-lr); }
+  .prefix-gz { background: rgba(6,214,160,0.1); color: var(--tag-gz); border-right: 2px solid var(--tag-gz); }
+  .prefix-el { background: rgba(255,209,102,0.1); color: var(--tag-el); border-right: 2px solid var(--tag-el); }
+
+  @media (max-width: 900px) {
+    .main { flex-direction: column; padding: 0 16px 40px; }
+    .sidebar { width: 100%; }
+    .hero { padding: 40px 16px 24px; }
+    .hero h1 { font-size: 32px; }
+    .filters { padding: 0 16px 24px; }
+  }
+  @keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- GUARD START -->
+
+<header>
+  <div class="logo">King <span>Amxn</span></div>
+  <a href="/" class="back-btn">← Back to Home</a>
+</header>
+
+<div class="hero">
+  <h1>Server <span>Rules</span></h1>
+  <p>GRAND RP · EN02</p>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="Search rules... try 'SR 1.1' or 'arrest' or 'GhR'" autocomplete="off">
+    <span class="search-icon" id="searchIcon">⌕</span>
+    <span id="clearSearch" onclick="clearSearch()" style="display:none;position:absolute;right:16px;top:50%;transform:translateY(-50%);color:#6b7a99;font-size:18px;cursor:pointer;line-height:1;">×</span>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="content">
+    <div class="results-info" id="resultsInfo"></div>
+    <div id="rulesContent"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const RULES = [
+  // ── GHETTO RULES ──
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.1", text: "Ghetto territories are colored sections of the city that are marked on the Map of Ghetto" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.2", text: "Being on the HQ of a gang, you are required to do all the requirements of the gang.", penalty: "WARN" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.3", text: "On the HQ of a gang, it is forbidden to visit without IC reason (e.g. Raid, talk to deputies/leader) for all organisations.", penalty: "WARN" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.4", text: "It is forbidden to push/kill gangmembers on their HQ. You are not allowed to enter on HQ of another gang without permission.", penalty: "WARN" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.5", text: "If you are standing on your HQ it is forbidden to start shooting from your own territory.", penalty: "WARN" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.6", text: "If a gangmember gets chased by cops/gangs, he cannot get back to his HQ for 5 minutes.", penalty: "WARN" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.7", text: "All gang members must wear top and pants of their gang's color.", penalty: "Demorgan 180 min" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.8", text: "It is allowed to rob/kidnap people only in ghetto or outside the city.", penalty: "WARN" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.9", text: "Robbery of Fort Zancudo is allowed from 12:00 PM to 10:00 PM." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.10", text: "Gang members on their HQ can kill everybody in case if you do not agree with their demands." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.11", text: "It is forbidden to force people into doing animations except raising hands or getting on knees (only for cops).", penalty: "WARN" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.12", text: "If a person complies with given demands its not allowed to kill them.", penalty: "Jail 120 min" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.13", text: "Leaders or deputies must set the time for robbery of Fort Zancudo within 1-2 hours before starting robbery.", penalty: "WARN" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.14", text: "Each robbery of Fort Zancudo has to have cooldown of 2 hours.", penalty: "WARN" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "General", num: "1.15", text: "Gangs and families (including unofficial orgs) cannot take hostages and rob from event which just finished." },
+  // Capture rules
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.1", text: "Capture of territory is an OOC situation. It is forbidden for state employees to interrupt capture." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.2", text: "Only members of criminal organizations can take part in the capture. (Attack and defense)" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.3", text: "Capture is allowed only on Monday, Wednesday, Friday and Sunday." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.4", text: "Capture is allowed from 04:00 PM to 11:05 PM." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.5", text: "4 attacks and 4 defenses are allowed per day for 1 gang." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.6", text: "Leaders must be informed in Discord no more than 30 minutes and no less than 20 minutes before it starts." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.7", text: "After the capture, both gangs get a freeze for 25 minutes. (Other gangs cannot capture those gangs for 25 minutes.)" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.8", text: "It is forbidden to do a capture for gangs that do not have a leader." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.9", text: "If the gang is taking a part in a robbery of Fort Zancudo, it is forbidden to do a capture of the territory of the gang for 20 minutes prior to the robbery FZ, during a robbery FZ and 10 minutes after the end." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.10", text: "Minimum number of participants is 5 people." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.11", text: "Maximum number of participants is 10 people." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.12", text: "It is forbidden to change the terms of the capture." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.13", text: "The defense side must accept the terms of the attack side." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.14", text: "The gang must start capture exactly at the time it informed in Discord and join capture area in full force at the same time." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.15", text: "All players who do not participate in the capture are prohibited to stay in the territory of capture." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.16", text: "Anti-capture is prohibited within 10 minutes before the start of the capture of the territory and during the capture." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.17", text: "Members of the gang cannot change his gang for a reason of capture and return back to their first gang." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.18", text: "Forbidden to heal and loot in the gunfight." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.19", text: "Forbidden to use body armor." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.20", text: "During the capture, it is prohibited to use any of roofs. All players must be only on the ground." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.21", text: "Forbidden to use painted weapons during the capture." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.22", text: "Forbidden to use drugs." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.23", text: "Each participant must hold playback of the capture for 48 hours." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.24", text: "It is forbidden to abuse VPN on purpose in order to give yourself advantage." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.25", text: "If a participant of capture got banned for cheats, all the territories in which player was a participant will return back to the gangs." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.26", text: "If participant is unconscious, it is forbidden to heal him." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.27", text: "The defense must enter the capture at least 2 minutes before end of capture." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.28", text: "The attack gang must set kind of a weapon and number of participants. (For example, 10x10 Weapon – Revolver)" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.29", text: "It is forbidden to go into the interior.", penalty: "Demorgan 120 min" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.30", text: "It is forbidden to delete capture in discord channel #capture.", penalty: "Verbal warning" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.31", text: "It is forbidden to go out from the capture zone (red circle). It is allowed to avoid obstacles within 7 seconds.", penalty: "Demorgan 120 min" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.32", text: "5 minutes before the capture, all participants are considered as OOC players and should be in their respective Gang HQ." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.33", text: "If a playback is demanded, you have 24h to provide the video.", penalty: "Ban 7 days | Warn to leader | Turf canceled" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.34", text: "It is restricted to drive a car into red circle.", penalty: "Warn to leader | Turf canceling" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.36", text: "All POV requests must be uploaded to YouTube or Streamable Platform." },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.38", text: "You can sell/buy 3 turfs maximum each turf day.", penalty: "Up to disband" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.39", text: "You are not allowed to right hand peak.", penalty: "7 day ban" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.40", text: "Juices are forbidden in turf.", penalty: "Up to ban 7 days" },
+  { cat: "GhR", section: "Ghetto Rules", sub: "Capture Rules", num: "2.41", text: "It is forbidden to change gang to participate in a turf for another roster (alt accounts included)." },
+
+  // ── LEADER RULES ──
+  { cat: "LR", section: "Leader Rules", sub: "General", num: "1.1", text: "The minimum term of leadership is at least 30 days, otherwise the leader is removed. If the leader leaves with serious reason, he is removed without ban and post transferred to a trusted deputy." },
+  { cat: "LR", section: "Leader Rules", sub: "General", num: "1.2", text: "It is prohibited to use warehouse of the organisation for personal purposes." },
+  { cat: "LR", section: "Leader Rules", sub: "General", num: "1.3", text: "When appointed to his post, the leader has the right to take a freeze of the faction for 24 hours." },
+  { cat: "LR", section: "Leader Rules", sub: "General", num: "1.4", text: "The leader of criminal organizations (gangs) has the right to have four 9th (deputy) ranks." },
+  { cat: "LR", section: "Leader Rules", sub: "General", num: "1.5", text: "The leader of the state organization (and LifeInvader) has the right to have two 9th (deputy) ranks." },
+  { cat: "LR", section: "Leader Rules", sub: "General", num: "1.6", text: "The senior staff of any organizations is considered only 9th (deputy) rank and the leader of the faction." },
+  { cat: "LR", section: "Leader Rules", sub: "General", num: "1.7", text: "The leader of the organization has the right to dismiss employees if he has lost any confidence in them with the senior curators approval." },
+  { cat: "LR", section: "Leader Rules", sub: "General", num: "1.8", text: "The leader can take a freeze of his faction from 12 to 24 hours once per term with the permission of the senior curator." },
+  { cat: "LR", section: "Leader Rules", sub: "General", num: "1.9", text: "Every leader must make a global event at least once in 2 weeks." },
+  { cat: "LR", section: "Leader Rules", sub: "Responsibilities", num: "2.1", text: "Compliance with the rules of the server." },
+  { cat: "LR", section: "Leader Rules", sub: "Responsibilities", num: "2.2", text: "Maintain a minimum daily online time of 2+ hours." },
+  { cat: "LR", section: "Leader Rules", sub: "Responsibilities", num: "2.3", text: "Do not allow any provocative and conflict situations between the members of your organization." },
+  { cat: "LR", section: "Leader Rules", sub: "Responsibilities", num: "2.4", text: "Listen to and comply with the requirements of the curators." },
+  { cat: "LR", section: "Leader Rules", sub: "Prohibitions", num: "3.1", text: "Play on other RP/RPG projects for GTA V and SAMP, holding any position (leader, admin, being on another servers discord etc.)" },
+  { cat: "LR", section: "Leader Rules", sub: "Prohibitions", num: "3.2", text: "Play on an additional account (twinkie) for the opposite sphere of your organization." },
+  { cat: "LR", section: "Leader Rules", sub: "Prohibitions", num: "3.3", text: "Behave inappropriately (conflict, inappropriate). Toxicity is strictly restricted." },
+
+  // ── ELECTION RULES ──
+  { cat: "ELR", section: "Election Rules", sub: "General", num: "1", text: "Everyone can create a party to participate in the elections." },
+  { cat: "ELR", section: "Election Rules", sub: "General", num: "2", text: "A leader of a party becomes the new governor." },
+  { cat: "ELR", section: "Election Rules", sub: "General", num: "3", text: "The party has to contain minimum of 20 members and has to be unique." },
+  { cat: "ELR", section: "Election Rules", sub: "General", num: "4", text: "Every party must have an election program which has to be according to the rules of server." },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "5", text: "Election is completely IC process. Usage of any OOC is forbidden (exception: #leaders-of-the-party official discord channel)." },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "6", text: "You cannot advertise your party through department, state wave, radios, ingrand and etc.", penalty: "-20 votes" },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "7", text: "You cannot advertise a party in the radios of jobs (truck, taxi driver, etc).", penalty: "-10 votes" },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "8", text: "The day before the elections there will be a day for debates where all candidates must participate. Candidates who do not participate will be eliminated." },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "9", text: "On debates each candidate has 10 minutes for first speech to present his election program." },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "10", text: "Each candidate can ask up to 5 questions to his opponent." },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "11", text: "Each candidate can receive 5 questions from citizens." },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "12", text: "A leader of the party must have a clean record. (No active warnings)" },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "13", text: "After the application for a party has been accepted there will be interview process with the administration." },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "14", text: "After the debates next day there will be elections." },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "15", text: "You can advertise your party through creating your own events and doing broadcasts in LifeInvader only.", penalty: "-20 votes" },
+  { cat: "ELR", section: "Election Rules", sub: "Campaign Rules", num: "16", text: "It is forbidden to make promises in elections which are against the script." },
+
+  // ── EVENT RULES ──
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.1", text: "Teaming is strictly forbidden (except events where it is systematically).", penalty: "Jail 120 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.2", text: "It is forbidden to kill/rob/kidnap/etc. before the event starts (10 minutes before), during and 5 minutes after.", penalty: "WARN" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.3", text: "It is forbidden to enter event area before the event starts.", penalty: "Jail 120 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.4", text: "A limit of people on robberies of gunshops/24-7 should be 40/40 people for gang/state organisation.", penalty: "Demorgan 180 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.5", text: "An event like robberies of gunshops 24/7 have to be a role play and state organisations can talk to criminals.", penalty: "Demorgan 180 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.6", text: "Machine guns and sniper rifles are forbidden.", penalty: "Jail 120 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.7", text: "All participants of all events under all spheres must record POV and hold it within 48 hours.", penalty: "30 days ban" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.8", text: "It is forbidden to transfer family members between families for family war/business war.", penalty: "WARN + disqualification" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.9", text: "It is forbidden to block the entrance by barricades or cars. You must leave free pass for driving.", penalty: "Jail 120 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.10", text: "During the purge it is forbidden to use weapons of any organisation. All warehouses must be closed at 11 PM.", penalty: "Ban 30 days" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.11", text: "During events with a red circles, all players must be inside a red circle. Shooting outside the zone is forbidden.", penalty: "Jail 120 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.12", text: "There is a limit of 2 hostages during robbery events and kidnapping.", penalty: "WARN" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.13", text: "Families are not allowed to kill other families members on purpose in aircraft carrier event and bank robbery.", penalty: "Jail 120 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.14", text: "During robbery of Fort Zancudo it is forbidden to be on roofs.", penalty: "Jail 120 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.15", text: "During Submarine Event, it is not allowed to use roofs.", penalty: "Jail 120 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.16", text: "During any hostage situation including robbery of 24/7 and gunshop, gangs can ask only for money for a hostage (Only 1 demand per 1 hostage). Civilian up to 100k, LEO up to 200k, High command up to 300k, Leaders up to 400k." },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.17", text: "It is forbidden to use personal cars in events where you are acting as a gangmember. You have to use only org cars." },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.18", text: "It is forbidden to use places that cannot be accessed by foot or ladder when event already started and not allowed to use highground such as highways not accessible from inside once started.", penalty: "Jail 120 min" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.19", text: "During a gunshop or 24/7 robbery, FIB, SAHP, LSPD are allowed to demand to replace hostages." },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.20", text: "At the Bank Robbery Event, it is not allowed to kill, attack, shoot or rob while a player is loading into the interior.", penalty: "WARN" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.21", text: "During aircraft carrier event, LEOs are not allowed to shoot others while they are in water. They should let them get on a carrier.", penalty: "WARN" },
+  { cat: "ER", section: "Event Rules", sub: "General", num: "1.22", text: "Parachutes are forbidden (counts as bug abusing). Flying into red zone using parachute.", penalty: "Ban 1-30 days" },
+
+  // ── STATE RULES ──
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.1", text: "All staff members are required to comply with established standards." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.2", text: "It is forbidden to transfer your members of organisation into another organisation.", penalty: "Verbal warning to the leader" },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.3", text: "It is forbidden to accept people with criminal record." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.4", text: "It is forbidden to drive an armor vehicle in the city without an escort. (armored cars like Kuruma, Insurgents, Btr)" },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.5", text: "Employees of LSPD have the right to search a car. If they find any illegal weapons or drugs they have the right to confiscate them. All of it should be recorded on video." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.6", text: "It is forbidden to search a car without Role play commands /try, /do, /me." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.7", text: "FIB could take a lead on the special operations if other organisations take part in it." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.8", text: "Laws are written by the government and every state organisation should follow them." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.9", text: "If there is an emergency state all state organisations must react including EMS who have to send two emergency cars to the selected point." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.10", text: "All state organisations must not wear a mask on duty. Exceptions are special forces of FIB/LSPD/SAHP/USSS/NG which are allowed to use warehouse masks only." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.11", text: "All state employees are forbidden to search cars or people without role play commands or if there is not a role play situation. Raids require a search warrant." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.12", text: "Players in state organisations could play their character as a bad cop. Limit of 5 bad cops per org. Must write biography approved by senior curator of state." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.13", text: "The title district of the gang (skull on map) is considered a densely populated criminals place where state employees cannot come without IC reason (e.g. Raid)." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.15", text: "Looting in a gun fight is forbidden for state employees.", penalty: "Demorgan 120 min" },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.16", text: "Running with a person while he is handcuffed is forbidden.", penalty: "Demorgan 120 min" },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.17", text: "It is prohibited to shoot from armoured cars (e.g. Kuruma).", penalty: "Demorgan 120 min" },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.18", text: "EMS employees must not assist unconscious people during an active gunfight. You must leave the area until it is deemed safe.", penalty: "Demorgan 120 min" },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.19", text: "It is forbidden to put barricades in front of the alarm panel (All markers must be easily reached by gangs)." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.20", text: "Governor must conduct a meeting with all leaders of state orgs in the official discord voice channel and put a screenshot of an amendment made in the channel called 'legislation change'.", penalty: "WARN (to leader)" },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.21", text: "Leaders must review the legislation change within the limit of 48 hours.", penalty: "Verbal warning" },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.22", text: "If a leader agrees with a legislation change he has to write approved in the channel called 'legislation change'." },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.23", text: "A leader cannot disagree to a legislation change without a valid reason.", penalty: "Verbal Warning" },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.24", text: "All amendments made should be approved by Senior Curator of State which the governor has to tag in the channel 'legislation change'.", penalty: "WARN (to leader)" },
+  { cat: "SR", section: "State Rules", sub: "General", num: "1.25", text: "Every state organisation must do ghetto patrols 3 times in a week (Minimum 8 people)." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.1", text: "Employees have the right to use all available means of defense in case of danger to senior officials." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.2", text: "The government has the right to hold events for citizens of a large-scale nature once a day: a car fair, a trading platform, etc." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.3", text: "Events of a larger scale should always be co-ordinated with the curator of your faction." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.4", text: "The government has the right to establish regulations for civilians visiting the Capitol." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.5", text: "A lawyer has the right to ask for evidence against the accused and his ask cannot be denied." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.6", text: "The government has the right to establish regulations for public and private inspections. (no more than 7 checks per week, and no more than 2 checks of one faction per week)" },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.7", text: "A government audit has the right to dismiss an employee of a public or private organisation if violations are revealed after internal review." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.8", text: "The government is obliged to negotiate all laws and bills with other heads of public and private organizations if the laws affect the work of these organizations." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.9", text: "The government has the right to create laws/bills, provided that they do not contradict the RP component or logic in principle." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.10", text: "The government has no right to use the treasury for personal purposes." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.11", text: "The government has the power to issue various licenses. The price is regulated by the leader of the organization." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.12", text: "The government should have at least two lawyers on staff who are qualified to represent someones interests." },
+  { cat: "SR", section: "State Rules", sub: "Government", num: "2.13", text: "The state government is required to conduct small or medium events for state residents at least once every 3 days." },
+  { cat: "SR", section: "State Rules", sub: "EMS", num: "3.1", text: "Hospital staff are obliged to provide assistance to absolutely every player, without exception." },
+  { cat: "SR", section: "State Rules", sub: "EMS", num: "3.2", text: "The chief doctor sets the internal regulations of the hospital, with approval with the government and the curator." },
+  { cat: "SR", section: "State Rules", sub: "EMS", num: "3.3", text: "The chief doctor has the right to check state organizations for any diseases no more than twice in a week per organization." },
+  { cat: "SR", section: "State Rules", sub: "National Guard", num: "4.1", text: "All national guard employees cannot leave Fort Zancudo during their duty. Exception: If leader allows it." },
+  { cat: "SR", section: "State Rules", sub: "National Guard", num: "4.2", text: "National guard must follow all state laws." },
+  { cat: "SR", section: "State Rules", sub: "National Guard", num: "4.3", text: "National guard can arrest a person and deliver to any state organisation except for EMS." },
+  { cat: "SR", section: "State Rules", sub: "National Guard", num: "4.4", text: "National guard employees can use weapons in emergency situations." },
+  { cat: "SR", section: "State Rules", sub: "National Guard", num: "4.5", text: "National guard special division can patrol a state for the presence of crime activity." },
+  { cat: "SR", section: "State Rules", sub: "National Guard", num: "4.6", text: "Gate watchkeeping time from 12:00 to 22:00. (From 22:00 to 12:00 you can leave gates.)" },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.1", text: "All those state organisations can arrest a person if they suspected him of a criminal activity." },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.2", text: "LSPD/SAHP/FIB cannot stop a person, search him or ask for passport without an IC reason." },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.3", text: "LSPD/SAHP/FIB could use weapons if a role-play situation requires it." },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.4", text: "LSPD/SAHP/FIB cannot arrest a person while gunfight is not finished.", penalty: "Verbal Warning" },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.5", text: "LSPD/SAHP/FIB could patrol ghetto if there are more than two special officers.", penalty: "Verbal Warning" },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.6", text: "LSPD/SAHP/FIB require to have a bodycam for each arrest.", penalty: "Verbal warning in absence of evidence" },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.7", text: "If LSPD/FIB/SAHP employee is attacked, he can request all the forces for supporting him (Code 0)." },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.8", text: "It is forbidden to remove masks from critically wounded criminals.", penalty: "Demorgan 300 min" },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.9", text: "It is allowed to unmask only for identification and further detention, as well as for entering a person into the state database." },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.11", text: "LSPD/FIB/SAHP/NG/GOV/EMS employees cannot use official vehicles for personal use.", penalty: "Verbal warning" },
+  { cat: "SR", section: "State Rules", sub: "LSPD / SAHP / FIB", num: "5.12", text: "LSPD/FIB/SAHP employees cannot stop EMS employees in case of their movement on calls. Exception: special operation.", penalty: "Demorgan 120 min" },
+  { cat: "SR", section: "State Rules", sub: "Raid Rules", num: "6.1", text: "It is forbidden to do raid without a serious IC reason (e.g. Case file)." },
+  { cat: "SR", section: "State Rules", sub: "Raid Rules", num: "6.2", text: "It is forbidden to leave a game while there is a raid." },
+  { cat: "SR", section: "State Rules", sub: "Raid Rules", num: "6.3", text: "Raids are carried out on the territory of a criminal organization or group." },
+  { cat: "SR", section: "State Rules", sub: "Raid Rules", num: "6.4", text: "During the raid state employees can search any person on the territory of the raid." },
+  { cat: "SR", section: "State Rules", sub: "Raid Rules", num: "6.5", text: "There has to be a minimum of 20 state employees who take a part in the raid." },
+  { cat: "SR", section: "State Rules", sub: "Raid Rules", num: "6.6", text: "Each state organisation can do a raid no more than once in 48 hours." },
+  { cat: "SR", section: "State Rules", sub: "Raid Rules", num: "6.7", text: "Prime time for raids: 19:00 to 00:00." },
+  { cat: "SR", section: "State Rules", sub: "Raid Rules", num: "6.8", text: "Raid warrant is issued by the Attorney Generals Office: Attorney General and/or his deputy/governor, in the absence of an active government, the raid warrant is issued by the head of the FIB department." },
+  { cat: "SR", section: "State Rules", sub: "Raid Rules", num: "6.9", text: "It is allowed to search vehicles located on the territory of the criminal faction." },
+  { cat: "SR", section: "State Rules", sub: "Raid Rules", num: "6.10", text: "PDA is counting as OOC information. In case if you found a wanted criminal and want to arrest him, you have to ask him to show his passport for identifying." },
+  { cat: "SR", section: "State Rules", sub: "LifeInvader", num: "7.1", text: "Talent show must be once in two weeks." },
+
+  // ── GREEN ZONE RULES ──
+  { cat: "GZ", section: "Green Zone Rules", sub: "General", num: "1.1", text: "Green Zone killings are prohibited.", penalty: "WARN" },
+  { cat: "GZ", section: "Green Zone Rules", sub: "General", num: "1.2", text: "It is forbidden to buy weapons, drugs. Also to kidnap, rob people and put bags on players head.", penalty: "WARN" },
+  { cat: "GZ", section: "Green Zone Rules", sub: "General", num: "1.3", text: "It is forbidden to leave RP situation by joining in a green zone.", penalty: "WARN" },
+  { cat: "GZ", section: "Green Zone Rules", sub: "Green Zone List", num: "2.1", text: "Government agencies: Central Hospital, Government, FIB, LSPD, SAHP." },
+  { cat: "GZ", section: "Green Zone Rules", sub: "Green Zone List", num: "2.2", text: "Initial and public works: Truckers, Electricians, Sawmill, Farm 1-2, Bus workers, Taxi companies, Oil rig." },
+  { cat: "GZ", section: "Green Zone Rules", sub: "Green Zone List", num: "2.3", text: "Enterprises: Car dealerships, Motorcycle dealerships, Boat sales, Air transport sales, Service stations, Shops 24/7, Clothing stores, Jewelry store, Parking spaces, Burger shop, Gas station, Construction site, Bar, Black market." },
+  { cat: "GZ", section: "Green Zone Rules", sub: "Green Zone List", num: "2.4", text: "Other: Lifeinvader, LS Airport, Licensing Center, Trade Market, Stadium, Casino, Prison, Post Office, Auto Fair, Real Estate Agency, Recruiting Office, Weapon Assembly, Beach Gym, Resource Exchange Points, Purchasing Rooms, Bank, ATM, Fishing Pier, Residential complex, Auto theft, Bunker." },
+
+  // ── GENERAL RULES ──
+  { cat: "GR", section: "General Rules", sub: "Accounts", num: "1.1", text: "Created account is property of the creator, your account cannot be shared or traded.", penalty: "PERMANENT BAN" },
+  { cat: "GR", section: "General Rules", sub: "Accounts", num: "1.2", text: "Player is fully responsible for his account. When access to account is lost (e.g. being hacked), your account will face the same punishments." },
+  { cat: "GR", section: "General Rules", sub: "Accounts", num: "1.3", text: "Any fraud against players is prohibited.", penalty: "PERMANENT BAN" },
+  { cat: "GR", section: "General Rules", sub: "Accounts", num: "1.4", text: "It is forbidden to have more than 1 additional account (Twinking).", penalty: "Permanent ban to all accounts except main. Main gets ban up to 60 days" },
+  { cat: "GR", section: "General Rules", sub: "Accounts", num: "1.5", text: "It is forbidden to have more than 1 business, including additional accounts. 1 person – 1 business.", penalty: "Ban 30 days each account" },
+  { cat: "GR", section: "General Rules", sub: "Accounts", num: "1.6", text: "The attempt to sell/buy game property for real money is prohibited.", penalty: "PERMANENT BAN" },
+  { cat: "GR", section: "General Rules", sub: "Accounts", num: "1.7", text: "It is forbidden to transfer property as a gift whose total amount exceeds $5,000,000 per day.", penalty: "Ban 60 days" },
+  { cat: "GR", section: "General Rules", sub: "Accounts", num: "1.8", text: "It is prohibited to interact between your main account and twink. Any transfer of property or money will lead to PERMANENT ban of both accounts." },
+  { cat: "GR", section: "General Rules", sub: "Accounts", num: "1.9", text: "It is forbidden to evade systems of selling/buying. If you evade TAX (e.g. selling/buying for 1k and taking money separately).", penalty: "Ban 60 days" },
+  { cat: "GR", section: "General Rules", sub: "Nickname", num: "2.1", text: "Names must be realistic, relate to names in the real world, and cannot be used names of famous persons.", penalty: "Jail 10 min + change nickname" },
+  { cat: "GR", section: "General Rules", sub: "Communication", num: "3.1", text: "Insulting of the person (OOC) is strictly prohibited.", penalty: "Mute 180 min or ban up to 7 days" },
+  { cat: "GR", section: "General Rules", sub: "Communication", num: "3.2", text: "Any relatives should not be mentioned in all chats, including voice.", penalty: "Mute 180 min or ban up to 7 days" },
+  { cat: "GR", section: "General Rules", sub: "Communication", num: "3.3", text: "All players must be able to communicate in English and IC chat must be English only.", penalty: "Mute 120 min" },
+  { cat: "GR", section: "General Rules", sub: "Hacking", num: "4.1", text: "Players must not have any kind of software that gives any advantage. (Hacks, bots etc.)", penalty: "Ban 60 days" },
+  { cat: "GR", section: "General Rules", sub: "Administration", num: "5.1", text: "It is strictly prohibited to use report for questions that are not related to the game or problems on the server.", penalty: "Mute 20-60 min" },
+  { cat: "GR", section: "General Rules", sub: "Administration", num: "5.2", text: "All players must be adequate while communicating with the administration. In case of disagreement - leave the complaint for consideration to the chief administrator." },
+  { cat: "GR", section: "General Rules", sub: "Administration", num: "5.3", text: "Insulting the administration is strictly prohibited. Complaint is the best way to achieve justice.", penalty: "Ban 7 days" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.1", text: "Incorrect use of the /me /do /try /todo commands is prohibited. The player is obliged to play only the truth. /try can only be used 2 times per situation." },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.2", text: "It is forbidden to leave the RP situation by refusing to continue the RP situation, not accepting/refusing first aid, leaving the game, AFK or entering an interior.", penalty: "WARN" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.3", text: "It is forbidden to empty the warehouse of the organisation for personal purposes.", penalty: "Permanent ban" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.4", text: "It is forbidden to play the bad side of an employee of state structures without having an RP biography.", penalty: "WARN" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.5", text: "It is prohibited to do any criminal acts against EMS employees (Kill, rob etc.).", penalty: "WARN" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.6", text: "Forbidden to heal and loot in the gunfight.", penalty: "Jail 60 min" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.7", text: "If you got killed you cannot go back in a fight for 15 minutes.", penalty: "WARN" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.8", text: "It is restricted to do any amoral actions in relation to an unconscious person (e.g. spitting, sexual animations).", penalty: "BAN 3-7 days" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.9", text: "It is restricted to do any sexual actions in relation to any person.", penalty: "BAN 3-7 days" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.10", text: "It is prohibited to move IC situations to OOC (e.g. Insulting someone in Discord Chat relating to an IC situation).", penalty: "Ban 1-7 days" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.11", text: "It is forbidden to play on an additional account (TWINK) for the vice versa organization.", penalty: "WARN for both accounts" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.12", text: "Harassing EMS employee during duty or showing inappropriate behaviour in relation to EMS employees is restricted.", penalty: "Ban up to 7 days" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.13", text: "It is restricted to kill person who is unconscious to help him to avoid RP situation (Mercy killing).", penalty: "Demorgan 120 min or WARN" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.14", text: "It is allowed to rob from inventory ONLY Ammunition, Guns, any armor, balaclava and Drugs. MONEY can be robbed only using system functionality of gangs.", penalty: "Ban 1-7 days" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.15", text: "When outside the GHETTO you must engage in RP before shooting someone. Issue demands and if they do not listen within 5 seconds you can shoot.", penalty: "WARN" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.16", text: "During robbery of person, armoured car, trucks must be at least 2 cars and 4 persons to stop them and rob.", penalty: "Jail 120 min or WARN" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.18", text: "It is forbidden to use helicopters to gain access to roofs that cannot be accessed by foot or ladder.", penalty: "Jail 120 min" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.19", text: "F-words and N-words are restricted.", penalty: "Ban 1-3 days" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.20", text: "Muting other players, which leads to avoiding RP, shall not exempt from liability and falls under Fail RP.", penalty: "WARN" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.21", text: "It is forbidden to abuse armored cars (impossible to shoot players inside).", penalty: "WARN" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.22", text: "It is forbidden to sell/buy family businesses or withdraw/deposit money on/from fam balance without fam leaders approval." },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.23", text: "Any kind of bug abuse is forbidden.", penalty: "BAN up to PERMANENT" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.24", text: "It is forbidden to rob/kidnap people who working on starting jobs such as busmen/taxi drivers/electricians, etc." },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.25", text: "It is forbidden to rob/kidnap people on the territory of Fort Zancudo (National Guard).", penalty: "WARN" },
+  { cat: "GR", section: "General Rules", sub: "Gameplay", num: "6.26", text: "It is forbidden to abuse EMS clothes if you are not an EMS employee.", penalty: "WARN or BAN up to 7 days" },
+];
+
+const CATEGORIES = {
+  "GhR": { label: "Gh R", name: "Ghetto Rules", cls: "gh" },
+  "LR":  { label: "LR",   name: "Leader Rules", cls: "lr" },
+  "ELR": { label: "EL R", name: "Election Rules", cls: "el" },
+  "ER":  { label: "ER",   name: "Event Rules", cls: "er" },
+  "SR":  { label: "SR",   name: "State Rules", cls: "sr" },
+  "GZ":  { label: "GZ",   name: "Green Zone Rules", cls: "gz" },
+  "GR":  { label: "GR",   name: "General Rules", cls: "gr" },
+};
+
+let activeFilter = "ALL";
+let searchQuery = "";
+
+function getTagClass(cat) {
+  return "tag-" + (CATEGORIES[cat]?.cls || "gr");
+}
+function getPrefixClass(cat) {
+  return "prefix-" + (CATEGORIES[cat]?.cls || "gr");
+}
+function getLabel(cat) {
+  return CATEGORIES[cat]?.label || cat;
+}
+
+function highlight(text, query) {
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+}
+
+function matchesSearch(rule, q) {
+  if (!q) return true;
+  const lower = q.toLowerCase().trim();
+  const label = getLabel(rule.cat).toLowerCase().replace(/\s+/g,'');
+  const catLower = rule.cat.toLowerCase().replace(/\s+/g,'');
+  // Match category shorthand (sr, ghr, er etc)
+  if (label.startsWith(lower) || catLower.startsWith(lower)) return true;
+  // Match rule number
+  if (rule.num.toLowerCase().includes(lower)) return true;
+  // Match text
+  if (rule.text.toLowerCase().includes(lower)) return true;
+  // Match section
+  if (rule.section.toLowerCase().includes(lower)) return true;
+  // Match sub
+  if (rule.sub.toLowerCase().includes(lower)) return true;
+  // Match penalty
+  if (rule.penalty && rule.penalty.toLowerCase().includes(lower)) return true;
+  return false;
+}
+
+function buildSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  let html = '<div class="sidebar-section"><div class="sidebar-cat">Categories</div>';
+
+  Object.entries(CATEGORIES).forEach(([key, cat]) => {
+    const count = RULES.filter(r => r.cat === key).length;
+    const isActive = activeFilter === key;
+    html += `<div class="sidebar-item ${isActive ? 'active' : ''}" onclick="setFilter('${key}')">
+      <span class="sidebar-tag ${getTagClass(key)}">${cat.label}</span>
+      <span class="sidebar-name">${cat.name}</span>
+      <span class="sidebar-count">${count}</span>
+    </div>`;
+  });
+
+  html += '</div>';
+  sidebar.innerHTML = html;
+}
+
+function setFilter(cat) {
+  activeFilter = cat;
+  buildSidebar();
+  renderRules();
+}
+
+function renderRules() {
+  const q = searchQuery.trim();
+  let filtered = RULES.filter(r => {
+    if (q) return matchesSearch(r, q);
+    if (activeFilter !== 'ALL' && r.cat !== activeFilter) return false;
+    return true;
+  });
+
+  const info = document.getElementById('resultsInfo');
+  info.innerHTML = q
+    ? `<span>${filtered.length}</span> results for "<span>${q}</span>" across all categories`
+    : `Showing <span>${filtered.length}</span> rules${activeFilter !== 'ALL' ? ` in <span>${CATEGORIES[activeFilter]?.name}</span>` : ' across all categories'}`;
+
+  if (filtered.length === 0) {
+    document.getElementById('rulesContent').innerHTML = `
+      <div class="no-results">
+        <h3>No rules found</h3>
+        <p>Try searching by category tag (SR, GhR, ER) or keyword</p>
+      </div>`;
+    return;
+  }
+
+  const grouped = {};
+  filtered.forEach(r => {
+    if (!grouped[r.section]) grouped[r.section] = {};
+    if (!grouped[r.section][r.sub]) grouped[r.section][r.sub] = [];
+    grouped[r.section][r.sub].push(r);
+  });
+
+  let html = '';
+  let i = 0;
+  Object.entries(grouped).forEach(([section, subs]) => {
+    const cat = Object.values(subs)[0][0].cat;
+    const totalInSection = Object.values(subs).flat().length;
+    html += `<div class="section-block">
+      <div class="section-header">
+        <span class="section-tag ${getTagClass(cat)}">${getLabel(cat)}</span>
+        <span class="section-title">${section}</span>
+        <span class="section-count">${totalInSection} rules</span>
+      </div>`;
+
+    Object.entries(subs).forEach(([sub, rules]) => {
+      if (sub !== 'General') {
+        html += `<div class="subsection-header">— ${sub}</div>`;
+      }
+      rules.forEach(r => {
+        const penalty = r.penalty ? `<span class="rule-penalty">⚠ ${r.penalty}</span>` : '';
+        const catTag = q ? `<span class="section-tag ${getTagClass(r.cat)}" style="font-size:10px;padding:2px 8px;margin-right:6px;flex-shrink:0;">${getLabel(r.cat)}</span>` : '';
+        html += `<div class="rule-card" style="animation:fadeSlideIn 0.25s ease forwards;animation-delay:${i * 0.03}s;" onclick="openModal(${JSON.stringify(r).replace(/"/g,'&quot;')})">
+          <span class="rule-prefix ${getPrefixClass(r.cat)}">${getLabel(r.cat)}</span>
+          <span class="rule-num">${r.num}</span>
+          <span class="rule-text">${catTag}${highlight(r.text, q)}</span>
+          ${penalty}
+        </div>`;
+        i++;
+      });
+    });
+    html += '</div>';
+  });
+
+  document.getElementById('rulesContent').innerHTML = html;
+}
+
+function openModal(rule) {
+  if (typeof rule === 'string') rule = JSON.parse(rule.replace(/&quot;/g,'"'));
+  const content = document.getElementById('modalContent');
+  content.innerHTML = `
+    <span class="modal-tag ${getTagClass(rule.cat)}">${getLabel(rule.cat)} · ${rule.section}</span>
+    <div class="modal-num">Rule ${rule.num} · ${rule.sub}</div>
+    <div class="modal-text">${rule.text}</div>
+    ${rule.penalty ? `<div class="modal-penalty">⚠ Penalty: ${rule.penalty}</div>` : ''}
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  searchQuery = '';
+  document.getElementById('clearSearch').style.display = 'none';
+  document.getElementById('searchIcon').style.display = 'block';
+  renderRules();
+}
+// Search input
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchQuery = this.value;
+  const clearBtn = document.getElementById('clearSearch');
+  const searchIcon = document.getElementById('searchIcon');
+  if (this.value.length > 0) {
+    clearBtn.style.display = 'block';
+    searchIcon.style.display = 'none';
+  } else {
+    clearBtn.style.display = 'none';
+    searchIcon.style.display = 'block';
+  }
+  renderRules();
+});
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const cat = this.dataset.cat;
+    activeFilter = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    buildSidebar();
+    renderRules();
+  });
+});
+
+// Close modal on overlay click
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Close modal on Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+window.addEventListener('scroll', () => {
+  document.getElementById('backToTop').style.display = window.scrollY > 300 ? 'block' : 'none';
+});
+// Init
+buildSidebar();
+renderRules();
+</script>
+  <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:28px;right:28px;z-index:999;background:#e63946;color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:22px;cursor:pointer;box-shadow:0 4px 16px rgba(230,57,70,0.4);">↑</button>
+
+</body>
+</html>
